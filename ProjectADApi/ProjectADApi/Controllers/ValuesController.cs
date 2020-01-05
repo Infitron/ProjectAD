@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Database.Core;
+using Api.Database.Model;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ProjectADApi.Controllers
@@ -10,11 +12,18 @@ namespace ProjectADApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        readonly IUOfW<projectadContext> _unitOfWork;
+        public ValuesController(IUOfW<projectadContext> uOf) => _unitOfWork = uOf;
+        
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            UserLogin loging = new UserLogin { EmailAddress = "", CreationDate = DateTime.Now, Password = "", RoleId = "" };
+
+            _unitOfWork.GetRepository<UserLogin>().Add(loging);
+            
+                return new string[] { "value1", "value2" };
         }
 
         // GET api/values/5

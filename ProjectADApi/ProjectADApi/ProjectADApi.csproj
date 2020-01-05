@@ -12,7 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contract\" />
+    <Folder Include="Contract\Response\" />
+    <Folder Include="Contract\Request\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Api.Database\Api.Database.csproj" />
   </ItemGroup>
 
 </Project>
