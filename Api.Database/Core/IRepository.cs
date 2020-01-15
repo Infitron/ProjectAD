@@ -1,14 +1,20 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Api.Database.Core{
-    public interface IRepository<T> where T : class
+    public interface IRepository<TEntity> where TEntity : class
     {
-        IEnumerable<T> GetAllAsync();
-        IEnumerable<T> GetAsync(Expression<Func<T, bool>> predicate);
-        void AddAsync(T entity);
-        void DeleteAsync(T entity);
-        void UpdateAsync(T entity);
+       Task<IEnumerable<TEntity>> GetAllAsync();
+ 
+    Task<TEntity> GetByIdAsync(int id);
+ 
+    Task<TEntity> CreateAsync(TEntity entity);
+ 
+    Task<int> UpdateAsync(int id, TEntity entity);
+ 
+    Task<int> DeleteAsync(TEntity entity);
       }
 }

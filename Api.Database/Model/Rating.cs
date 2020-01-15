@@ -5,15 +5,16 @@ namespace Api.Database.Model
 {
     public partial class Rating
     {
-        public long Id { get; set; }
-        public string UserEmail { get; set; }
+        public int Id { get; set; }
+        public string ClientEmail { get; set; }
         public string ArtisanEmail { get; set; }
         public DateTime JobStartDate { get; set; }
         public DateTime JobEndDate { get; set; }
         public string Description { get; set; }
         public string Remarks { get; set; }
-        public long Rating1 { get; set; }
+        public int Rating1 { get; set; }
 
-        public virtual Registration UserEmailNavigation { get; set; }
+        public virtual Artisan ArtisanEmailNavigation { get; set; }
+        public virtual Client ClientEmailNavigation { get; set; }
     }
 }

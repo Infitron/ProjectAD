@@ -7,12 +7,12 @@ namespace Api.Database.Model
     {
         public UserRole()
         {
-            Registration = new HashSet<Registration>();
+            UserLogin = new HashSet<UserLogin>();
         }
 
-        public long RoleId { get; set; }
+        public int RoleId { get; set; }
         public string RoleName { get; set; }
 
-        public virtual ICollection<Registration> Registration { get; set; }
+        public virtual ICollection<UserLogin> UserLogin { get; set; }
     }
 }

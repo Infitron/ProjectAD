@@ -1,11 +1,13 @@
 using System;
 using Api.Database.Model;
 
-namespace Api.Database.Core{
-    public interface IUnitOfWork : IDisposable
+namespace Api.Database.Core
+{
+    public interface IUnitOfWork<TEntity> where TEntity : class
     {
-        projectadContext Context { get;  }
-        void Commit();
+        IRepository<TEntity> GetRepository { get; }
+        void Save();
+        //void Commit();
         ///void Dispose();
     }
 

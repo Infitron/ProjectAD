@@ -11,19 +11,20 @@ namespace ProjectADApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
-    {
-        readonly IUOfW<projectadContext> _unitOfWork;
-        public ValuesController(IUOfW<projectadContext> uOf) => _unitOfWork = uOf;
-        
+    {       
+        IRepository<UserLogin> _userLoginRepository;
+        public ValuesController(IRepository<UserLogin> userLoginRepository) => _userLoginRepository = userLoginRepository;
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task<IActionResult> Get()
         {
-            UserLogin loging = new UserLogin { EmailAddress = "", CreationDate = DateTime.Now, Password = "", RoleId = "" };
-
-            _unitOfWork.GetRepository<UserLogin>().Add(loging);
-            
-                return new string[] { "value1", "value2" };
+            var issave = await _userLoginRepository.GetAllAsync();
+            if (issave.Any())
+            {
+                return Ok(issave);
+            }
+            return BadRequest("no user record found");
         }
 
         // GET api/values/5

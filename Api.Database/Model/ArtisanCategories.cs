@@ -7,13 +7,13 @@ namespace Api.Database.Model
     {
         public ArtisanCategories()
         {
-            Registration = new HashSet<Registration>();
+            Artisan = new HashSet<Artisan>();
         }
 
-        public long Id { get; set; }
+        public int Id { get; set; }
         public string CategoryName { get; set; }
         public string CategoryDescr { get; set; }
 
-        public virtual ICollection<Registration> Registration { get; set; }
+        public virtual ICollection<Artisan> Artisan { get; set; }
     }
 }

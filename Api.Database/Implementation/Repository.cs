@@ -1,41 +1,45 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Api.Database.Core;
+using Api.Database.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Database.Implementation{
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<TEntity> :  IRepository<TEntity> where TEntity : class
     {
-       private readonly IUnitOfWork _unitOfWork;
-        
-        public Repository(IUnitOfWork unitOfWork)
+
+      readonly projectadContext _context; 
+       private DbSet<TEntity> dbSet;       
+
+        public Repository(projectadContext context)
         {
-            _unitOfWork = unitOfWork;
+            _context = context;
+             dbSet = context.Set<TEntity>();
         }
-        public void AddAsync(T entity)
+        public async Task<TEntity> CreateAsync(TEntity entity)
         {
-            _unitOfWork.Context.Set<T>().Add(entity);
+           await _context.Set<TEntity>().AddAsync(entity);
+            await _context.SaveChangesAsync();
+            return entity;
         }
- 
-        public void DeleteAsync(T entity)
+
+        public async Task<int> DeleteAsync(TEntity entity)
         {
-            T existing = _unitOfWork.Context.Set<T>().Find(entity);
-            if (existing != null) _unitOfWork.Context.Set<T>().Remove(existing);
+          _context.Set<TEntity>().Remove(entity);
+            return  await _context.SaveChangesAsync();
         }
- 
-        public IEnumerable<T> GetAllAsync()
+
+        public async Task<IEnumerable<TEntity>> GetAllAsync() =>  await _context.Set<TEntity>().ToListAsync();       
+
+        public async Task<TEntity> GetByIdAsync(int id) => await _context.Set<TEntity>().FindAsync(id);          
+       
+
+        public async Task<int> UpdateAsync(int id, TEntity entity)
         {
-            return _unitOfWork.Context.Set<T>().AsEnumerable<T>();
-        }
- 
-        public IEnumerable<T> GetAsync(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
-        {
-            return _unitOfWork.Context.Set<T>().Where(predicate).AsEnumerable<T>();
-        }
- 
-        public void UpdateAsync(T entity)
-        {
-            _unitOfWork.Context.Entry(entity).State = EntityState.Modified;
-            _unitOfWork.Context.Set<T>().Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+            return await  _context.SaveChangesAsync();
         }
     }
 }
