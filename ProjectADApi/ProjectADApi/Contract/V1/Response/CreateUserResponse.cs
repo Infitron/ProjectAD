@@ -11,5 +11,6 @@ namespace ProjectADApi.Contract.V1.Response
         public string Token { get; set; }
         public string ErrorMessage { get; set; }
         public int UserId { get; set; }
+        public string UserRole { get; set; }
     }
 }

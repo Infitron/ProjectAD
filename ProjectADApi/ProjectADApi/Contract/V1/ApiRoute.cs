@@ -47,5 +47,11 @@ namespace ProjectADApi.Contract.V1
             public const string Delete = Base + "/Client/{id}";
         }
 
+        public static class Account
+        {
+            public const string Login = Base + "/Account";
+            public const string Register = Base + "/Account";            
+        }
+
     }
 }

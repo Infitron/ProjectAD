@@ -12,3 +12,6 @@ C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Release\
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Release\netcoreapp2.2\ProjectADApi.RazorTargetAssemblyInfo.cache
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Release\netcoreapp2.2\ProjectADApi.dll
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Release\netcoreapp2.2\ProjectADApi.pdb
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Release\netcoreapp2.2\Api.Database.dll
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Release\netcoreapp2.2\Api.Database.pdb
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Release\netcoreapp2.2\ProjectADApi.csproj.CopyComplete
