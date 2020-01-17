@@ -1,11 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="microsoft.entityframeworkcore" Version="3.1.0" />
+    <PackageReference Include="microsoft.entityframeworkcore.design" Version="2.2" />
+    <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Core\" />
+    <Folder Include="Implementation\" />
   </ItemGroup>
 
 </Project>
