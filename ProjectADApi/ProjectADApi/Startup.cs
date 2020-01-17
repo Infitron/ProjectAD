@@ -35,7 +35,7 @@ namespace ProjectADApi
             LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
-       
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -57,11 +57,13 @@ namespace ProjectADApi
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddAuthentication(option => {
+            services.AddAuthentication(option =>
+            {
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 option.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer( x => {
+            }).AddJwtBearer(x =>
+            {
                 x.SaveToken = true;
                 x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
@@ -70,19 +72,25 @@ namespace ProjectADApi
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     RequireExpirationTime = false,
-                    ValidateLifetime = true                    
+                    ValidateLifetime = true
                 };
             });
             services.AddSwaggerGen(x =>
             {
                 x.SwaggerDoc("v1", new Info { Title = "ProjectAD Api", Description = "v1", });
 
-                //var security = new Dictionary<string, IEnumerable<string>> {
-                //    {"Bearer", new string[0] }
-                //};
+                var security = new Dictionary<string, IEnumerable<string>> {
+                    {"Bearer", new string[0] }
+                };
 
-                //x.AddSecurityDefinition("Bearer", new ApiKeyScheme { Description = "JWT athurisation using the bearer scheme", Name = "Authorisation", In = "header", });
-                //x.AddSecurityRequirement(security);
+                x.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "JWT athurisation using the bearer scheme",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+                x.AddSecurityRequirement(security);
             });
         }
 
@@ -98,7 +106,7 @@ namespace ProjectADApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
             app.ConfigureExceptionHandler();
             app.UseAuthentication();
 

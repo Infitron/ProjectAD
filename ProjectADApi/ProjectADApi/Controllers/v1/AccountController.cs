@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -28,14 +30,7 @@ namespace ProjectADApi.Controllers
 
 
 
-        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole) { _jwtConf = jwtConf; _userRepository = userRepository; _userRole = userRole;  }
-
-        // GET: api/Account
-        //[HttpGet]
-        //public async Task<IActionResult>  IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
+        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole) { _jwtConf = jwtConf; _userRepository = userRepository; _userRole = userRole;  }       
 
         // GET: api/Account/5
         [Route("[action]")]
@@ -80,17 +75,20 @@ namespace ProjectADApi.Controllers
             return Ok(userCreator);
         }
 
-        // PUT: api/Account/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Route("[action]")]
+        [HttpGet]
+        [Produces("application/json")]
+        public async Task<IActionResult> AllUserLogin()
+        {
+            var allUser = await _userRepository.GetAllAsync();
 
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+            if(allUser.Any())
+            {
+                return Ok(allUser.OrderBy(x => x.Id));
+            }            
+            return NotFound();
+        }
 
         private CreateUserResponse GenerateAuthenticationToken(CreateUserRequest model, CreateUserResponse thisUser)
         {

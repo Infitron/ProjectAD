@@ -15,7 +15,7 @@ using ProjectADApi.Contract.V1.Request;
 
 namespace ProjectADApi.Controllers
 {
-   // [Route("api/[controller]")]
+    // [Route("api/[controller]")]
     //[ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ArtisanController : ControllerBase
@@ -24,7 +24,7 @@ namespace ProjectADApi.Controllers
         public ArtisanController(IRepository<Artisan> oniswOwoRepository) => _oniseOwoRepository = oniswOwoRepository;
 
         // GET: api/OniseOwo
-       // [Route("[action]")]
+        // [Route("[action]")]
         [HttpGet(ApiRoute.Artisan.GetAll)]
         public async Task<IActionResult> AwonOniseOwo()
         {
@@ -67,7 +67,7 @@ namespace ProjectADApi.Controllers
                 ArtisanCategoryId = model.ArtisanCategoryId,
                 AreaLocation = model.AreaLocation,
                 EmailAddress = model.EmailAddress
-                
+
             };
             Artisan kooniseOwoTuntun = await _oniseOwoRepository.CreateAsync(oniseOwoTuntun);
             return CreatedAtAction(nameof(OniseOwoyi), new { id = kooniseOwoTuntun.Id }, kooniseOwoTuntun);

@@ -1,5 +1,3 @@
-C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Release\netcoreapp2.2\win-x64\hostpolicy.dll
-C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Release\netcoreapp2.2\win-x64\hostfxr.dll
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Release\netcoreapp2.2\win-x64\ProjectADApi.exe
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Release\netcoreapp2.2\win-x64\ProjectADApi.deps.json
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Release\netcoreapp2.2\win-x64\ProjectADApi.runtimeconfig.json
