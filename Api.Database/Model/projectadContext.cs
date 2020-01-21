@@ -19,6 +19,7 @@ namespace Api.Database.Model
         public virtual DbSet<ArtisanBankDetails> ArtisanBankDetails { get; set; }
         public virtual DbSet<ArtisanCategories> ArtisanCategories { get; set; }
         public virtual DbSet<ArtisanDashboard> ArtisanDashboard { get; set; }
+        public virtual DbSet<ArtisanServices> ArtisanServices { get; set; }
         public virtual DbSet<Booking> Booking { get; set; }
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<PaymentHistory> PaymentHistory { get; set; }
@@ -26,6 +27,8 @@ namespace Api.Database.Model
         public virtual DbSet<Rating> Rating { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
+
+        // Unable to generate entity type for table 'dbAd.Location'. Please see the warning messages.
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -158,6 +161,10 @@ namespace Api.Database.Model
                     .IsRequired()
                     .HasMaxLength(80)
                     .IsUnicode(false);
+
+                entity.Property(e => e.SubCategories)
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<ArtisanDashboard>(entity =>
@@ -192,6 +199,29 @@ namespace Api.Database.Model
                     .HasForeignKey<ArtisanDashboard>(d => d.EmailAddress)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ArtisanDashboard_Artisan");
+            });
+
+            modelBuilder.Entity<ArtisanServices>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.ArtisanId).HasColumnName("ArtisanID");
+
+                entity.Property(e => e.Createdon).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(8000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Booking>(entity =>

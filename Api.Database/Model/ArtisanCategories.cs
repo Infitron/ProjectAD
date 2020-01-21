@@ -13,6 +13,7 @@ namespace Api.Database.Model
         public int Id { get; set; }
         public string CategoryName { get; set; }
         public string CategoryDescr { get; set; }
+        public string SubCategories { get; set; }
 
         public virtual ICollection<Artisan> Artisan { get; set; }
     }
