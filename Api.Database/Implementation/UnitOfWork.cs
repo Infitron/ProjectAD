@@ -3,7 +3,7 @@ using Api.Database.Core;
 using Api.Database.Model;
 
 namespace Api.Database.Implementation{
-    public class UnitOfWork<TEntity> where TEntity : class, IUnitOfWork<TEntity>, IDisposable
+    public class UnitOfWork<TEntity> : IUnitOfWork<TEntity> where TEntity : class, IDisposable
     {
         private readonly projectadContext _context;
         IRepository<TEntity> _getRepository;     

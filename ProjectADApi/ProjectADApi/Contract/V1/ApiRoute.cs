@@ -53,5 +53,14 @@ namespace ProjectADApi.Contract.V1
             public const string Register = Base + "/Account";            
         }
 
+        public static class ACategory
+        {
+            public const string GetAll = Base + "/ACategory";
+            public const string Get = Base + "/ACategory/{id}";
+            public const string Create = Base + "/ACategory";
+            public const string Update = Base + "/ACategory/{id}";
+            public const string Delete = Base + "/ACategory/{id}";
+        }
+
     }
 }

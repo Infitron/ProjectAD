@@ -89,6 +89,26 @@ namespace ProjectADApi.Controllers
             }            
             return NotFound();
         }
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var userExist = await _userRepository.GetAllAsync().ContinueWith( (result) => {
+                UserLogin thisUser = result.Result.SingleOrDefault(x => x.EmailAddress.Equals(model.Email));
+                return thisUser;
+            });
+
+            if (userExist == null)
+                return NotFound(new { Message = "This user does not exist" });
+
+            userExist.Password = model.NewPassword;
+             await _userRepository.UpdateAsync(userExist);
+
+            return Ok(new CreateUserResponse { Success = true });
+        }
+
 
         private CreateUserResponse GenerateAuthenticationToken(CreateUserRequest model, CreateUserResponse thisUser)
         {

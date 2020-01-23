@@ -36,7 +36,7 @@ namespace Api.Database.Implementation{
         public async Task<TEntity> GetByIdAsync(int id) => await _context.Set<TEntity>().FindAsync(id);          
        
 
-        public async Task<int> UpdateAsync(int id, TEntity entity)
+        public async Task<int> UpdateAsync(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
             return await  _context.SaveChangesAsync();
