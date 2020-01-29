@@ -1,12 +1,13 @@
 ﻿using ProjectADApi.Contract.Request;
 using ProjectADApi.Contract.V1.Request;
+using ProjectADApi.Factories.V1.UserFactory;
 using ProjectADApi.Factories.V1.UserFactory.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProjectADApi.Factories.V1.UserFactory
+namespace ProjectADApi.Factories
 {
     public class UserCreator
     {
