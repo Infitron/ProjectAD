@@ -40,7 +40,10 @@ namespace ProjectADApi.Controllers
         [HttpGet(ApiRoute.Artisan.Get)]
         public async Task<IActionResult> OniseOwoyi(int id)
         {
-            Artisan onibariyi = await _oniseOwoRepository.GetByIdAsync(id);
+            Artisan onibariyi = await _oniseOwoRepository.GetAllAsync().ContinueWith((result)=> {
+                return result.Result.SingleOrDefault(x => x.Id == id);
+            });
+
             if (onibariyi != null)
                 return Ok(new { status = HttpStatusCode.OK, message = onibariyi });
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No record found" });

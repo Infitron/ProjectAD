@@ -5,6 +5,11 @@ namespace Api.Database.Model
 {
     public partial class UserLogin
     {
+        public UserLogin()
+        {
+            Article = new HashSet<Article>();
+        }
+
         public int Id { get; set; }
         public string EmailAddress { get; set; }
         public string Password { get; set; }
@@ -13,5 +18,6 @@ namespace Api.Database.Model
         public string UserName { get; set; }
 
         public virtual UserRole Role { get; set; }
+        public virtual ICollection<Article> Article { get; set; }
     }
 }

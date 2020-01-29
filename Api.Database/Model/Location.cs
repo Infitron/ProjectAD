@@ -10,5 +10,6 @@ namespace Api.Database.Model
         public string Lga { get; set; }
         public string Area { get; set; }
         public string Status { get; set; }
+        public DateTime? CreatedDate { get; set; }
     }
 }

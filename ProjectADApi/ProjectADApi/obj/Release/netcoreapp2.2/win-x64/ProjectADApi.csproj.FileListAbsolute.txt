@@ -16,3 +16,4 @@ C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Release\
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Release\netcoreapp2.2\win-x64\Api.Database.dll
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Release\netcoreapp2.2\win-x64\Api.Database.pdb
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Release\netcoreapp2.2\win-x64\ProjectADApi.csproj.CopyComplete
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Release\netcoreapp2.2\win-x64\ProjectADApi.xml

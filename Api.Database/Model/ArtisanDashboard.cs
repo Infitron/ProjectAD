@@ -9,7 +9,6 @@ namespace Api.Database.Model
         public string EmailAddress { get; set; }
         public string ProductImagePath { get; set; }
         public string Comments { get; set; }
-        public DateTime Date { get; set; }
         public DateTime CreationDate { get; set; }
 
         public virtual Artisan EmailAddressNavigation { get; set; }

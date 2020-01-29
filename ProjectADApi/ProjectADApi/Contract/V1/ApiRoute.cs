@@ -62,5 +62,23 @@ namespace ProjectADApi.Contract.V1
             public const string Delete = Base + "/ACategory/{id}";
         }
 
+        public static class Article
+        {
+            public const string GetAll = Base + "/Article";
+            public const string Get = Base + "/Article/{id}";
+            public const string Create = Base + "/Article";
+            public const string Update = Base + "/Article";
+            public const string Delete = Base + "/Article/{id}";
+        }
+
+        public static class Quote
+        {
+            public const string GetAll = Base + "/Quote";
+            public const string Get = Base + "/Quote/{projectId}";
+            public const string Create = Base + "/Quote";
+            public const string Update = Base + "/Quote";
+            public const string Delete = Base + "/Quote/{id}";
+        }
+
     }
 }

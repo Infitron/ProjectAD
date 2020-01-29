@@ -7,8 +7,8 @@ using Api.Database.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Database.Implementation{
-    public class Repository<TEntity> :  IRepository<TEntity> where TEntity : class
-    {
+     public class Repository<TEntity> :  IRepository<TEntity> where TEntity : class
+     {
 
       readonly projectadContext _context; 
        private DbSet<TEntity> dbSet;       

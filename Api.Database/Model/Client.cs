@@ -9,7 +9,6 @@ namespace Api.Database.Model
         {
             Booking = new HashSet<Booking>();
             PaymentHistory = new HashSet<PaymentHistory>();
-            Projects = new HashSet<Projects>();
             Rating = new HashSet<Rating>();
         }
 
@@ -22,10 +21,10 @@ namespace Api.Database.Model
         public string PicturePath { get; set; }
         public string Address { get; set; }
         public string State { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         public virtual ICollection<Booking> Booking { get; set; }
         public virtual ICollection<PaymentHistory> PaymentHistory { get; set; }
-        public virtual ICollection<Projects> Projects { get; set; }
         public virtual ICollection<Rating> Rating { get; set; }
     }
 }

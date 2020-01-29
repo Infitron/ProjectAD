@@ -11,6 +11,7 @@ namespace Api.Database.Model
         public decimal AccountNumber { get; set; }
         public string BankName { get; set; }
         public decimal Bvn { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         public virtual Artisan EmailAddressNavigation { get; set; }
     }

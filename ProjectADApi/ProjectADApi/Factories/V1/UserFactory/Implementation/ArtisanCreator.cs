@@ -47,25 +47,24 @@ namespace ProjectADApi.Factories.V1.UserFactory.Implementation
 
             if (isSaved)
             {
-                Artisan newArtisan = new Artisan
-                {
-                    EmailAddress = model.EmailAddress,
-                    PhoneNumber = "08012345678",
-                    FirstName = "Update firstname",
-                    LastName = "Update lastname",
-                    AreaLocation = "update area location",
-                    PicturePath = "update picture path",
-                    IdcardNo  = "update id card",
-                    Address = "update address",
-                    ArtisanCategoryId = 1,
-                    State = "Update state"
-                };
-                _projectadContext.Artisan.Add(newArtisan);
-                await _projectadContext.SaveChangesAsync();
+                //Artisan newArtisan = new Artisan
+                //{
+                //    EmailAddress = model.EmailAddress,
+                //    PhoneNumber = "08012345678",
+                //    FirstName = "Update firstname",
+                //    LastName = "Update lastname",
+                //    AreaLocation = "update area location",
+                //    PicturePath = "update picture path",
+                //    Address = "update address",
+                //    ArtisanCategoryId = 1,
+                //    State = "Update state"
+                //};
+                //_projectadContext.Artisan.Add(newArtisan);
+                //await _projectadContext.SaveChangesAsync();
 
                 return new CreateUserResponse {
                     Success = true,
-                    UserId = newArtisan.Id,
+                    UserId = newLogin.Id,
                     ErrorMessage = "",
                     Token = ""
                 };

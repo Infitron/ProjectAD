@@ -5,19 +5,24 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>  
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Controllers\v1\ValuesController.cs" />
-    <Compile Remove="Controllers\ValuesController.cs" />
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\ProjectADApi.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\ProjectADApi.xml</DocumentationFile>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-    <PackageReference Include="nlog.extensions.logging" Version="1.6.1" />
-    <PackageReference Include="nlog.web.aspnetcore" Version="4.9.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
 	
   </ItemGroup>
 

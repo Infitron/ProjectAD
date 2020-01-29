@@ -14,6 +14,7 @@ namespace Api.Database.Model
         public string CategoryName { get; set; }
         public string CategoryDescr { get; set; }
         public string SubCategories { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         public virtual ICollection<Artisan> Artisan { get; set; }
     }

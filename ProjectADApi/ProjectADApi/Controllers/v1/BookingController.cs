@@ -41,7 +41,9 @@ namespace ProjectADApi.Controllers
         [HttpGet(ApiRoute.Order.Get)]
         public async Task<IActionResult> GetById(int id)
         {
-            Booking getBooking = await _bookingRepository.GetByIdAsync(id);
+            Booking getBooking = await _bookingRepository.GetAllAsync().ContinueWith((result) => {
+                return result.Result.SingleOrDefault(x => x.Id == id);
+            });
 
             if (getBooking != null)
                 return Ok(getBooking);

@@ -17,12 +17,12 @@ namespace ProjectADApi.Controllers
     //[Route("api/[controller]")]
     //[ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class IwontunWonsiController : ControllerBase
+    public class RatingController : ControllerBase
     {
         readonly IRepository<Rating> _ratingRepository;
         readonly IRepository<Artisan> _artisanRepository;
 
-        public IwontunWonsiController(IRepository<Rating> ratingRepository, IRepository<Artisan> artisanRepository)
+        public RatingController(IRepository<Rating> ratingRepository, IRepository<Artisan> artisanRepository)
         {
             _ratingRepository = ratingRepository;
             _artisanRepository = artisanRepository;
@@ -41,24 +41,32 @@ namespace ProjectADApi.Controllers
         [HttpGet(ApiRoute.Rating.Get)]
         public async Task<IActionResult> IwontunWonsimi(int id)
         {
-            Artisan waOniseOwo = await _artisanRepository.GetAllAsync().ContinueWith( (result) =>
-            {
-                 return  result.Result.SingleOrDefault(x => x.Id.Equals(id));
-            });
+            Artisan waOniseOwo = await _artisanRepository.GetAllAsync().ContinueWith((result) =>
+           {
+               return result.Result.SingleOrDefault(x => x.Id == id);
+           });
 
-            if(waOniseOwo == null)
-            {
+            if (waOniseOwo == null)
                 return NotFound(new { status = HttpStatusCode.NotFound, Message = "We could not fine this user" });
-            }
 
-            List<Rating> myratin = await _ratingRepository.GetAllAsync().ContinueWith( (result) => 
+            IEnumerable<Rating> rating = await _ratingRepository.GetAllAsync().ContinueWith((result) =>
             {
                 return result.Result.Where(x => x.ArtisanEmail.Equals(waOniseOwo.EmailAddress)).ToList();
             });
 
+            if (rating == null)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, Message = "We could not fine this user" });
+            }
+
+            List<Rating> myratin = await _ratingRepository.GetAllAsync().ContinueWith((result) =>
+           {
+               return result.Result.Where(x => x.ArtisanEmail.Equals(waOniseOwo.EmailAddress)).ToList();
+           });
+
             if (myratin.Any())
             {
-                return Ok(new { status = HttpStatusCode.OK, message = myratin});
+                return Ok(myratin);
             }
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No rating/Comment fount for this artisan" });
         }

@@ -13,8 +13,11 @@ namespace Api.Database.Model
         public string Description { get; set; }
         public string Remarks { get; set; }
         public int Rating1 { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public int? ProjectId { get; set; }
 
         public virtual Artisan ArtisanEmailNavigation { get; set; }
         public virtual Client ClientEmailNavigation { get; set; }
+        public virtual Projects Project { get; set; }
     }
 }

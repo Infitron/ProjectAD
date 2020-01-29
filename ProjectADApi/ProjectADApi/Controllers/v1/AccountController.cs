@@ -30,8 +30,29 @@ namespace ProjectADApi.Controllers
 
 
 
-        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole) { _jwtConf = jwtConf; _userRepository = userRepository; _userRole = userRole;  }       
+        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole) { _jwtConf = jwtConf; _userRepository = userRepository; _userRole = userRole;  }
 
+
+        /// <summary> Logs in a user. </summary>
+        /// 
+        /// <remarks> 
+        ///  Sample Request: 
+        ///     POST api/v1/Login
+        ///       {
+        ///          "Username" : "segun@bluecollar.com",
+        ///          "Password" :  "password"
+        ///       }
+        /// sample Responsw:
+        ///      { 
+        ///        "Success" : true,
+        ///        "Token" : "token string",
+        ///        "ErrorMessage" : "reason for a failed login",
+        ///        "UserId" : "user uniques id",
+        ///        "UserRole" : "the user role"
+        ///      }
+        /// </remarks>
+        /// 
+        
         // GET: api/Account/5
         [Route("[action]")]
         [HttpPost]
@@ -63,7 +84,14 @@ namespace ProjectADApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] CreateUserRequest model)
         {
-            AppUsers appUsers = (AppUsers)Enum.Parse(typeof(AppUsers), model.RoleName);
+            var getRoleName = await _userRole.GetByIdAsync(model.RoleId);
+
+            if(getRoleName == null)
+            {
+                return NotFound(new CreateUserResponse { Success = false, ErrorMessage = "We could not find the role entered" });
+            }
+
+            AppUsers appUsers = (AppUsers)Enum.Parse(typeof(AppUsers), getRoleName.RoleName);
             var userCreator = await new UserCreator().ExecuteCreation(appUsers, model).CreateUser(model);           
 
             if (!userCreator.Success)

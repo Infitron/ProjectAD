@@ -12,6 +12,7 @@ namespace Api.Database.Model
         public DateTime PayDate { get; set; }
         public string PaymentType { get; set; }
         public string ClientEmail { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         public virtual Artisan ArtisanEmailNavigation { get; set; }
         public virtual Client ClientEmailNavigation { get; set; }

@@ -46,26 +46,25 @@ namespace ProjectADApi.Factories.V1.UserFactory.Implementation
 
             if (isSaved)
             {
-                Client newClient = new Client
-                {
-                    EmailAddress = model.EmailAddress,
-                    PhoneNumber = "08012345678",
-                    FirstName = "Update firstname",
-                    LastName = "Update lastname",
-                    PicturePath = "update picture path",
-                    IdcardNo = "update id card",
-                    State = "update state",
-                    Address = "update address"
+                //Client newClient = new Client
+                //{
+                //    EmailAddress = model.EmailAddress,
+                //    PhoneNumber = "08012345678",
+                //    FirstName = "Update firstname",
+                //    LastName = "Update lastname",
+                //    PicturePath = "update picture path",                  
+                //    State = "update state",
+                //    Address = "update address"
 
                     
-                };
-                _projectadContext.Client.Add(newClient);
-                await _projectadContext.SaveChangesAsync();
+                //};
+                //_projectadContext.Client.Add(newClient);
+                //await _projectadContext.SaveChangesAsync();
 
                 return new CreateUserResponse
                 {
                     Success = true,
-                    UserId = newClient.Id,
+                    UserId = newLogin.Id,
                     ErrorMessage = "",
                     Token = ""
                 };

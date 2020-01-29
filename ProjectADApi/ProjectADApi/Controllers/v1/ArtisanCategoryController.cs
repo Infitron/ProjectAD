@@ -38,7 +38,9 @@ namespace ProjectADApi.Controllers.v1
         [HttpGet(ApiRoute.ACategory.Get)]
         public async Task<IActionResult> GetThisCategory(int id)
         {
-            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByIdAsync(id);
+            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetAllAsync().ContinueWith((result) => {
+                return result.Result.SingleOrDefault(x => x.Id == id);
+            }); ;
             if (thisCategory != null)
                 return Ok(new { status = HttpStatusCode.OK, message = thisCategory });
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No record found" });

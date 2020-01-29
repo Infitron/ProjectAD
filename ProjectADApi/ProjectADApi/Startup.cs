@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Api.Database.Core;
@@ -19,9 +20,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using NLog;
-using NLog.Extensions.Logging;
-using NLog.Web;
+using Microsoft.OpenApi.Models;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Extensions;
 using Swashbuckle.AspNetCore.Swagger;
@@ -32,7 +31,7 @@ namespace ProjectADApi
     {
         public Startup(IConfiguration configuration)
         {
-            LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+            //LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
 
@@ -42,7 +41,7 @@ namespace ProjectADApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(Startup));
-            services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+           // services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
             JwtConf _jwtVConf = new JwtConf();
@@ -77,21 +76,58 @@ namespace ProjectADApi
             });
             services.AddSwaggerGen(x =>
             {
-                x.SwaggerDoc("v1", new Info { Title = "ProjectAD Api", Description = "v1", });
+                x.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Blue Collar Api",
+                    Version = "v1",
+                    Description = "The is the various api endpoint developed to be consumed by the frondend team workingn on the " +
+                    "blue colla hub project. Further clarification are provided alongside the various endpoints.",
+                    Contact = new OpenApiContact
+                    {
+                        Name = $"Lukman Ishola (Project Supervisor), {Environment.NewLine} Opeyemi Nurudeen (Project Admin)",
+                        Email = "info@bluecollarhub.com.ng, team.pad@outlook.com",
+                        Url = new Uri("https://bluecollarhub.com.ng")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Blue Collar Hub API",
+                        Url = new Uri("https://bluecollarhub.com.ng"),
+                    }
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                x.IncludeXmlComments(xmlPath);
+
+
 
                 var security = new Dictionary<string, IEnumerable<string>> {
                     {"Bearer", new string[0] }
                 };
 
-                x.AddSecurityDefinition("Bearer", new ApiKeyScheme
+               
+
+                x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT athurisation using the bearer scheme",
                     Name = "Authorization",
-                    In = "header",
-                    Type = "apiKey"
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
                 });
-                x.AddSecurityRequirement(security);
+
+                x.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                        },
+                        new string[0]
+                    }
+                });
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

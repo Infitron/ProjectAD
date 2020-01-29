@@ -1,4 +1,4 @@
-﻿using Api.Database.Model;
+﻿//using Api.Database.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,6 @@ namespace ProjectADApi.Contract.V1.Request
         public string Password { get; set; }
         public DateTime CreationDate { get; set; }
         public int RoleId { get; set; }
-        public string UserName { get; set; }
-        public string RoleName { get; set; }
+        public string UserName { get; set; }        
     }
 }

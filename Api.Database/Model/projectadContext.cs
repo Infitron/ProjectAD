@@ -15,14 +15,22 @@ namespace Api.Database.Model
         {
         }
 
+        public virtual DbSet<Article> Article { get; set; }
+        public virtual DbSet<ArticleStatusLov> ArticleStatusLov { get; set; }
         public virtual DbSet<Artisan> Artisan { get; set; }
         public virtual DbSet<ArtisanBankDetails> ArtisanBankDetails { get; set; }
         public virtual DbSet<ArtisanCategories> ArtisanCategories { get; set; }
         public virtual DbSet<ArtisanDashboard> ArtisanDashboard { get; set; }
+        public virtual DbSet<ArtisanServices> ArtisanServices { get; set; }
         public virtual DbSet<Booking> Booking { get; set; }
         public virtual DbSet<Client> Client { get; set; }
+        public virtual DbSet<Complainant> Complainant { get; set; }
+        public virtual DbSet<ComplianStatusLov> ComplianStatusLov { get; set; }
+        public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<PaymentHistory> PaymentHistory { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }
+        public virtual DbSet<Quote> Quote { get; set; }
+        public virtual DbSet<QuoteStatusLov> QuoteStatusLov { get; set; }
         public virtual DbSet<Rating> Rating { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
@@ -40,6 +48,62 @@ namespace Api.Database.Model
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:DefaultSchema", "dbAd");
+
+            modelBuilder.Entity<Article>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ApprovalStatusId).HasColumnName("ApprovalStatusID");
+
+                entity.Property(e => e.ArticleBody)
+                    .IsRequired()
+                    .HasMaxLength(350)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.DateApproved).HasColumnType("datetime");
+
+                entity.Property(e => e.EmailAddress)
+                    .IsRequired()
+                    .HasMaxLength(60)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.ApprovalStatus)
+                    .WithMany(p => p.Article)
+                    .HasForeignKey(d => d.ApprovalStatusId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Article_ArticleStatusLOV");
+
+                entity.HasOne(d => d.EmailAddressNavigation)
+                    .WithMany(p => p.Article)
+                    .HasForeignKey(d => d.EmailAddress)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Article_UserLogin");
+            });
+
+            modelBuilder.Entity<ArticleStatusLov>(entity =>
+            {
+                entity.ToTable("ArticleStatusLOV");
+
+                entity.HasIndex(e => e.Status)
+                    .HasName("UQ__ArticleS__3A15923FE8A1903C")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.DateCreated).HasColumnType("date");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
+            });
 
             modelBuilder.Entity<Artisan>(entity =>
             {
@@ -67,6 +131,8 @@ namespace Api.Database.Model
 
                 entity.Property(e => e.ArtisanCategoryId).HasColumnName("ArtisanCategoryID");
 
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
                 entity.Property(e => e.FirstName)
                     .IsRequired()
                     .HasMaxLength(80)
@@ -77,7 +143,6 @@ namespace Api.Database.Model
                     .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.IdcardNo)
-                    .IsRequired()
                     .HasColumnName("IDCardNo")
                     .HasMaxLength(40);
 
@@ -134,6 +199,8 @@ namespace Api.Database.Model
                     .HasColumnName("BVN")
                     .HasColumnType("numeric(18, 0)");
 
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .ValueGeneratedOnAdd();
@@ -158,6 +225,12 @@ namespace Api.Database.Model
                     .IsRequired()
                     .HasMaxLength(80)
                     .IsUnicode(false);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.SubCategories)
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<ArtisanDashboard>(entity =>
@@ -170,12 +243,10 @@ namespace Api.Database.Model
 
                 entity.Property(e => e.Comments)
                     .IsRequired()
-                    .HasMaxLength(255)
+                    .HasMaxLength(700)
                     .IsUnicode(false);
 
                 entity.Property(e => e.CreationDate).HasColumnType("date");
-
-                entity.Property(e => e.Date).HasColumnType("date");
 
                 entity.Property(e => e.EmailAddress)
                     .IsRequired()
@@ -194,6 +265,29 @@ namespace Api.Database.Model
                     .HasConstraintName("FK_ArtisanDashboard_Artisan");
             });
 
+            modelBuilder.Entity<ArtisanServices>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.ArtisanId).HasColumnName("ArtisanID");
+
+                entity.Property(e => e.Createdon).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(8000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Booking>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -207,6 +301,8 @@ namespace Api.Database.Model
                     .IsRequired()
                     .HasMaxLength(60)
                     .IsUnicode(false);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
 
                 entity.Property(e => e.Messages)
                     .IsRequired()
@@ -247,6 +343,8 @@ namespace Api.Database.Model
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
                 entity.Property(e => e.FirstName)
                     .IsRequired()
                     .HasMaxLength(80)
@@ -257,9 +355,8 @@ namespace Api.Database.Model
                     .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.IdcardNo)
-                    .IsRequired()
                     .HasColumnName("IDCardNo")
-                    .HasMaxLength(40);
+                    .HasMaxLength(80);
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
@@ -282,6 +379,89 @@ namespace Api.Database.Model
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<Complainant>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ArtisanEmail)
+                    .IsRequired()
+                    .HasMaxLength(60)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.DateResolved).HasColumnType("date");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StatusId).HasColumnName("StatusID");
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.ArtisanEmailNavigation)
+                    .WithMany(p => p.Complainant)
+                    .HasForeignKey(d => d.ArtisanEmail)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Complaina__Artis__54CB950F");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.Complainant)
+                    .HasForeignKey(d => d.StatusId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Complainant_StatusTable");
+            });
+
+            modelBuilder.Entity<ComplianStatusLov>(entity =>
+            {
+                entity.ToTable("ComplianStatusLOV");
+
+                entity.HasIndex(e => e.Status)
+                    .HasName("IX_StatusTable")
+                    .IsUnique();
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.DateCreated).HasColumnType("date");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Location>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("ID")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Area)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
+
+                entity.Property(e => e.Lga)
+                    .IsRequired()
+                    .HasColumnName("LGA")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.State)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<PaymentHistory>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -297,6 +477,8 @@ namespace Api.Database.Model
                     .IsRequired()
                     .HasMaxLength(60)
                     .IsUnicode(false);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
 
                 entity.Property(e => e.PayDate).HasColumnType("date");
 
@@ -334,6 +516,8 @@ namespace Api.Database.Model
                     .HasMaxLength(60)
                     .IsUnicode(false);
 
+                entity.Property(e => e.CreationDate).HasColumnType("date");
+
                 entity.Property(e => e.EndDate).HasColumnType("date");
 
                 entity.Property(e => e.ProjectName)
@@ -348,23 +532,87 @@ namespace Api.Database.Model
 
                 entity.Property(e => e.StartDate).HasColumnType("date");
 
-                entity.HasOne(d => d.ArtisanEmailNavigation)
-                    .WithMany(p => p.Projects)
-                    .HasForeignKey(d => d.ArtisanEmail)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Projects_Artisan");
-
                 entity.HasOne(d => d.Booking)
                     .WithMany(p => p.Projects)
                     .HasForeignKey(d => d.BookingId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Projects_Booking");
+            });
 
-                entity.HasOne(d => d.ClientEmailNavigation)
-                    .WithMany(p => p.Projects)
-                    .HasForeignKey(d => d.ClientEmail)
+            modelBuilder.Entity<Quote>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Address1)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ArtisanEmail)
+                    .IsRequired()
+                    .HasMaxLength(60)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Descr)
+                    .IsRequired()
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Discount)
+                    .HasColumnType("decimal(38, 2)")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Item)
+                    .IsRequired()
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.OrderDate).HasColumnType("datetime");
+
+                entity.Property(e => e.OrderStatusId).HasColumnName("OrderStatus_Id");
+
+                entity.Property(e => e.Price).HasColumnType("decimal(38, 2)");
+
+                entity.Property(e => e.ProjectId).HasColumnName("ProjectID");
+
+                entity.Property(e => e.Vat)
+                    .HasColumnName("VAT")
+                    .HasColumnType("decimal(38, 2)")
+                    .HasDefaultValueSql("((0))");
+
+                entity.HasOne(d => d.ArtisanEmailNavigation)
+                    .WithMany(p => p.Quote)
+                    .HasForeignKey(d => d.ArtisanEmail)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Projects_Client");
+                    .HasConstraintName("FK__Quote__ArtisanEm__78D3EB5B");
+
+                entity.HasOne(d => d.OrderStatus)
+                    .WithMany(p => p.Quote)
+                    .HasForeignKey(d => d.OrderStatusId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Quote__OrderStat__7CA47C3F");
+
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.Quote)
+                    .HasForeignKey(d => d.ProjectId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Quote__ProjectID__7BB05806");
+            });
+
+            modelBuilder.Entity<QuoteStatusLov>(entity =>
+            {
+                entity.ToTable("QuoteStatus_LOV");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.DateCreated).HasColumnType("date");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Rating>(entity =>
@@ -381,6 +629,8 @@ namespace Api.Database.Model
                     .HasMaxLength(60)
                     .IsUnicode(false);
 
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
                 entity.Property(e => e.Description)
                     .IsRequired()
                     .HasMaxLength(255)
@@ -389,6 +639,8 @@ namespace Api.Database.Model
                 entity.Property(e => e.JobEndDate).HasColumnType("date");
 
                 entity.Property(e => e.JobStartDate).HasColumnType("date");
+
+                entity.Property(e => e.ProjectId).HasColumnName("ProjectID");
 
                 entity.Property(e => e.Rating1).HasColumnName("Rating");
 
@@ -408,6 +660,11 @@ namespace Api.Database.Model
                     .HasForeignKey(d => d.ClientEmail)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Rating_Client");
+
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.Rating)
+                    .HasForeignKey(d => d.ProjectId)
+                    .HasConstraintName("FK__Rating__ProjectI__04459E07");
             });
 
             modelBuilder.Entity<UserLogin>(entity =>
@@ -455,6 +712,8 @@ namespace Api.Database.Model
                     .HasName("PK_USERROLE");
 
                 entity.Property(e => e.RoleId).HasColumnName("RoleID");
+
+                entity.Property(e => e.CreatedDate).HasColumnType("date");
 
                 entity.Property(e => e.RoleName)
                     .IsRequired()
