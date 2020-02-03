@@ -1,5 +1,6 @@
 ﻿using Api.Database.Core;
 using ProjectADApi.Contract.V1.Request;
+using ProjectADApi.Factories.Core;
 using ProjectADApi.Factories.V1.UserFactory.Core;
 using System;
 using System.Collections.Generic;

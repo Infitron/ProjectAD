@@ -3,9 +3,12 @@ C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\bin\Debug\netcoreapp2.2\A
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\bin\Debug\netcoreapp2.2\Api.Database.runtimeconfig.dev.json
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\bin\Debug\netcoreapp2.2\Api.Database.dll
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\bin\Debug\netcoreapp2.2\Api.Database.pdb
-C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp2.2\Api.Database.csprojAssemblyReference.cache
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp2.2\Api.Database.csproj.CoreCompileInputs.cache
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp2.2\Api.Database.AssemblyInfoInputs.cache
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp2.2\Api.Database.AssemblyInfo.cs
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp2.2\Api.Database.dll
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp2.2\Api.Database.pdb
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\bin\Debug\netcoreapp2.2\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\bin\Debug\netcoreapp2.2\Microsoft.Extensions.Identity.Stores.xml
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp2.2\Api.Database.csproj.CopyComplete
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp2.2\Api.Database.csprojAssemblyReference.cache

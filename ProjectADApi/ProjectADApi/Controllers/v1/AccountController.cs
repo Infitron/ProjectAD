@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,15 +11,16 @@ using Api.Database.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using ProjectADApi.ApiConfig;
-using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
 using ProjectADApi.Contract.V1.Response;
+using ProjectADApi.Factories;
 using ProjectADApi.Factories.V1.UserFactory;
 
-namespace ProjectADApi.Controllers
+namespace ProjectADApi.Controllers.V2
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -27,11 +29,18 @@ namespace ProjectADApi.Controllers
         readonly JwtConf _jwtConf;
         IRepository<UserLogin> _userRepository;
         IRepository<UserRole> _userRole;
+        UserManager<UserLogin> _userManager;
 
+        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole, UserManager<UserLogin> userManager) { _jwtConf = jwtConf; _userRepository = userRepository; _userRole = userRole;
+            _userManager = userManager;
+        }
 
-
-        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole) { _jwtConf = jwtConf; _userRepository = userRepository; _userRole = userRole;  }
-
+        // GET: api/Account
+        //[HttpGet]
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "value1", "value2" };
+        //}
 
         /// <summary> Logs in a user. </summary>
         /// 
@@ -52,8 +61,7 @@ namespace ProjectADApi.Controllers
         ///      }
         /// </remarks>
         /// 
-        
-        // GET: api/Account/5
+        // POST: api/Account/5
         [Route("[action]")]
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequest model)
@@ -63,20 +71,25 @@ namespace ProjectADApi.Controllers
                 return BadRequest(new CreateUserResponse { Success = false, ErrorMessage = "username/password validation failed" });
             }
 
-            UserLogin userExist = await _userRepository.GetAllAsync().ContinueWith(  (result) => {
-                return result.Result.SingleOrDefault(x => x.EmailAddress.Equals(model.username) && x.Password.Equals(model.password));
-            });
-            
+            UserLogin userExist = await _userManager.FindByEmailAsync(model.username);       
 
-            if(userExist == null)
+            if (userExist == null)
             {
-                return NotFound();
+                return NotFound(new CreateUserResponse2 { ErrorMessage = new [] { "User does not exist" }, Success = false });
             }
-            UserRole role = await _userRole.GetByIdAsync(userExist.RoleId);
-            CreateUserRequest userDetails = new CreateUserRequest { EmailAddress = userExist.EmailAddress};
-            CreateUserResponse userResponse = new CreateUserResponse { Success = true, UserId = userExist.Id, UserRole = role.RoleName };
 
-            return Ok(userResponse = GenerateAuthenticationToken(userDetails, userResponse));           
+            var userHasValidPassword =await _userManager.CheckPasswordAsync(userExist, model.password);
+
+            if (!userHasValidPassword)
+            {
+                return NotFound(new CreateUserResponse2 { ErrorMessage = new[] { "User does not exist" }, Success = false });
+            }
+
+            UserRole role = await _userRole.GetByIdAsync(userExist.RoleId);
+            CreateUserRequest userDetails = new CreateUserRequest { EmailAddress = userExist.EmailAddress };
+            CreateUserResponse2 userResponse = new CreateUserResponse2 { Success = true, UserId = userExist.Id, UserRole = role.RoleName };
+
+            return Ok(userResponse = GenerateAuthenticationToken(userDetails, userResponse));
         }
 
         // POST: api/Account
@@ -86,13 +99,13 @@ namespace ProjectADApi.Controllers
         {
             var getRoleName = await _userRole.GetByIdAsync(model.RoleId);
 
-            if(getRoleName == null)
+            if (getRoleName == null)
             {
-                return NotFound(new CreateUserResponse { Success = false, ErrorMessage = "We could not find the role entered" });
+                return NotFound(new CreateUserResponse2 { Success = false, ErrorMessage = new[] { "We could not find the role entered" } });
             }
 
             AppUsers appUsers = (AppUsers)Enum.Parse(typeof(AppUsers), getRoleName.RoleName);
-            var userCreator = await new UserCreator().ExecuteCreation(appUsers, model).CreateUser(model);           
+            var userCreator = await new UserCreator2(_userManager).ExecuteCreation(appUsers, model).CreateUser(model);
 
             if (!userCreator.Success)
             {
@@ -111,34 +124,26 @@ namespace ProjectADApi.Controllers
         {
             var allUser = await _userRepository.GetAllAsync();
 
-            if(allUser.Any())
+            if (allUser.Any())
             {
                 return Ok(allUser.OrderBy(x => x.Id));
-            }            
+            }
             return NotFound();
         }
-        [HttpPost]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
-            var userExist = await _userRepository.GetAllAsync().ContinueWith( (result) => {
-                UserLogin thisUser = result.Result.SingleOrDefault(x => x.EmailAddress.Equals(model.Email));
-                return thisUser;
-            });
+        // PUT: api/Account/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
 
-            if (userExist == null)
-                return NotFound(new { Message = "This user does not exist" });
+        //// DELETE: api/ApiWithActions/5
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
 
-            userExist.Password = model.NewPassword;
-             await _userRepository.UpdateAsync(userExist);
-
-            return Ok(new CreateUserResponse { Success = true });
-        }
-
-
-        private CreateUserResponse GenerateAuthenticationToken(CreateUserRequest model, CreateUserResponse thisUser)
+        private CreateUserResponse2 GenerateAuthenticationToken(CreateUserRequest model, CreateUserResponse2 thisUser)
         {
             var tokenHandle = new JwtSecurityTokenHandler();
             byte[] key = Encoding.ASCII.GetBytes(_jwtConf.SecretKey);
@@ -163,11 +168,3 @@ namespace ProjectADApi.Controllers
         }
     }
 }
-
-
-
-
-
-
-
-

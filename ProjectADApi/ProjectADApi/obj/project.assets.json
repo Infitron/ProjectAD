@@ -4847,6 +4847,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.2",
         "dependencies": {
+          "Microsoft.Extensions.Identity.Core": "2.2.0",
           "microsoft.entityframeworkcore.design": "2.2.0",
           "microsoft.entityframeworkcore.sqlserver": "2.2.0"
         },

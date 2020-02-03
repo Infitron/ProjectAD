@@ -10,6 +10,11 @@ namespace ProjectADApi.ApiConfig
         public string SecretKey { get; set; }
     }
 
+    public class AppVariable
+    {
+        public string BaseUrlPath { get; set; }
+    }
+
     public  enum ApprovalStatus
     {
         Pending = 1,

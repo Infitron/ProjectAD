@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ProjectADApi.Contract.V1;
 
 namespace ProjectADApi.Controllers.v1
 {
     //[Route("api/[controller]")]
-    //[ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[ApiController]   
     public class SearchController : ControllerBase
     {
         readonly private IRepository<Artisan> _artisanRepository;
@@ -28,13 +28,13 @@ namespace ProjectADApi.Controllers.v1
         //}
 
         // GET: api/Search/5
-        [HttpGet("{CatId}")]
+        [HttpGet(ApiRoute.Search.Get)]
         [Produces("application/json")]
-        public async Task<IActionResult> Get(int CatId)
+        public async Task<IActionResult> DoSearch(int CatId, string LocationId)
         {
             IEnumerable<Artisan> foundArtisan = await _artisanRepository.GetAllAsync().ContinueWith((result) =>
             {
-                return result.Result.Where(x => x.ArtisanCategoryId.Equals(CatId));
+                return result.Result.Where(x => x.ArtisanCategoryId.Equals(CatId) && x.AreaLocation.Equals(LocationId));
             });
 
             if (foundArtisan.Any())
@@ -45,10 +45,10 @@ namespace ProjectADApi.Controllers.v1
         }
 
         // POST: api/Search
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        //[HttpPost]
+        //public void Post([FromBody] string value)
+        //{
+        //}
         
         // PUT: api/Search/5
         //[HttpPut("{id}")]

@@ -3220,6 +3220,7 @@
       },
       "Api.Database/1.0.0": {
         "dependencies": {
+          "Microsoft.Extensions.Identity.Core": "2.2.0",
           "Microsoft.EntityFrameworkCore.Design": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.0"
         },
@@ -3618,6 +3619,7 @@
       },
       "Api.Database/1.0.0": {
         "dependencies": {
+          "Microsoft.Extensions.Identity.Core": "2.2.0",
           "Microsoft.EntityFrameworkCore.Design": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.0"
         },

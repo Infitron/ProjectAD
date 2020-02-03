@@ -12,11 +12,13 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -45,14 +47,21 @@ namespace ProjectADApi
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
             JwtConf _jwtVConf = new JwtConf();
+            AppVariable appVarible = new AppVariable();
+
             Configuration.Bind(nameof(JwtConf), _jwtVConf);
+            Configuration.Bind(nameof(AppVariable), appVarible);
+
             services.AddSingleton(_jwtVConf);
+            services.AddSingleton(appVarible);
 
             services.AddDbContext<projectadContext>();
             //    (options =>
             //{
             //    options.UseSqlServer(Configuration["ApiDbConnection:DefaultConnection"]);
             //});
+            services.AddDefaultIdentity<UserLogin>()
+                .AddEntityFrameworkStores<projectadContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -154,6 +163,13 @@ namespace ProjectADApi
             {
                 option.SwaggerEndpoint(_swaggerConf.UIEndpoint, _swaggerConf.Description);
                 option.RoutePrefix = string.Empty;
+            });
+
+            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"ArtisanGallery")),
+                RequestPath = new PathString("/ArtisanGallery")
             });
 
             app.UseHttpsRedirection();

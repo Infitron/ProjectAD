@@ -16,6 +16,7 @@ namespace Api.Database.Model
         public string Messages { get; set; }
         public DateTime MsgDate { get; set; }
         public TimeSpan MsgTime { get; set; }
+        public int? ServiceId { get; set; }
         public DateTime? CreatedDate { get; set; }
 
         public virtual Artisan ArtisanEmailNavigation { get; set; }

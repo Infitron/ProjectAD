@@ -4,7 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Api.Database.Core{
+namespace Api.Database.Core
+{
     public interface IRepository<TEntity> where TEntity : class
     {
        Task<IEnumerable<TEntity>> GetAllAsync();

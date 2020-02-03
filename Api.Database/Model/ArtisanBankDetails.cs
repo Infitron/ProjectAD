@@ -5,8 +5,8 @@ namespace Api.Database.Model
 {
     public partial class ArtisanBankDetails
     {
-        public int Id { get; set; }
         public string EmailAddress { get; set; }
+        public int Id { get; set; }
         public string AccountName { get; set; }
         public decimal AccountNumber { get; set; }
         public string BankName { get; set; }

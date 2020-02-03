@@ -9,13 +9,15 @@ namespace Api.Database.Model
         {
             Booking = new HashSet<Booking>();
             Complainant = new HashSet<Complainant>();
+            Gallary = new HashSet<Gallary>();
             PaymentHistory = new HashSet<PaymentHistory>();
             Quote = new HashSet<Quote>();
             Rating = new HashSet<Rating>();
+            Services = new HashSet<Services>();
         }
 
-        public int Id { get; set; }
         public string EmailAddress { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
@@ -25,6 +27,7 @@ namespace Api.Database.Model
         public string Address { get; set; }
         public int ArtisanCategoryId { get; set; }
         public string State { get; set; }
+        public string AboutMe { get; set; }
         public DateTime? CreatedDate { get; set; }
 
         public virtual ArtisanCategories ArtisanCategory { get; set; }
@@ -32,8 +35,10 @@ namespace Api.Database.Model
         public virtual ArtisanDashboard ArtisanDashboard { get; set; }
         public virtual ICollection<Booking> Booking { get; set; }
         public virtual ICollection<Complainant> Complainant { get; set; }
+        public virtual ICollection<Gallary> Gallary { get; set; }
         public virtual ICollection<PaymentHistory> PaymentHistory { get; set; }
         public virtual ICollection<Quote> Quote { get; set; }
         public virtual ICollection<Rating> Rating { get; set; }
+        public virtual ICollection<Services> Services { get; set; }
     }
 }

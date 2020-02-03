@@ -18,6 +18,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\v1\Account0Controller.cs" />
+    <Compile Remove="Controllers\v1\ValuesController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -28,6 +33,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Api.Database\Api.Database.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\V2\" />
+    <Folder Include="ArtisanGallery\" />
   </ItemGroup>
 
 </Project>

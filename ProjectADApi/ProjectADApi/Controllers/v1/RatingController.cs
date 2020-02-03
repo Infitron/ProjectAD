@@ -85,11 +85,11 @@ namespace ProjectADApi.Controllers
                 ArtisanEmail = model.ArtisanEmail,
                 ClientEmail = model.ClientEmail,
                 Description = model.Description,
-                Remarks = model.Comment,
+                Remarks = model.Remarks,
                 Rating1 = model.Rating1,
                 JobEndDate = model.JobEndDate,
-                JobStartDate = model.JobStartDate
-
+                JobStartDate = model.JobStartDate,
+                ProjectId = model.ProjectId
             };
 
             Rating iwontunWonsiTutun = await _ratingRepository.CreateAsync(IwontunWonsiTuntun);

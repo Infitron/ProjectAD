@@ -80,5 +80,47 @@ namespace ProjectADApi.Contract.V1
             public const string Delete = Base + "/Quote/{id}";
         }
 
+        public static class Project
+        {
+            public const string GetAll = Base + "/Project";
+            public const string Get = Base + "/Project/{id}";
+            public const string Create = Base + "/Project";
+            public const string Update = Base + "/Project";
+            public const string Delete = Base + "/Project/{id}";
+        }
+
+        public static class BankDetail
+        {
+            public const string GetAll = Base + "/BankDetail";
+            public const string Get = Base + "/BankDetail/{id}";
+            public const string Create = Base + "/BankDetail";
+            public const string Update = Base + "/BankDetail";
+            public const string Delete = Base + "/BankDetail/{id}";
+        }
+
+        public static class Search
+        {
+            public const string Get = Base + "/Search/{CatId}/{LocationId}";
+        }
+
+        public static class Service
+        {
+            public const string GetAll = Base + "/Service";
+            public const string Get = Base + "/Service/{id}";
+            public const string Create = Base + "/Service";
+            public const string Update = Base + "/Service";
+            public const string Delete = Base + "/Service/{id}";
+        }
+
+        public static class Location
+        {
+            public const string GetAll = Base + "/Location";
+            public const string Get = Base + "/Location/{id}";
+            public const string Create = Base + "/Location";
+            public const string Update = Base + "/Location";
+            public const string Delete = Base + "/Location/{id}";
+        }
+
+
     }
 }

@@ -21,6 +21,10 @@ namespace ProjectADApi.Controllers
     public class ArtisanController : ControllerBase
     {
         readonly IRepository<Artisan> _oniseOwoRepository;
+        readonly IRepository<Services> _serviceRepository;
+        readonly IRepository<Projects> _projectRepository;
+        readonly IRepository<Quote> _quoteRepository;
+
         public ArtisanController(IRepository<Artisan> oniswOwoRepository) => _oniseOwoRepository = oniswOwoRepository;
 
         // GET: api/OniseOwo
@@ -38,14 +42,21 @@ namespace ProjectADApi.Controllers
         // GET: api/OniseOwo/5
         //[Route("[action]/{id}")]
         [HttpGet(ApiRoute.Artisan.Get)]
-        public async Task<IActionResult> OniseOwoyi(int id)
+        public async Task<IActionResult> ThisArtisan(int id)
         {
-            Artisan onibariyi = await _oniseOwoRepository.GetAllAsync().ContinueWith((result)=> {
+            Artisan thisArtsan = await _oniseOwoRepository.GetAllAsync().ContinueWith((result)=> {
                 return result.Result.SingleOrDefault(x => x.Id == id);
             });
 
-            if (onibariyi != null)
-                return Ok(new { status = HttpStatusCode.OK, message = onibariyi });
+            ICollection<Quote> allQuoteRaised = await _quoteRepository.GetAllAsync().ContinueWith((result) => {
+                return result.Result.Where(x => x.ArtisanEmail.Equals(thisArtsan.EmailAddress)).ToList();
+            });
+
+            thisArtsan.Quote = allQuoteRaised ?? new List<Quote>();
+
+
+            if (thisArtsan != null)
+                return Ok(new { status = HttpStatusCode.OK, message = thisArtsan });
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No record found" });
         }
 
@@ -69,23 +80,24 @@ namespace ProjectADApi.Controllers
                 State = model.State,
                 ArtisanCategoryId = model.ArtisanCategoryId,
                 AreaLocation = model.AreaLocation,
-                EmailAddress = model.EmailAddress
+                EmailAddress = model.EmailAddress,
+                AboutMe = model.AboutMe                
 
             };
             Artisan kooniseOwoTuntun = await _oniseOwoRepository.CreateAsync(oniseOwoTuntun);
-            return CreatedAtAction(nameof(OniseOwoyi), new { id = kooniseOwoTuntun.Id }, kooniseOwoTuntun);
+            return CreatedAtAction(nameof(ThisArtisan), new { id = kooniseOwoTuntun.Id }, kooniseOwoTuntun);
         }
 
         // PUT: api/OniseOwo/5
-        [HttpPut(ApiRoute.Artisan.Update)]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        //[HttpPut(ApiRoute.Artisan.Update)]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete(ApiRoute.Artisan.Delete)]
-        public void Delete(int id)
-        {
-        }
+        //[HttpDelete(ApiRoute.Artisan.Delete)]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

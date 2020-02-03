@@ -4,7 +4,7 @@
         <name>ProjectADApi</name>
     </assembly>
     <members>
-        <member name="M:ProjectADApi.Controllers.AccountController.Login(ProjectADApi.Contract.V1.Request.LoginRequest)">
+        <member name="M:ProjectADApi.Controllers.V2.AccountController.Login(ProjectADApi.Contract.V1.Request.LoginRequest)">
             <summary> Logs in a user. </summary>
             
             <remarks> 
@@ -58,6 +58,10 @@
              
             </remarks>
             <param name="model"></param>
+            
+        </member>
+        <member name="M:ProjectADApi.Controllers.v1.QuoteController.Get">
+            <summary>Gets all Qoutes submitted for various projects </summary>
             
         </member>
     </members>

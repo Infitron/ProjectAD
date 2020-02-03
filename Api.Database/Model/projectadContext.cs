@@ -26,12 +26,15 @@ namespace Api.Database.Model
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<Complainant> Complainant { get; set; }
         public virtual DbSet<ComplianStatusLov> ComplianStatusLov { get; set; }
+        public virtual DbSet<Gallary> Gallary { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<PaymentHistory> PaymentHistory { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }
         public virtual DbSet<Quote> Quote { get; set; }
         public virtual DbSet<QuoteStatusLov> QuoteStatusLov { get; set; }
         public virtual DbSet<Rating> Rating { get; set; }
+        public virtual DbSet<ServiceLov> ServiceLov { get; set; }
+        public virtual DbSet<Services> Services { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
 
@@ -39,7 +42,7 @@ namespace Api.Database.Model
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("server=103.108.220.238;database=projectad;user id=dbAd; password=8Y#3iDY:8wCcf8");
             }
         }
@@ -51,6 +54,10 @@ namespace Api.Database.Model
 
             modelBuilder.Entity<Article>(entity =>
             {
+                entity.HasIndex(e => e.ApprovalStatusId);
+
+                entity.HasIndex(e => e.EmailAddress);
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.ApprovalStatusId).HasColumnName("ApprovalStatusID");
@@ -110,14 +117,21 @@ namespace Api.Database.Model
                 entity.HasKey(e => e.EmailAddress)
                     .HasName("PK_ARTISAN");
 
+                entity.HasIndex(e => e.ArtisanCategoryId);
+
                 entity.HasIndex(e => e.IdcardNo)
                     .HasName("UQ__Artisan__7EDFFE556682FC51")
-                    .IsUnique();
+                    .IsUnique()
+                    .HasFilter("([IDCardNo] IS NOT NULL)");
 
                 entity.Property(e => e.EmailAddress)
                     .HasMaxLength(60)
                     .IsUnicode(false)
                     .ValueGeneratedNever();
+
+                entity.Property(e => e.AboutMe)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Address)
                     .IsRequired()
@@ -290,6 +304,10 @@ namespace Api.Database.Model
 
             modelBuilder.Entity<Booking>(entity =>
             {
+                entity.HasIndex(e => e.ArtisanEmail);
+
+                entity.HasIndex(e => e.ClientEmail);
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.ArtisanEmail)
@@ -311,6 +329,8 @@ namespace Api.Database.Model
 
                 entity.Property(e => e.MsgDate).HasColumnType("date");
 
+                entity.Property(e => e.ServiceId).HasColumnName("ServiceID");
+
                 entity.HasOne(d => d.ArtisanEmailNavigation)
                     .WithMany(p => p.Booking)
                     .HasForeignKey(d => d.ArtisanEmail)
@@ -331,7 +351,8 @@ namespace Api.Database.Model
 
                 entity.HasIndex(e => e.IdcardNo)
                     .HasName("UQ__Client__7EDFFE55A80A881B")
-                    .IsUnique();
+                    .IsUnique()
+                    .HasFilter("([IDCardNo] IS NOT NULL)");
 
                 entity.Property(e => e.EmailAddress)
                     .HasMaxLength(60)
@@ -381,6 +402,10 @@ namespace Api.Database.Model
 
             modelBuilder.Entity<Complainant>(entity =>
             {
+                entity.HasIndex(e => e.ArtisanEmail);
+
+                entity.HasIndex(e => e.StatusId);
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.ArtisanEmail)
@@ -434,6 +459,39 @@ namespace Api.Database.Model
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<Gallary>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ArtisanEmail)
+                    .IsRequired()
+                    .HasMaxLength(60)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Descr)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.JobDate).HasColumnType("datetime");
+
+                entity.Property(e => e.JobName)
+                    .HasMaxLength(120)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PicturePath)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.ArtisanEmailNavigation)
+                    .WithMany(p => p.Gallary)
+                    .HasForeignKey(d => d.ArtisanEmail)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Gallary_Artisan");
+            });
+
             modelBuilder.Entity<Location>(entity =>
             {
                 entity.Property(e => e.Id)
@@ -464,6 +522,10 @@ namespace Api.Database.Model
 
             modelBuilder.Entity<PaymentHistory>(entity =>
             {
+                entity.HasIndex(e => e.ArtisanEmail);
+
+                entity.HasIndex(e => e.ClientEmail);
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.AmountPaid).HasColumnType("money");
@@ -504,6 +566,8 @@ namespace Api.Database.Model
 
             modelBuilder.Entity<Projects>(entity =>
             {
+                entity.HasIndex(e => e.BookingId);
+
                 entity.Property(e => e.ArtisanEmail)
                     .IsRequired()
                     .HasMaxLength(60)
@@ -541,6 +605,12 @@ namespace Api.Database.Model
 
             modelBuilder.Entity<Quote>(entity =>
             {
+                entity.HasIndex(e => e.ArtisanEmail);
+
+                entity.HasIndex(e => e.OrderStatusId);
+
+                entity.HasIndex(e => e.ProjectId);
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Address1)
@@ -617,6 +687,12 @@ namespace Api.Database.Model
 
             modelBuilder.Entity<Rating>(entity =>
             {
+                entity.HasIndex(e => e.ArtisanEmail);
+
+                entity.HasIndex(e => e.ClientEmail);
+
+                entity.HasIndex(e => e.ProjectId);
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.ArtisanEmail)
@@ -667,10 +743,61 @@ namespace Api.Database.Model
                     .HasConstraintName("FK__Rating__ProjectI__04459E07");
             });
 
+            modelBuilder.Entity<ServiceLov>(entity =>
+            {
+                entity.ToTable("ServiceLOV");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.DateCreated).HasColumnType("date");
+
+                entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Services>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ArtisanEmail)
+                    .IsRequired()
+                    .HasMaxLength(60)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreationDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Descriptions)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ServiceName)
+                    .IsRequired()
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StatusId).HasColumnName("StatusID");
+
+                entity.HasOne(d => d.ArtisanEmailNavigation)
+                    .WithMany(p => p.Services)
+                    .HasForeignKey(d => d.ArtisanEmail)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Services_Artisan");
+
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.Services)
+                    .HasForeignKey(d => d.StatusId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Services__Status__7C4F7684");
+            });
+
             modelBuilder.Entity<UserLogin>(entity =>
             {
                 entity.HasKey(e => e.EmailAddress)
                     .HasName("PK_USERLOGIN");
+
+                entity.HasIndex(e => e.RoleId);
 
                 entity.HasIndex(e => e.UserName)
                     .HasName("UQ__UserLogi__C9F284568AF4CB29")
@@ -686,11 +813,6 @@ namespace Api.Database.Model
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
                     .ValueGeneratedOnAdd();
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.RoleId).HasColumnName("RoleID");
 

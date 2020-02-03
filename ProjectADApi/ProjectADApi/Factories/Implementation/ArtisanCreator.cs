@@ -35,7 +35,7 @@ namespace ProjectADApi.Factories.V1.UserFactory.Implementation
             UserLogin newLogin = new UserLogin
             {
                 EmailAddress = model.EmailAddress,
-                Password = model.Password,
+                
                 UserName = model.UserName = model.UserName,
                 RoleId = model.RoleId,
                 CreationDate = DateTime.Now

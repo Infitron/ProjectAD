@@ -17,5 +17,6 @@ namespace ProjectADApi.Contract.V1.Request
         public string Address { get; set; }
         public int ArtisanCategoryId { get; set; }
         public string State { get; set; }
+        public string AboutMe { get; set; }
     }
 }
