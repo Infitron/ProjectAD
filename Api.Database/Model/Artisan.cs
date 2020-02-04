@@ -7,17 +7,17 @@ namespace Api.Database.Model
     {
         public Artisan()
         {
+            ArtisanServices = new HashSet<ArtisanServices>();
             Booking = new HashSet<Booking>();
-            Complainant = new HashSet<Complainant>();
             Gallary = new HashSet<Gallary>();
             PaymentHistory = new HashSet<PaymentHistory>();
-            Quote = new HashSet<Quote>();
+            Projects = new HashSet<Projects>();
             Rating = new HashSet<Rating>();
             Services = new HashSet<Services>();
         }
 
-        public string EmailAddress { get; set; }
         public int Id { get; set; }
+        public string EmailAddress { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
@@ -26,18 +26,18 @@ namespace Api.Database.Model
         public string PicturePath { get; set; }
         public string Address { get; set; }
         public int ArtisanCategoryId { get; set; }
-        public string State { get; set; }
+        public int StateId { get; set; }
         public string AboutMe { get; set; }
         public DateTime? CreatedDate { get; set; }
 
         public virtual ArtisanCategories ArtisanCategory { get; set; }
-        public virtual ArtisanBankDetails ArtisanBankDetails { get; set; }
-        public virtual ArtisanDashboard ArtisanDashboard { get; set; }
+        public virtual Location State { get; set; }
+        public virtual Quote Quote { get; set; }
+        public virtual ICollection<ArtisanServices> ArtisanServices { get; set; }
         public virtual ICollection<Booking> Booking { get; set; }
-        public virtual ICollection<Complainant> Complainant { get; set; }
         public virtual ICollection<Gallary> Gallary { get; set; }
         public virtual ICollection<PaymentHistory> PaymentHistory { get; set; }
-        public virtual ICollection<Quote> Quote { get; set; }
+        public virtual ICollection<Projects> Projects { get; set; }
         public virtual ICollection<Rating> Rating { get; set; }
         public virtual ICollection<Services> Services { get; set; }
     }

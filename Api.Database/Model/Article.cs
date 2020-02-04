@@ -13,7 +13,7 @@ namespace Api.Database.Model
         public DateTime DateApproved { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public virtual ArticleStatusLov ApprovalStatus { get; set; }
+        public virtual Lov ApprovalStatus { get; set; }
         public virtual UserLogin EmailAddressNavigation { get; set; }
     }
 }

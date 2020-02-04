@@ -5,8 +5,14 @@ namespace Api.Database.Model
 {
     public partial class Quote
     {
+        public Quote()
+        {
+            Booking = new HashSet<Booking>();
+            Projects = new HashSet<Projects>();
+        }
+
         public int Id { get; set; }
-        public string ArtisanEmail { get; set; }
+        public int ArtisanId { get; set; }
         public string Item { get; set; }
         public string Descr { get; set; }
         public double Quantity { get; set; }
@@ -19,8 +25,9 @@ namespace Api.Database.Model
         public int OrderStatusId { get; set; }
         public DateTime? CreatedDate { get; set; }
 
-        public virtual Artisan ArtisanEmailNavigation { get; set; }
-        public virtual QuoteStatusLov OrderStatus { get; set; }
-        public virtual Projects Project { get; set; }
+        public virtual Artisan IdNavigation { get; set; }
+        public virtual Lov OrderStatus { get; set; }
+        public virtual ICollection<Booking> Booking { get; set; }
+        public virtual ICollection<Projects> Projects { get; set; }
     }
 }

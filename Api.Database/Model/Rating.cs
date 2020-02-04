@@ -6,8 +6,8 @@ namespace Api.Database.Model
     public partial class Rating
     {
         public int Id { get; set; }
-        public string ClientEmail { get; set; }
-        public string ArtisanEmail { get; set; }
+        public int ClientId { get; set; }
+        public int ArtisanId { get; set; }
         public DateTime JobStartDate { get; set; }
         public DateTime JobEndDate { get; set; }
         public string Description { get; set; }
@@ -16,8 +16,8 @@ namespace Api.Database.Model
         public DateTime? CreatedDate { get; set; }
         public int? ProjectId { get; set; }
 
-        public virtual Artisan ArtisanEmailNavigation { get; set; }
-        public virtual Client ClientEmailNavigation { get; set; }
+        public virtual Artisan Artisan { get; set; }
+        public virtual Client Client { get; set; }
         public virtual Projects Project { get; set; }
     }
 }
