@@ -1,5 +1,6 @@
 ﻿using Api.Database.Model;
 using Microsoft.AspNetCore.Identity;
+using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.V1.Request;
 using ProjectADApi.Contract.V1.Response;
 using ProjectADApi.Factories.Core;
@@ -40,13 +41,12 @@ namespace ProjectADApi.Factories.Implementation
             }
 
             UserLogin newLogin = new UserLogin
-            {
-                EmailAddress = model.EmailAddress,
-               
+            {           
                 UserName = model.UserName = model.UserName,
                 RoleId = model.RoleId,
                 CreationDate = DateTime.Now,
-                Email = model.EmailAddress
+                Email = model.EmailAddress,
+                 StatusId = (int)AppStatus.Active
             };
 
             var createUser = await _userManager.CreateAsync(newLogin, model.Password);
@@ -56,16 +56,16 @@ namespace ProjectADApi.Factories.Implementation
                 return new CreateUserResponse2
                 {
                     Success = false,
-                    UserId = newLogin.Id,
+                    UserId = 0,
                     ErrorMessage = createUser.Errors.Select(x => x.Description),
                     Token = ""
                 };
             }
-
+            UserLogin getLogin = await _userManager.FindByEmailAsync(newLogin.Email);
             return new CreateUserResponse2
             {
                 Success = true,
-                UserId = model.RoleId,
+                UserId = getLogin.Id,
                 ErrorMessage = new string[0],
                 Token = ""
             };

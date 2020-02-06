@@ -28,48 +28,48 @@ namespace ProjectADApi.Controllers.v1
         }
 
         // GET: api/Location
-        [HttpGet(ApiRoute.Location.GetAll)]
-        public async Task<IActionResult> AllLocation()
-        {
-            IEnumerable<Location> AllArticle = await _locationRepository.GetAllAsync();
+        //[HttpGet(ApiRoute.Location.GetAll)]
+        //public async Task<IActionResult> AllLocation()
+        //{
+        //    IEnumerable<Location> AllArticle = await _locationRepository.GetAllAsync();
 
-            if (AllArticle.Any())
-                return Ok(AllArticle);
-            return NoContent();
-        }
+        //    if (AllArticle.Any())
+        //        return Ok(AllArticle);
+        //    return NoContent();
+        //}
 
         // GET: api/Location/5
         [HttpGet(ApiRoute.Location.Get)]
         public async Task<IActionResult> ThisLocation(int id)
         {
-            Location thisLocation = await _locationRepository.GetByIdAsync(id);
+            //Location thisLocation = await _locationRepository.GetByIdAsync(id);
 
-            if (thisLocation == null)
+            //if (thisLocation == null)
                 return NotFound(new { status = HttpStatusCode.NotFound, Message = "We could not find the location you requested" });
 
-            return Ok(new { status = HttpStatusCode.NotFound, Message = thisLocation });
+            //return Ok(new { status = HttpStatusCode.NotFound, Message = thisLocation });
         }
 
         // POST: api/Location
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] LocationRequest model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
+        //[HttpPost]
+        //public async Task<IActionResult> Post([FromBody] LocationRequest model)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
 
-            Location newLocation = new Location
-            {
-              State = model.State,
-              Lga = model.Lga,
-              Area = model.Area,
-              Status = model.Status
-            };
+        //    //Location newLocation = new Location
+        //    //{
+        //    //  State = model.State,
+        //    //  Lga = model.Lga,
+        //    //  Area = model.Area,
+        //    //  Status = model.Status
+        //    //};
 
-            await _locationRepository.CreateAsync(newLocation);
+        //    await _locationRepository.CreateAsync(newLocation);
 
-            return CreatedAtAction(nameof(ThisLocation), new { id = newLocation.Id }, newLocation);
+        //    return CreatedAtAction(nameof(ThisLocation), new { id = newLocation.Id }, newLocation);
 
-        }
+        //}
 
         // PUT: api/Location/5
         //[HttpPut("{id}")]

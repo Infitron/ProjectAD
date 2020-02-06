@@ -15,10 +15,21 @@ namespace ProjectADApi.ApiConfig
         public string BaseUrlPath { get; set; }
     }
 
-    public  enum ApprovalStatus
+    public enum AppStatus
     {
         Pending = 1,
         Approved = 2,
-        Rejected = 3
+        Rejected = 3,
+        Active = 4,
+        Dismissed = 5,
+        Resolved = 6,
+        Completed = 7
+    }
+
+    public enum AppUsers
+    {
+        Artisan,
+        Client,
+       
     }
 }

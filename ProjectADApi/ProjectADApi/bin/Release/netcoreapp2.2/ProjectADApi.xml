@@ -60,9 +60,5 @@
             <param name="model"></param>
             
         </member>
-        <member name="M:ProjectADApi.Controllers.v1.QuoteController.Get">
-            <summary>Gets all Qoutes submitted for various projects </summary>
-            
-        </member>
     </members>
 </doc>

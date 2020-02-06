@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using Api.Database.Core;
-using Api.Database.Model;
+//using Api.Database.Core;
+//using Api.Database.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectADApi.ApiConfig;
-using ProjectADApi.Contract.V1.Request;
+//using ProjectADApi.Contract.V1.Request;
 
 namespace ProjectADApi.Controllers
 {
@@ -17,12 +17,12 @@ namespace ProjectADApi.Controllers
     //[ApiController]
     public class GalleryController : ControllerBase
     {
-        IRepository<Gallary> _galleryRepository;
+       // IRepository<Gallary> _galleryRepository;
         readonly AppVariable _appVariable;
 
-        public GalleryController(IRepository<Gallary> galleryRepository, AppVariable appVariable) { _galleryRepository = galleryRepository;
-            _appVariable = appVariable;
-        }
+        //public GalleryController(IRepository<Gallary> galleryRepository, AppVariable appVariable) { _galleryRepository = galleryRepository;
+        //    _appVariable = appVariable;
+        //}
 
 
         // GET: api/Gallery
@@ -63,15 +63,9 @@ namespace ProjectADApi.Controllers
                 PicturePath = $"{_appVariable.BaseUrlPath}/{fullPath}";
             }
 
-            Gallary newGallerItem = new Gallary
-            { ArtisanEmail
-       JobName 
-        public string Descr { get; set; }
-        public string PicturePath { get; set; }
-        public DateTime JobDate { get; set; }
-        public DateTime? CreatedDate { get; set; }
+            
 
-    };
+    
         }
 
         // PUT: api/Gallery/5

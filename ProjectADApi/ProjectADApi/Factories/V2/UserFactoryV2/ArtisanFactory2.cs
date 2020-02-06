@@ -10,7 +10,7 @@ using ProjectADApi.Contract.V1.Request;
 using ProjectADApi.Factories.Core;
 using ProjectADApi.Factories.Implementation;
 using ProjectADApi.Factories.V1.UserFactory.Core;
-using ProjectADApi.Factories.V1.UserFactory.Implementation;
+
 
 namespace ProjectADApi.Factories.V2.UserFactoryV2
 {

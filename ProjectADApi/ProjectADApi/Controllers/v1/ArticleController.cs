@@ -79,7 +79,7 @@ namespace ProjectADApi.Controllers.v1
                 ArticleBody = model.ArticleBody,
                 DateApproved = DateTime.Now,
                 CreatedDate = DateTime.Now,
-                ApprovalStatusId = (int)ApprovalStatus.Pending                
+                ApprovalStatusId = (int)AppStatus.Pending                
             };
 
             await _articleRepository.CreateAsync(newArticle);

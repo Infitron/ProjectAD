@@ -18,8 +18,28 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Factories\V1\UserFactory\**" />
+    <Content Remove="Factories\V1\UserFactory\**" />
+    <EmbeddedResource Remove="Factories\V1\UserFactory\**" />
+    <None Remove="Factories\V1\UserFactory\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\GalleryController.cs" />
     <Compile Remove="Controllers\v1\Account0Controller.cs" />
+    <Compile Remove="Controllers\v1\BankDetailsController.cs" />
+    <Compile Remove="Controllers\v1\BookingController.cs" />
+    <Compile Remove="Controllers\v1\ClientController.cs" />
+    <Compile Remove="Controllers\v1\LocationController.cs" />
+    <Compile Remove="Controllers\v1\PaymentController.cs" />
+    <Compile Remove="Controllers\v1\ProjectController.cs" />
+    <Compile Remove="Controllers\v1\QuoteController.cs" />
+    <Compile Remove="Controllers\v1\RatingController.cs" />
+    <Compile Remove="Controllers\v1\SearchController.cs" />
+    <Compile Remove="Controllers\v1\ServiceController.cs" />
     <Compile Remove="Controllers\v1\ValuesController.cs" />
+    <Compile Remove="Factories\Implementation\ArtisanCreator.cs" />
+    <Compile Remove="Factories\Implementation\ClientCreator.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +58,7 @@
   <ItemGroup>
     <Folder Include="Controllers\V2\" />
     <Folder Include="ArtisanGallery\" />
+    <Folder Include="Factories\V1\UserFactory\" />
   </ItemGroup>
 
 </Project>

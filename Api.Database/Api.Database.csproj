@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Implementation\UnitOfWork.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="microsoft.entityframeworkcore.design" Version="2.2" />
     <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="2.2" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.2.0.0" />

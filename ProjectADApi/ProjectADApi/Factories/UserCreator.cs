@@ -1,4 +1,5 @@
-﻿using ProjectADApi.Contract.Request;
+﻿using ProjectADApi.ApiConfig;
+using ProjectADApi.Contract.Request;
 using ProjectADApi.Contract.V1.Request;
 using ProjectADApi.Factories.V1.UserFactory;
 using ProjectADApi.Factories.V1.UserFactory.Core;

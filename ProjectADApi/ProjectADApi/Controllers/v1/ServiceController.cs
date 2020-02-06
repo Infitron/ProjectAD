@@ -29,55 +29,55 @@ namespace ProjectADApi.Controllers.v1
         }
         
         // GET: api/Service
-        [HttpGet(ApiRoute.Service.GetAll)]
-        public async Task<IActionResult> AllService()
-        {
-            IEnumerable<Services> AllArticle = await _serviceRepository.GetAllAsync();
+        //[HttpGet(ApiRoute.Service.GetAll)]
+        //public async Task<IActionResult> AllService()
+        //{
+        //    IEnumerable<Services> AllArticle = await _serviceRepository.GetAllAsync();
 
-            if (AllArticle.Any())
-                return Ok(AllArticle);
-            return NoContent();
-        }
+        //    if (AllArticle.Any())
+        //        return Ok(AllArticle);
+        //    return NoContent();
+        //}
 
         // GET: api/Service/5
-        [HttpGet(ApiRoute.Service.Get)]
-        public async Task<IActionResult> ThisService(int id)
-        {
-            Services thisService = await _serviceRepository.GetByIdAsync(id);          
+        //[HttpGet(ApiRoute.Service.Get)]
+        //public async Task<IActionResult> ThisService(int id)
+        //{
+        //    //Services thisService = await _serviceRepository.GetByIdAsync(id);          
 
-            if (thisService == null)
-                return NotFound(new { status = HttpStatusCode.NotFound, Message = "The requested service may have been discontinued by the Artisan" });
+        //    //if (thisService == null)
+        //    //    return NotFound(new { status = HttpStatusCode.NotFound, Message = "The requested service may have been discontinued by the Artisan" });
 
-            Artisan thisArtisan = await _artisanRepository.GetAllAsync().ContinueWith((result)  => {
-                var getArtisan =  result.Result.SingleOrDefault(x => x.EmailAddress.Equals(thisService.ArtisanEmail));
-                return getArtisan;
-            });
+        //    ////Artisan thisArtisan = await _artisanRepository.GetAllAsync().ContinueWith((result)  => {
+        //    ////    var getArtisan =  result.Result.SingleOrDefault(x => x.);
+        //    ////    return getArtisan;
+        //    ////});
 
-            thisService.ArtisanEmailNavigation = thisArtisan;
+        //    //thisService.ArtisanEmailNavigation = thisArtisan;
             
-            return Ok(new { status = HttpStatusCode.NotFound, Message = thisService });
-        }
+        //    //return Ok(new { status = HttpStatusCode.NotFound, Message = thisService });
+        //}
 
         // POST: api/Service
-        [HttpPost(ApiRoute.Service.Create)]
-        public async Task<IActionResult> Post([FromBody] ServiceRequest model)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
+        //[HttpPost(ApiRoute.Service.Create)]
+        //public async Task<IActionResult> Post([FromBody] ServiceRequest model)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
 
-            Services newServie = new Services
-            {
-               ArtisanEmail = model.ArtisanEmail,
-               ServiceName = model.ServiceName,
-               StatusId = 1,
-               Descriptions = model.Descriptions,
-               CreationDate = DateTime.Now
-            };
+        //    Services newServie = new Services
+        //    {
+        //       ArtisanEmail = model.ArtisanEmail,
+        //       ServiceName = model.ServiceName,
+        //       StatusId = 1,
+        //       Descriptions = model.Descriptions,
+        //       CreationDate = DateTime.Now
+        //    };
 
-            await _serviceRepository.CreateAsync(newServie);
+        //    await _serviceRepository.CreateAsync(newServie);
 
-            return CreatedAtAction(nameof(ThisService), new { id = newServie.Id }, newServie);
-        }
+        //    return CreatedAtAction(nameof(ThisService), new { id = newServie.Id }, newServie);
+        //}
 
         // PUT: api/Service/5
         //[HttpPut("{id}")]

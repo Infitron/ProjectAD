@@ -57,14 +57,11 @@ namespace ProjectADApi.Controllers
         [HttpGet(ApiRoute.Artisan.Get)]
         public async Task<IActionResult> ThisArtisan(int id = 0)
         {
-
             if (id == 0)
                 return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "Artisan ID was not supplied" });
 
-            Artisan thisArtsan = await _artisanRepository.GetAllAsync().ContinueWith((result) =>
-            {
-                return result.Result.SingleOrDefault(x => x.Id == id);
-            });
+            Artisan thisArtsan = await _artisanRepository.GetByIdAsync(id);
+            
 
             if (thisArtsan == null)
                 return NotFound(new { status = HttpStatusCode.NotFound, message = "We could not find the artisan you requested" });
@@ -99,23 +96,23 @@ namespace ProjectADApi.Controllers
                 return result.Result.Where(x => x.ArtisanId.Equals(thisArtsan.Id)).ToList();
             });
 
-            thisArtsan.Services = allMyServices ?? new List<Services> {
+            thisArtsan.Services = allMyServices.Count() > 0 ? allMyServices :  new List<Services> {
                 new Services { Id = 0, ServiceName = "N/A", ArtisanId = 0, Descriptions = "Not available", CreationDate = DateTime.Now, StatusId = 0 }
             };
 
-            thisArtsan.Gallary = myGallery ?? new List<Gallary> {
+            thisArtsan.Gallary = myGallery.Count() > 0 ? myGallery :  new List<Gallary> {
                 new Gallary { Id = 0, ArtisanId = 0, CreatedDate = DateTime.Now, Descr = "Not available", JobDate = DateTime.Now, JobName = "Not available", PicturePath = "Not available" }
             };
-            thisArtsan.Booking = allMyBooking ?? new List<Booking> {
+            thisArtsan.Booking = allMyBooking.Count() > 0 ? allMyBooking : new List<Booking> {
                 new Booking { Id = 0, ArtisanId = 0, ClienId = 0, CreatedDate  = DateTime.Now, Messages = "Not available", MsgDate = DateTime.Now, MsgTime = DateTime.Now.TimeOfDay, ServiceId = 0, QuoteId = 0}
             };
-            thisArtsan.PaymentHistory = allMyPaymentHistory ?? new List<PaymentHistory> {
+            thisArtsan.PaymentHistory = allMyPaymentHistory.Count() > 0 ? allMyPaymentHistory:  new List<PaymentHistory> {
                 new PaymentHistory{ Id = 0, AmountPaid = 0.00M, ArtisanId = 0, ClientId = 0, CreatedDate = DateTime.Now, PayDate = DateTime.Now, PaymentType = "Not available", ProjectId = 0 }
             };
-            thisArtsan.Projects = allMyProjectDone ?? new List<Projects> {
-                new Projects { Id = 0, ArtisanId = 0, ClientId = 0, CreationDate =DateTime.Now, EndDate =  } };
+            thisArtsan.Projects = allMyProjectDone.Count() > 0 ? allMyProjectDone : new List<Projects> {
+                new Projects { Id = 0, ArtisanId = 0, ClientId = 0, CreationDate =DateTime.Now} };
 
-            return Ok(new { status = HttpStatusCode.OK, Message = "No record found" });
+            return Ok(new { status = HttpStatusCode.OK, Message = thisArtsan });
         }
 
         // POST: api/OniseOwo
@@ -137,12 +134,14 @@ namespace ProjectADApi.Controllers
                 Address = model.Address,
                 StateId = model.StateId,
                 ArtisanCategoryId = model.ArtisanCategoryId,
-                AreaLocation = model.AreaLocation,
-                EmailAddress = model.EmailAddress,
-                AboutMe = model.AboutMe
+                AreaLocation = model.AreaLocation,                
+                AboutMe = model.AboutMe,
+                UserId  = model.UserId
+                
             };
             Artisan kooniseOwoTuntun = await _artisanRepository.CreateAsync(newArtisan);
-            return CreatedAtAction(nameof(ThisArtisan), new { id = kooniseOwoTuntun.Id }, kooniseOwoTuntun);
+            return CreatedAtAction(nameof(ThisArtisan), new { id = newArtisan.Id }, kooniseOwoTuntun);
+           
         }
 
         // PUT: api/OniseOwo/5

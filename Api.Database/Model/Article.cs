@@ -14,6 +14,5 @@ namespace Api.Database.Model
         public DateTime CreatedDate { get; set; }
 
         public virtual Lov ApprovalStatus { get; set; }
-        public virtual UserLogin EmailAddressNavigation { get; set; }
     }
 }

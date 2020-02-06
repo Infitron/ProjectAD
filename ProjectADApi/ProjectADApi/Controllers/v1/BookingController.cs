@@ -30,46 +30,40 @@ namespace ProjectADApi.Controllers
         [HttpGet(ApiRoute.Order.GetAll)]
         public async Task<IActionResult> GetAll()
         {
-            var allBooking = await _bookingRepository.GetAllAsync();
+            //var allBooking = await _bookingRepository.GetAllAsync();
 
-            if (allBooking != null)
-                return Ok(allBooking);
+            //if (allBooking != null)
+            //    return Ok(allBooking);
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
         }
 
         //GET: api/Booking/5        
-        [HttpGet(ApiRoute.Order.Get)]
-        public async Task<IActionResult> GetById(int id)
-        {
-            Booking getBooking = await _bookingRepository.GetAllAsync().ContinueWith((result) => {
-                return result.Result.SingleOrDefault(x => x.Id == id);
-            });
+        //[HttpGet(ApiRoute.Order.Get)]
+       // public async Task<IActionResult> GetById(int id)
+        //{
+        //    Booking getBooking = await _bookingRepository.GetAllAsync().ContinueWith((result) => {
+        //        return result.Result.SingleOrDefault(x => x.Id == id);
+        //    });
 
-            if (getBooking != null)
-                return Ok(getBooking);
-            return NotFound(new { status = HttpStatusCode.NotFound, Message = "No record found" });
-        }
+        //    if (getBooking != null)
+        //        return Ok(getBooking);
+        //    return NotFound(new { status = HttpStatusCode.NotFound, Message = "No record found" });
+        //}
 
         // POST: api/Booking
         [HttpPost(ApiRoute.Order.Create)]
         public async Task<IActionResult> Post([FromBody] BookingRequest model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
-            Booking newJobRequesst = new Booking
-            {
-                ArtisanEmail = model.ArtisanEmail,
-                ClientEmail = model.ClientEmail,
-                Messages = model.Messages,
-                MsgDate = DateTime.Now,
-                MsgTime = DateTime.Now.TimeOfDay
-            };
+            //Booking newBooking = new Booking {  };
 
-            var newBooking = await _bookingRepository.CreateAsync(newJobRequesst);
-            return CreatedAtAction(nameof(GetById), new { id = newBooking.Id }, newBooking);
+            //var newBooking = await _bookingRepository.CreateAsync(newJobRequesst);
+            //return CreatedAtAction(nameof(GetById), new { id = newBooking.Id }, newBooking);
+            return Ok();
         }
 
         // PUT: api/Booking/5

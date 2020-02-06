@@ -5,6 +5,11 @@ namespace Api.Database.Model
 {
     public partial class Booking
     {
+        public Booking()
+        {
+            Quote = new HashSet<Quote>();
+        }
+
         public int Id { get; set; }
         public int ClienId { get; set; }
         public int ArtisanId { get; set; }
@@ -17,6 +22,6 @@ namespace Api.Database.Model
 
         public virtual Artisan Artisan { get; set; }
         public virtual Client Clien { get; set; }
-        public virtual Quote Quote { get; set; }
+        public virtual ICollection<Quote> Quote { get; set; }
     }
 }

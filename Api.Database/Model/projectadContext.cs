@@ -19,6 +19,8 @@ namespace Api.Database.Model
         public virtual DbSet<Artisan> Artisan { get; set; }
         public virtual DbSet<ArtisanCategories> ArtisanCategories { get; set; }
         public virtual DbSet<ArtisanServices> ArtisanServices { get; set; }
+        public virtual DbSet<BankCodeLov> BankCodeLov { get; set; }
+        public virtual DbSet<BankDetails> BankDetails { get; set; }
         public virtual DbSet<Booking> Booking { get; set; }
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<Complaint> Complaint { get; set; }
@@ -81,17 +83,11 @@ namespace Api.Database.Model
                     .HasForeignKey(d => d.ApprovalStatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Article_ArticleStatusLOV");
-
-                entity.HasOne(d => d.EmailAddressNavigation)
-                    .WithMany(p => p.Article)
-                    .HasForeignKey(d => d.EmailAddress)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Article_UserLogin");
             });
 
             modelBuilder.Entity<Artisan>(entity =>
             {
-                entity.HasIndex(e => e.EmailAddress)
+                entity.HasIndex(e => e.UserId)
                     .HasName("EmailUnique")
                     .IsUnique();
 
@@ -114,11 +110,6 @@ namespace Api.Database.Model
                 entity.Property(e => e.ArtisanCategoryId).HasColumnName("ArtisanCategoryID");
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
-
-                entity.Property(e => e.EmailAddress)
-                    .IsRequired()
-                    .HasMaxLength(60)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
@@ -200,6 +191,62 @@ namespace Api.Database.Model
                     .HasConstraintName("FK_ArtisanServices_Artisan");
             });
 
+            modelBuilder.Entity<BankCodeLov>(entity =>
+            {
+                entity.HasKey(e => e.Bankcode);
+
+                entity.ToTable("BankCodeLOV");
+
+                entity.HasIndex(e => e.Id)
+                    .HasName("IX_BankCodeLOV")
+                    .IsUnique();
+
+                entity.Property(e => e.Bankcode)
+                    .HasMaxLength(60)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.BankName)
+                    .IsRequired()
+                    .HasMaxLength(70)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedOnAdd();
+            });
+
+            modelBuilder.Entity<BankDetails>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.AccountName)
+                    .IsRequired()
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.BankCode)
+                    .IsRequired()
+                    .HasMaxLength(60);
+
+                entity.Property(e => e.Bvn).HasColumnName("BVN");
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Artisan)
+                    .WithMany(p => p.BankDetails)
+                    .HasForeignKey(d => d.ArtisanId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BankDetails_Artisan");
+
+                entity.HasOne(d => d.BankCodeNavigation)
+                    .WithMany(p => p.BankDetails)
+                    .HasForeignKey(d => d.BankCode)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BankDetails_BankDetails");
+            });
+
             modelBuilder.Entity<Booking>(entity =>
             {
                 entity.HasIndex(e => e.ArtisanId)
@@ -232,16 +279,11 @@ namespace Api.Database.Model
                     .HasForeignKey(d => d.ClienId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Booking_Client");
-
-                entity.HasOne(d => d.Quote)
-                    .WithMany(p => p.Booking)
-                    .HasForeignKey(d => d.QuoteId)
-                    .HasConstraintName("FK_Booking_Quote");
             });
 
             modelBuilder.Entity<Client>(entity =>
             {
-                entity.HasIndex(e => e.EmailAddress)
+                entity.HasIndex(e => e.UserId)
                     .HasName("C_EmailUnique")
                     .IsUnique();
 
@@ -253,11 +295,6 @@ namespace Api.Database.Model
                     .IsUnicode(false);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
-
-                entity.Property(e => e.EmailAddress)
-                    .IsRequired()
-                    .HasMaxLength(60)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
@@ -390,7 +427,9 @@ namespace Api.Database.Model
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.DateCreated).HasColumnType("date");
+                entity.Property(e => e.DateCreated)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Status)
                     .IsRequired()
@@ -480,9 +519,10 @@ namespace Api.Database.Model
                 entity.HasIndex(e => e.ArtisanId)
                     .HasName("IX_Quote_ArtisanEmail");
 
-                entity.HasIndex(e => e.OrderStatusId);
+                entity.HasIndex(e => e.BookingId)
+                    .HasName("IX_Quote_ProjectID");
 
-                entity.HasIndex(e => e.ProjectId);
+                entity.HasIndex(e => e.OrderStatusId);
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -515,12 +555,22 @@ namespace Api.Database.Model
 
                 entity.Property(e => e.Price).HasColumnType("decimal(38, 2)");
 
-                entity.Property(e => e.ProjectId).HasColumnName("ProjectID");
-
                 entity.Property(e => e.Vat)
                     .HasColumnName("VAT")
                     .HasColumnType("decimal(38, 2)")
                     .HasDefaultValueSql("((0))");
+
+                entity.HasOne(d => d.Booking)
+                    .WithMany(p => p.Quote)
+                    .HasForeignKey(d => d.BookingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Quote_Booking");
+
+                entity.HasOne(d => d.Client)
+                    .WithMany(p => p.Quote)
+                    .HasForeignKey(d => d.ClientId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Quote_Client");
 
                 entity.HasOne(d => d.IdNavigation)
                     .WithOne(p => p.Quote)
@@ -617,25 +667,15 @@ namespace Api.Database.Model
 
             modelBuilder.Entity<UserLogin>(entity =>
             {
-                entity.HasKey(e => e.EmailAddress)
-                    .HasName("PK_USERLOGIN");
-
                 entity.HasIndex(e => e.RoleId);
 
                 entity.HasIndex(e => e.UserName)
                     .HasName("UQ__UserLogi__C9F284568AF4CB29")
                     .IsUnique();
 
-                entity.Property(e => e.EmailAddress)
-                    .HasMaxLength(60)
-                    .IsUnicode(false)
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CreationDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.RoleId).HasColumnName("RoleID");
 

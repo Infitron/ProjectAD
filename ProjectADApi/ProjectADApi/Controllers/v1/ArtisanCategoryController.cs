@@ -38,9 +38,10 @@ namespace ProjectADApi.Controllers.v1
         [HttpGet(ApiRoute.ACategory.Get)]
         public async Task<IActionResult> GetThisCategory(int id)
         {
-            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetAllAsync().ContinueWith((result) => {
+            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetAllAsync().ContinueWith((result) =>
+            {
                 return result.Result.SingleOrDefault(x => x.Id == id);
-            }); ;
+            });
             if (thisCategory != null)
                 return Ok(new { status = HttpStatusCode.OK, message = thisCategory });
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No record found" });
@@ -51,10 +52,11 @@ namespace ProjectADApi.Controllers.v1
         public async Task<IActionResult> Post([FromBody] ArCatergoryRequest model)
         {
             ArtisanCategories addNew = new ArtisanCategories
-            {
-                CategoryDescr = model.CategoryDescr,
+            {                
                 CategoryName = model.CategoryName,
-                SubCategories = model.SubCategories
+                SubCategories = model.SubCategories,
+                CreatedDate = DateTime.Now
+
             };
 
             var isAdded = await _artisanCatergoryRepository.CreateAsync(addNew);
@@ -64,15 +66,17 @@ namespace ProjectADApi.Controllers.v1
 
         // PUT: api/ArtisanCategory/5
         [HttpPut(ApiRoute.ACategory.Update)]
-        public async Task<IActionResult> Put([FromBody] ArCatergoryRequest model)
+        public async Task<IActionResult> Put(int id, [FromBody] ArCatergoryRequest model)
         {
-            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByIdAsync(model.Id);
+            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByIdAsync(id);
             if (thisCategory != null)
-            {
-                thisCategory.CategoryDescr = model.CategoryDescr;
+            {                
                 thisCategory.CategoryName = model.CategoryName;
+                thisCategory.SubCategories = model.SubCategories;               
 
                 await _artisanCatergoryRepository.UpdateAsync(thisCategory);
+
+                return Ok(new { status = HttpStatusCode.OK, message = thisCategory });
             }
 
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No record  exist for the category specified" });

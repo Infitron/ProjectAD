@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 namespace ProjectADApi.Contract.V1.Request
 {
     public class UserProfileRequest
-    {
-        public string EmailAddress { get; set; }
+    {        
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
@@ -18,5 +17,6 @@ namespace ProjectADApi.Contract.V1.Request
         public int ArtisanCategoryId { get; set; }
         public int StateId { get; set; }
         public string AboutMe { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -28,50 +28,50 @@ namespace ProjectADApi.Controllers
         [HttpGet(ApiRoute.Client.GetAll)]
         public async Task<IActionResult> GbogboOnibara()
         {
-            IEnumerable<Client> awonOnibara = await _onibaraRepository.GetAllAsync();
+            //IEnumerable<Client> awonOnibara = await _onibaraRepository.GetAllAsync();
 
-            if (awonOnibara != null)
-                return Ok(new { status = HttpStatusCode.OK, message = awonOnibara });
+            //if (awonOnibara != null)
+            //    return Ok(new { status = HttpStatusCode.OK, message = awonOnibara });
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
         }
 
         // GET: api/Onibara/5
         //[Route("[action]/{id}")]
-        [HttpGet(ApiRoute.Client.Get)]
-        public async Task<IActionResult> Onibarayi(int id)
-        {
-            Client onibariyi = await _onibaraRepository.GetAllAsync().ContinueWith((result) => {
-                return result.Result.SingleOrDefault(x => x.Id == id);
-            });
-            if (onibariyi != null)
-                return Ok(new { status = HttpStatusCode.OK, message = onibariyi });
-            return NotFound(new { status = HttpStatusCode.NotFound, Message = "No record found" });
-        }
+        //[HttpGet(ApiRoute.Client.Get)]
+        //public async Task<IActionResult> Onibarayi(int id)
+        //{
+        //    //Client onibariyi = await _onibaraRepository.GetAllAsync().ContinueWith((result) => {
+        //    //    return result.Result.SingleOrDefault(x => x.Id == id);
+        //    //});
+        //    //if (onibariyi != null)
+        //    //    return Ok(new { status = HttpStatusCode.OK, message = onibariyi });
+        //    return NotFound(new { status = HttpStatusCode.NotFound, Message = "No record found" });
+        //}
 
         // POST: api/Onibara
-        [HttpPost(ApiRoute.Client.Create)]
-        public async Task<IActionResult> Post([FromBody] ClientRequest model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[HttpPost(ApiRoute.Client.Create)]
+        //public async Task<IActionResult> Post([FromBody] ClientRequest model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            Client onibaraTuntun = new Client { FirstName = model.FirstName,
-                EmailAddress = model.EmailAddress,
-                LastName = model.LastName,
-                PhoneNumber = model.PhoneNumber,
-                IdcardNo = model.IdcardNo,
-                PicturePath = model.PicturePath,
-                Address = model.Address,
-                State = model.State,
-                CreatedDate = DateTime.Now
-            };
+        //    Client onibaraTuntun = new Client { FirstName = model.FirstName,
+        //        //EmailAddress = model.EmailAddress,
+        //        //LastName = model.LastName,
+        //        //PhoneNumber = model.PhoneNumber,
+        //        //IdcardNo = model.IdcardNo,
+        //        //PicturePath = model.PicturePath,
+        //        //Address = model.Address,
+        //        //State = model.State,
+        //        //CreatedDate = DateTime.Now
+        //    };
 
-            Client koOnibaraTuntun = await _onibaraRepository.CreateAsync(onibaraTuntun);
+        //    //Client koOnibaraTuntun = await _onibaraRepository.CreateAsync(onibaraTuntun);
             
-            return CreatedAtAction(nameof(Onibarayi), new { id = koOnibaraTuntun.Id }, koOnibaraTuntun);
-        }
+        //    //return CreatedAtAction(nameof(Onibarayi), new { id = koOnibaraTuntun.Id }, koOnibaraTuntun);
+        //}
 
         // PUT: api/Onibara/5
         [HttpPut(ApiRoute.Client.Update)]

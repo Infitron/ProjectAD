@@ -27,12 +27,17 @@ namespace ProjectADApi.Controllers.V2
     public class AccountController : ControllerBase
     {
         readonly JwtConf _jwtConf;
-        IRepository<UserLogin> _userRepository;
+        readonly IRepository<UserLogin> _userRepository;
         IRepository<UserRole> _userRole;
         UserManager<UserLogin> _userManager;
 
-        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole, UserManager<UserLogin> userManager) { _jwtConf = jwtConf; _userRepository = userRepository; _userRole = userRole;
+        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole, UserManager<UserLogin> userManager)
+        {
+            _jwtConf = jwtConf;
+            _userRole = userRole;
             _userManager = userManager;
+            _userRepository = userRepository;
+
         }
 
         // GET: api/Account
@@ -71,14 +76,14 @@ namespace ProjectADApi.Controllers.V2
                 return BadRequest(new CreateUserResponse { Success = false, ErrorMessage = "username/password validation failed" });
             }
 
-            UserLogin userExist = await _userManager.FindByEmailAsync(model.username);       
+            UserLogin userExist = await _userManager.FindByEmailAsync(model.username);
 
             if (userExist == null)
             {
-                return NotFound(new CreateUserResponse2 { ErrorMessage = new [] { "User does not exist" }, Success = false });
+                return NotFound(new CreateUserResponse2 { ErrorMessage = new[] { "User does not exist" }, Success = false });
             }
 
-            var userHasValidPassword =await _userManager.CheckPasswordAsync(userExist, model.password);
+            var userHasValidPassword = await _userManager.CheckPasswordAsync(userExist, model.password);
 
             if (!userHasValidPassword)
             {
@@ -86,7 +91,7 @@ namespace ProjectADApi.Controllers.V2
             }
 
             UserRole role = await _userRole.GetByIdAsync(userExist.RoleId);
-            CreateUserRequest userDetails = new CreateUserRequest { EmailAddress = userExist.EmailAddress };
+            CreateUserRequest userDetails = new CreateUserRequest { EmailAddress = userExist.Email };
             CreateUserResponse2 userResponse = new CreateUserResponse2 { Success = true, UserId = userExist.Id, UserRole = role.RoleName };
 
             return Ok(userResponse = GenerateAuthenticationToken(userDetails, userResponse));

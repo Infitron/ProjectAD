@@ -55,7 +55,7 @@ namespace ProjectADApi
             services.AddSingleton(_jwtVConf);
             services.AddSingleton(appVarible);
 
-            services.AddDbContext<projectadContext>();
+             services.AddDbContext<projectadContext>();
             //    (options =>
             //{
             //    options.UseSqlServer(Configuration["ApiDbConnection:DefaultConnection"]);
