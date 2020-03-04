@@ -9,6 +9,7 @@ namespace Api.Database.Model
         {
             Article = new HashSet<Article>();
             Complaint = new HashSet<Complaint>();
+            Location = new HashSet<Location>();
             Quote = new HashSet<Quote>();
             Services = new HashSet<Services>();
             UserLogin = new HashSet<UserLogin>();
@@ -18,9 +19,9 @@ namespace Api.Database.Model
         public string Status { get; set; }
         public DateTime? DateCreated { get; set; }
 
-        public virtual Location Location { get; set; }
         public virtual ICollection<Article> Article { get; set; }
         public virtual ICollection<Complaint> Complaint { get; set; }
+        public virtual ICollection<Location> Location { get; set; }
         public virtual ICollection<Quote> Quote { get; set; }
         public virtual ICollection<Services> Services { get; set; }
         public virtual ICollection<UserLogin> UserLogin { get; set; }

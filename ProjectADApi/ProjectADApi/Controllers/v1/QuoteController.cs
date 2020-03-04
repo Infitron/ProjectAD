@@ -43,38 +43,38 @@ namespace ProjectADApi.Controllers.v1
         //}
 
         // GET: api/Quote/5
-        //[HttpGet(ApiRoute.Quote.Get)]
-        //public async Task<IActionResult> ThisQuote(int projectId)
-        //{
-        //    Quote thisArticle = await _quoteRepository.GetByIdAsync(projectId);
-        //    if (thisArticle != null)
-        //        return Ok(new { status = HttpStatusCode.OK, message = thisArticle });
-        //    return NotFound(new { status = HttpStatusCode.NotFound, message = "No record found for this article" });
-        //}
+        [HttpGet(ApiRoute.Quote.Get)]
+        public async Task<IActionResult> ThisQuote(int projectId)
+        {
+            Quote thisArticle = await _quoteRepository.GetByIdAsync(projectId);
+            if (thisArticle != null)
+                return Ok(new { status = HttpStatusCode.OK, message = thisArticle });
+            return NotFound(new { status = HttpStatusCode.NotFound, message = "No record found for this article" });
+        }
 
         // POST: api/Quote
-        //[HttpPost]
-        //public async Task<IActionResult> Post([FromBody] QuoteRequest model)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
+        [HttpPost(ApiRoute.Quote.Create)]
+        public async Task<IActionResult> Post([FromBody] QuoteRequest model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
 
-        //    //Quote newQuote = new Quote
-        //    //{
-        //    //    Price = model.Price,
-        //    //    Quantity = model.Quantity,
-        //    //    Descr = model.Descr,
-        //    //    Address1 = model.Address1,
-        //    //    Item = model.Item,
-        //    //    Discount = model.Discount,
-        //    //    Vat = model.Vat,
-        //    //    ArtisanEmail = model.ArtisanEmail                
-        //    //};
+            Quote newQuote = new Quote
+            {
+                Price = model.Price,
+                Quantity = model.Quantity,
+                Descr = model.Descr,
+                Address1 = model.Address1,
+                Item = model.Item,
+                Discount = model.Discount,
+                Vat = model.Vat,
+                ArtisanId = model.ArtisanId
+            };
 
-        //    await _quoteRepository.CreateAsync(newQuote);
+            await _quoteRepository.CreateAsync(newQuote);
 
-        //    return CreatedAtAction(nameof(ThisQuote), new { id = newQuote.Id }, newQuote);
-        //}
+            return CreatedAtAction(nameof(ThisQuote), new { id = newQuote.Id }, newQuote);
+        }
 
         //// PUT: api/Quote/5
         //[HttpPut("{id}")]

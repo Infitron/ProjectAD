@@ -9,27 +9,29 @@ namespace ProjectADApi.Contract.V1.Request
 {
     public class BankDetaildRequest
     {
-        [Required(ErrorMessage ="Please enter your email")]
-        [EmailAddress(ErrorMessage ="please enter a valid email")]
-        public string EmailAddress { get; set; }
+        [Required(ErrorMessage ="Please enter your email")]        
+        public int UserId { get; set; }
 
         [Required(ErrorMessage = "Please enter your account name")]   
         public string AccountName { get; set; }
 
         [Required(ErrorMessage = "Please enter your account numer")]
         [MaxLength(10)]
-        public decimal AccountNumber { get; set; }
+        public string AccountNumber { get; set; }
 
         [Required(ErrorMessage = "Please enter your bank code")]
         [MaxLength(6)]
-        public string BankName { get; set; }
+        public string BankCode { get; set; }
 
         [Required(ErrorMessage = "Please enter your bank code")]
         [MaxLength(11)]
-        public decimal Bvn { get; set; }
+        public string Bvn { get; set; }
 
         public DateTime? CreatedDate { get; set; }
 
-       // public virtual Artisan EmailAddressNavigation { get; set; }
+        // public virtual Artisan EmailAddressNavigation { get; set; }      
+
+        //public virtual Artisan Artisan { get; set; }
+        //public virtual BankCodeLov BankCodeNavigation { get; set; }
     }
 }

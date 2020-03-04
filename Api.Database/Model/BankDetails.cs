@@ -8,11 +8,9 @@ namespace Api.Database.Model
         public int Id { get; set; }
         public int ArtisanId { get; set; }
         public string AccountName { get; set; }
+        public string AccountNumber { get; set; }
         public string BankCode { get; set; }
-        public long Bvn { get; set; }
-        public DateTime? CreatedDate { get; set; }
-
-        public virtual Artisan Artisan { get; set; }
-        public virtual BankCodeLov BankCodeNavigation { get; set; }
+        public string Bvn { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

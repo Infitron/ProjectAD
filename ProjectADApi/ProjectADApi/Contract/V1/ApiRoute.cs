@@ -25,7 +25,7 @@ namespace ProjectADApi.Contract.V1
             public const string GetAll = Base + "/Order";
             public const string Get = Base + "/Order/{id}";
             public const string Create = Base + "/Order";
-            public const string Update = Base + "/Order/{id}";
+            public const string Update = Base + "/Order";
             public const string Delete = Base + "/Order/{id}";
         }
 
@@ -100,7 +100,7 @@ namespace ProjectADApi.Contract.V1
 
         public static class Search
         {
-            public const string Get = Base + "/Search/{CatId}/{LocationId}";
+            public const string Get = Base + "/Search";
         }
 
         public static class Service
@@ -119,6 +119,30 @@ namespace ProjectADApi.Contract.V1
             public const string Create = Base + "/Location";
             public const string Update = Base + "/Location";
             public const string Delete = Base + "/Location/{id}";
+        }
+
+        public static class Payment
+        {
+            public const string InitCardPay = Base + "/Payment";
+            public const string AuthenticatePin = Base + "/Payment/authPin";
+        }
+
+        public static class BankCode
+        {
+            public const string GetAll = Base + "/BankCode";
+            public const string Get = Base + "/BankCode/{id}";
+            public const string Create = Base + "/BankCode";
+            public const string Update = Base + "/BankCode/{id}";
+            public const string Delete = Base + "/BankCode/{id}";
+        }
+
+        public static class Gallery
+        {
+            public const string GetAll = Base + "/Gallery/{UserId}";
+            public const string GetAllProjectGallery = Base + "/Gallery";
+            public const string Create = Base + "/Gallery";
+            //public const string Update = Base + "/Gallery/{id}";
+            //public const string Delete = Base + "/Gallery/{id}";
         }
 
 

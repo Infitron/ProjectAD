@@ -39,7 +39,7 @@ namespace Api.Database.Model
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("server=103.108.220.238;database=projectad;user id=dbAd; password=8Y#3iDY:8wCcf8");
             }
         }
@@ -53,7 +53,8 @@ namespace Api.Database.Model
             {
                 entity.HasIndex(e => e.ApprovalStatusId);
 
-                entity.HasIndex(e => e.EmailAddress);
+                entity.HasIndex(e => e.UserId)
+                    .HasName("IX_Article_EmailAddress");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -68,11 +69,6 @@ namespace Api.Database.Model
 
                 entity.Property(e => e.DateApproved).HasColumnType("datetime");
 
-                entity.Property(e => e.EmailAddress)
-                    .IsRequired()
-                    .HasMaxLength(60)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.Title)
                     .IsRequired()
                     .HasMaxLength(100)
@@ -82,7 +78,13 @@ namespace Api.Database.Model
                     .WithMany(p => p.Article)
                     .HasForeignKey(d => d.ApprovalStatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Article_ArticleStatusLOV");
+                    .HasConstraintName("FK_Article_LOV");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Article)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Article_UserLogin");
             });
 
             modelBuilder.Entity<Artisan>(entity =>
@@ -100,11 +102,6 @@ namespace Api.Database.Model
                 entity.Property(e => e.Address)
                     .IsRequired()
                     .HasMaxLength(150)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.AreaLocation)
-                    .IsRequired()
-                    .HasMaxLength(60)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ArtisanCategoryId).HasColumnName("ArtisanCategoryID");
@@ -135,17 +132,22 @@ namespace Api.Database.Model
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
+                entity.Property(e => e.State)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.AreaLocation)
+                    .WithMany(p => p.Artisan)
+                    .HasForeignKey(d => d.AreaLocationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Artisan_Location");
+
                 entity.HasOne(d => d.ArtisanCategory)
                     .WithMany(p => p.Artisan)
                     .HasForeignKey(d => d.ArtisanCategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Artisan_Catg");
-
-                entity.HasOne(d => d.State)
-                    .WithMany(p => p.Artisan)
-                    .HasForeignKey(d => d.StateId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Artisan_Location");
             });
 
             modelBuilder.Entity<ArtisanCategories>(entity =>
@@ -202,7 +204,7 @@ namespace Api.Database.Model
                     .IsUnique();
 
                 entity.Property(e => e.Bankcode)
-                    .HasMaxLength(60)
+                    .HasMaxLength(10)
                     .ValueGeneratedNever();
 
                 entity.Property(e => e.BankName)
@@ -210,7 +212,9 @@ namespace Api.Database.Model
                     .HasMaxLength(70)
                     .IsUnicode(false);
 
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.Id)
                     .HasColumnName("id")
@@ -226,25 +230,20 @@ namespace Api.Database.Model
                     .HasMaxLength(80)
                     .IsUnicode(false);
 
+                entity.Property(e => e.AccountNumber).HasMaxLength(110);
+
                 entity.Property(e => e.BankCode)
                     .IsRequired()
-                    .HasMaxLength(60);
+                    .HasMaxLength(10);
 
-                entity.Property(e => e.Bvn).HasColumnName("BVN");
+                entity.Property(e => e.Bvn)
+                    .IsRequired()
+                    .HasColumnName("BVN")
+                    .HasMaxLength(11);
 
-                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Artisan)
-                    .WithMany(p => p.BankDetails)
-                    .HasForeignKey(d => d.ArtisanId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_BankDetails_Artisan");
-
-                entity.HasOne(d => d.BankCodeNavigation)
-                    .WithMany(p => p.BankDetails)
-                    .HasForeignKey(d => d.BankCode)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_BankDetails_BankDetails");
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
             });
 
             modelBuilder.Entity<Booking>(entity =>
@@ -389,9 +388,7 @@ namespace Api.Database.Model
 
             modelBuilder.Entity<Location>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasColumnName("ID")
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Area)
                     .HasMaxLength(100)
@@ -410,9 +407,9 @@ namespace Api.Database.Model
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.IdNavigation)
-                    .WithOne(p => p.Location)
-                    .HasForeignKey<Location>(d => d.Id)
+                entity.HasOne(d => d.Status)
+                    .WithMany(p => p.Location)
+                    .HasForeignKey(d => d.StatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Location_LOV");
             });

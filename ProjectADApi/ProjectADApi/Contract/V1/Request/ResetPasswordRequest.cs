@@ -9,13 +9,14 @@ namespace ProjectADApi.Contract.V1.Request
     public class ResetPasswordRequest
     {
         [Required]
-        [EmailAddress]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
 
         public string Email { get; set; }
-        [Required]
-
-        public string NewPassword { get; set; }
-        [Compare("NewPassword", ErrorMessage ="Password Mismatch")]
-        public string ConfrimNewPassword { get; set; }
+        public string Token { get; set; }
     }
 }

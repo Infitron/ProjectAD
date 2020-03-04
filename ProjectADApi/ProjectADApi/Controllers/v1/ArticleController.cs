@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
@@ -24,96 +25,71 @@ namespace ProjectADApi.Controllers.v1
         public ArticleController(IRepository<Article> articleRepository) => _articleRepository = articleRepository;
 
 
-        /// <summary>Gets all article submitted. This action would be performed by the admin </summary>
-        /// 
+
         // GET: api/Article
         [HttpGet(ApiRoute.Article.GetAll)]
         public async Task<IActionResult> GetAll()
         {
-            IEnumerable<Article> AllArticle = await _articleRepository.GetAllAsync();
-            if (AllArticle.Any())             
-                return Ok(AllArticle);
-            return NoContent();            
+            IEnumerable<Article> AllArticle = await _articleRepository.GetAllAsync().ContinueWith((result) => {
+                return result.Result.Where(x => x.ApprovalStatusId.Equals((int)AppStatus.Approved));
+            });
+
+            if (AllArticle.Any())
+                return Ok(new { status = HttpStatusCode.OK, message = AllArticle });
+            return NoContent();
         }
 
-
-        /// <summary>Gets an article submitted by the id </summary>
-        /// 
-        /// <remarks> 
-        ///  
-        /// </remarks>
-        /// <param name="id"></param>
-        /// 
         // GET: api/Article/5
         [HttpGet(ApiRoute.Article.Get)]
         public async Task<IActionResult> ThisArticle(int id)
         {
-            Article thisArticle = await _articleRepository.GetAllAsync().ContinueWith((result) => {
+            Article thisArticle = await _articleRepository.GetAllAsync().ContinueWith((result) =>
+            {
                 return result.Result.SingleOrDefault(x => x.Id == id);
             });
+
             if (thisArticle != null)
-                return Ok(thisArticle);
-            return NotFound(new { message = "No record found for this article"});
+                return Ok(new { status = HttpStatusCode.OK, message = thisArticle });
+            return BadRequest(new { status = HttpStatusCode.BadRequest, message = "No record found for this article" });
         }
 
-
-        /// <summary>Create/Submit new Article </summary> 
-        /// <remarks> 
-        ///  Sample Request: 
-        ///     POST api/v1/Article
-        ///       {
-        ///         "title": null,
-        ///         "emailAddress": null,
-        ///         "articleBody": null     
-        ///       }
-        ///  </remarks>
-        /// 
         // POST: api/Article
         [HttpPost(ApiRoute.Article.Create)]
         public async Task<IActionResult> Post([FromBody] ArticleRequest model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
+
             Article newArticle = new Article
             {
                 Title = model.Title,
-                EmailAddress = model.EmailAddress,
+                UserId = model.UserId,
                 ArticleBody = model.ArticleBody,
                 DateApproved = DateTime.Now,
                 CreatedDate = DateTime.Now,
-                ApprovalStatusId = (int)AppStatus.Pending                
+                ApprovalStatusId = (int)AppStatus.Submitted
             };
 
             await _articleRepository.CreateAsync(newArticle);
-            
-           return CreatedAtAction(nameof(ThisArticle), new { id = newArticle.Id }, newArticle);          
+
+            return CreatedAtAction(nameof(ThisArticle), new { id = newArticle.Id }, newArticle);
 
         }
 
-
-        /// <summary>Updates an article </summary>
-        /// 
-        /// <remarks> 
-        ///  
-        /// </remarks>
-        /// <param name="model"></param>
-        /// 
         // PUT: api/Article/5
         [HttpPut(ApiRoute.Article.Update)]
-        public async Task<IActionResult> Put([FromBody]Article model)
+        public async Task<IActionResult> Put(int id, [FromBody]Article model)
         {
             Article thisArticle = await _articleRepository.GetByIdAsync(model.Id);
             if (thisArticle == null)
-                return NotFound(new { message = "This article was not found"});
+                return NotFound(new { status = HttpStatusCode.NotFound, message = "This article was not found" });
 
+            thisArticle.ArticleBody = model.ArticleBody;
             thisArticle.ApprovalStatusId = model.ApprovalStatusId;
 
             await _articleRepository.UpdateAsync(thisArticle);
-            return Ok(new { message = "Ate has been updated" });
+            return Ok(new { status = HttpStatusCode.OK, message = "Ate has been updated" });
         }
 
-        // DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

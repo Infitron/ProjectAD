@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
@@ -30,18 +31,17 @@ namespace ProjectADApi.Controllers.v1
         // GET: api/Search/5
         [HttpGet(ApiRoute.Search.Get)]
         [Produces("application/json")]
-        public async Task<IActionResult> DoSearch(int CatId, string LocationId)
+        public async Task<IActionResult> DoSearch(int CatId, int LocationId)
         {
-            IEnumerable<Artisan> foundArtisan = await _artisanRepository.GetAllAsync().ContinueWith((result) =>
-            {
-                return result.Result.Where(x => x.ArtisanCategoryId.Equals(CatId) && x.AreaLocation.Equals(LocationId));
-            });
+            var AllArtisan = await _artisanRepository.GetAllAsync();
 
-            if (foundArtisan.Any())
+            var matchedArtisan = AllArtisan.Where(x => x.ArtisanCategoryId ==CatId && x.AreaLocationId==LocationId).ToList(); 
+
+            if (matchedArtisan.Any())
             {
-                return Ok(foundArtisan);
+                return Ok(new { status = HttpStatusCode.OK, Message = matchedArtisan});
             }
-            return NotFound(new List<Artisan>());
+            return NotFound(new { status = HttpStatusCode.NotFound, message = new List<Artisan>() });
         }
 
         // POST: api/Search

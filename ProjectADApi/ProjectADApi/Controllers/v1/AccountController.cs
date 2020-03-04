@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
+using Api.EmailService;
+using Api.EmailService.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +22,7 @@ using ProjectADApi.Contract.V1.Response;
 using ProjectADApi.Factories;
 using ProjectADApi.Factories.V1.UserFactory;
 
-namespace ProjectADApi.Controllers.V2
+namespace ProjectADApi.Controllers.V1
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -28,45 +30,38 @@ namespace ProjectADApi.Controllers.V2
     {
         readonly JwtConf _jwtConf;
         readonly IRepository<UserLogin> _userRepository;
-        IRepository<UserRole> _userRole;
-        UserManager<UserLogin> _userManager;
+        readonly IRepository<UserRole> _userRole;
+        readonly UserManager<UserLogin> _userManager;
+        readonly IEmailSender _emailSender;
 
-        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole, UserManager<UserLogin> userManager)
+        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole, UserManager<UserLogin> userManager, IEmailSender emailSender)
         {
             _jwtConf = jwtConf;
             _userRole = userRole;
             _userManager = userManager;
             _userRepository = userRepository;
-
+            _emailSender = emailSender;
         }
 
-        // GET: api/Account
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
-
-        /// <summary> Logs in a user. </summary>
+        // POST: api/V1/Account
+        /// <summary>
+        /// Use login, authenticat registered users on the plarform
+        /// </summary>
         /// 
-        /// <remarks> 
-        ///  Sample Request: 
-        ///     POST api/v1/Login
-        ///       {
-        ///          "Username" : "segun@bluecollar.com",
-        ///          "Password" :  "password"
-        ///       }
-        /// sample Responsw:
-        ///      { 
-        ///        "Success" : true,
-        ///        "Token" : "token string",
-        ///        "ErrorMessage" : "reason for a failed login",
-        ///        "UserId" : "user uniques id",
-        ///        "UserRole" : "the user role"
-        ///      }
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST api/Account/Login
+        ///     
+        ///     {        
+        ///       "Username": "info@bluecollar.com.ng",
+        ///       "Password": "@infoBlue1"
+        ///     }
+        ///     
         /// </remarks>
         /// 
-        // POST: api/Account/5
+        /// <param name="model"></param>  
+        ///
         [Route("[action]")]
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginRequest model)
@@ -90,6 +85,7 @@ namespace ProjectADApi.Controllers.V2
                 return NotFound(new CreateUserResponse2 { ErrorMessage = new[] { "User does not exist" }, Success = false });
             }
 
+
             UserRole role = await _userRole.GetByIdAsync(userExist.RoleId);
             CreateUserRequest userDetails = new CreateUserRequest { EmailAddress = userExist.Email };
             CreateUserResponse2 userResponse = new CreateUserResponse2 { Success = true, UserId = userExist.Id, UserRole = role.RoleName };
@@ -98,6 +94,32 @@ namespace ProjectADApi.Controllers.V2
         }
 
         // POST: api/Account
+        /// <summary>
+        /// 
+        /// Register a new user on the platform
+        /// Password must have at least one special character,
+        /// one upper case character and
+        /// a digit between 0-9
+        /// 
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST api/Account/Register
+        ///     
+        ///     {
+        ///       "EmailAddress": "info@bluecollar.com.ng",
+        ///       "Password": "@infoBlue1",
+        ///       "CreationDate": 2020/2/10,
+        ///       "RoleId": 1,
+        ///       "UserName": "BlueCollarHub"
+        ///     }
+        ///     
+        /// </remarks>
+        /// 
+        /// <param name="model"></param>  
+        ///
         [Route("[action]")]
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] CreateUserRequest model)
@@ -121,7 +143,25 @@ namespace ProjectADApi.Controllers.V2
             return Ok(userCreator);
         }
 
+        /// <summary>
+        /// 
+        /// Display all registered user/login details on the platofrm
+        /// 
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     GET api/Account/AllUserLogin
+        ///     
+        /// </remarks>
+        /// 
+        /// <response code="201">Returns all Registered users</response>
+        /// <response code="204">Return not content found </response>
+        ///
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(204)]
         [Route("[action]")]
         [HttpGet]
         [Produces("application/json")]
@@ -133,20 +173,79 @@ namespace ProjectADApi.Controllers.V2
             {
                 return Ok(allUser.OrderBy(x => x.Id));
             }
-            return NotFound();
+            return NoContent();
         }
 
-        // PUT: api/Account/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
 
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        /// <summary>
+        /// 
+        ///   Initiate a password reset when a user forget his/her password
+        /// 
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// Sample request:
+        /// 
+        ///     POST api/Account/ForgotPassword
+        ///     
+        ///     {
+        ///         "Email" : "User registered email"
+        ///     }
+        ///     
+        /// </remarks>
+        ///         
+        ///
+        [Route("[action]")]
+        [HttpPost]
+      
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            //if (user == null)
+            //    return RedirectToAction(nameof(ForgotPasswordConfirmation));
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var callback = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, "https://bluecollallarhub.com.ng");
+
+           
+
+            var message = new Message(new string[] { model.Email }, "Reset password token", callback, null);
+            await _emailSender.SendEmailAsync(message);
+
+            return Ok(new { status = HttpStatusCode.OK, message = "A reset password mail has been sent to your registered email"});
+        }
+
+        [Route("[action]")]
+        [HttpPost]
+    
+        public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordRequest model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                RedirectToAction(nameof(ResetPassword));
+
+            var resetPassResult = await _userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
+            if (!resetPassResult.Succeeded)
+            {
+                foreach (var error in resetPassResult.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+
+                return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "Password Reset Failed", Data = resetPassResult.Errors.Select(x => x.Description)});
+            }
+
+            return Ok(new { status = HttpStatusCode.OK, message = "Your Pass word has been reset" });
+
+        }   
+
 
         private CreateUserResponse2 GenerateAuthenticationToken(CreateUserRequest model, CreateUserResponse2 thisUser)
         {

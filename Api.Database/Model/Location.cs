@@ -17,7 +17,7 @@ namespace Api.Database.Model
         public int StatusId { get; set; }
         public DateTime? CreatedDate { get; set; }
 
-        public virtual Lov IdNavigation { get; set; }
+        public virtual Lov Status { get; set; }
         public virtual ICollection<Artisan> Artisan { get; set; }
     }
 }

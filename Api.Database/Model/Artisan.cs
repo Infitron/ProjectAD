@@ -8,7 +8,6 @@ namespace Api.Database.Model
         public Artisan()
         {
             ArtisanServices = new HashSet<ArtisanServices>();
-            BankDetails = new HashSet<BankDetails>();
             Booking = new HashSet<Booking>();
             Gallary = new HashSet<Gallary>();
             PaymentHistory = new HashSet<PaymentHistory>();
@@ -22,20 +21,19 @@ namespace Api.Database.Model
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
-        public string AreaLocation { get; set; }
+        public int AreaLocationId { get; set; }
         public string IdcardNo { get; set; }
         public string PicturePath { get; set; }
         public string Address { get; set; }
         public int ArtisanCategoryId { get; set; }
-        public int StateId { get; set; }
+        public string State { get; set; }
         public string AboutMe { get; set; }
         public DateTime? CreatedDate { get; set; }
 
+        public virtual Location AreaLocation { get; set; }
         public virtual ArtisanCategories ArtisanCategory { get; set; }
-        public virtual Location State { get; set; }
         public virtual Quote Quote { get; set; }
         public virtual ICollection<ArtisanServices> ArtisanServices { get; set; }
-        public virtual ICollection<BankDetails> BankDetails { get; set; }
         public virtual ICollection<Booking> Booking { get; set; }
         public virtual ICollection<Gallary> Gallary { get; set; }
         public virtual ICollection<PaymentHistory> PaymentHistory { get; set; }

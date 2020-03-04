@@ -9,10 +9,9 @@ namespace ProjectADApi.Contract.V1.Request
 {
     public class ServiceRequest
     {
-       
+
         [Required]
-        [EmailAddress]
-        public string ArtisanEmail { get; set; }
+        public int ArtisanId { get; set; }
 
         [Required]
         public string ServiceName { get; set; }
@@ -21,7 +20,7 @@ namespace ProjectADApi.Contract.V1.Request
         public string Descriptions { get; set; }
 
         [Required]
-        public int StatusId { get; set; }       
+        public int StatusId { get; set; }
 
         //public virtual Artisan ArtisanEmailNavigation { get; set; }
         //public virtual ServiceLov Status { get; set; }

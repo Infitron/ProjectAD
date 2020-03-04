@@ -8,8 +8,8 @@ namespace ProjectADApi.Contract.Request
 {
     public class RatingRequest
     {
-        public string ClientEmail { get; set; }
-        public string ArtisanEmail { get; set; }
+        public int ClientId { get; set; }
+        public int ArtisanId { get; set; }
         public DateTime JobStartDate { get; set; }
         public DateTime JobEndDate { get; set; }
         public string Description { get; set; }

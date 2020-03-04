@@ -81,11 +81,5 @@ namespace ProjectADApi.Controllers.v1
 
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No record  exist for the category specified" });
         }
-
-        // DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

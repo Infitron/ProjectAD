@@ -64,7 +64,7 @@ namespace ProjectADApi.Controllers
             
 
             if (thisArtsan == null)
-                return NotFound(new { status = HttpStatusCode.NotFound, message = "We could not find the artisan you requested" });
+                return BadRequest(new { status = HttpStatusCode.BadRequest, message = "We could not find the artisan you requested" });
 
             List<Quote> allQuoteRaised = await _quoteRepository.GetAllAsync().ContinueWith((result) =>
             {
@@ -132,16 +132,14 @@ namespace ProjectADApi.Controllers
                 IdcardNo = model.IdcardNo,
                 PicturePath = model.PicturePath,
                 Address = model.Address,
-                StateId = model.StateId,
+                State = model.State,
                 ArtisanCategoryId = model.ArtisanCategoryId,
-                AreaLocation = model.AreaLocation,                
+                AreaLocationId = model.AreaLocationId,                
                 AboutMe = model.AboutMe,
-                UserId  = model.UserId
-                
+                UserId  = model.UserId                
             };
             Artisan kooniseOwoTuntun = await _artisanRepository.CreateAsync(newArtisan);
-            return CreatedAtAction(nameof(ThisArtisan), new { id = newArtisan.Id }, kooniseOwoTuntun);
-           
+            return CreatedAtAction(nameof(ThisArtisan), new { id = newArtisan.Id }, new { status = HttpStatusCode.Created, message = kooniseOwoTuntun });           
         }
 
         // PUT: api/OniseOwo/5

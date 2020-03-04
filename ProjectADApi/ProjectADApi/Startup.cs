@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Implementation;
 using Api.Database.Model;
-using AutoMapper;
+using Api.EmailService.Core;
+using Api.EmailService.EmailConfig;
+using EncryptionService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,7 +26,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProjectADApi.ApiConfig;
+using ProjectADApi.Core;
 using ProjectADApi.Extensions;
+using ProjectADApi.Implementation;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ProjectADApi
@@ -42,20 +46,36 @@ namespace ProjectADApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(Startup));
+            
            // services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
             JwtConf _jwtVConf = new JwtConf();
             AppVariable appVarible = new AppVariable();
+            FlutterRaveConf _flutterRaveConf = new FlutterRaveConf();
+            RavePaymentDataEncryption _ravePaymentDataEncryption = new RavePaymentDataEncryption();
+            EmailConfiguration _emailConfiguration = new EmailConfiguration();
+            
 
             Configuration.Bind(nameof(JwtConf), _jwtVConf);
             Configuration.Bind(nameof(AppVariable), appVarible);
+            Configuration.Bind(nameof(FlutterRaveConf), _flutterRaveConf);
+            Configuration.Bind(nameof(RavePaymentDataEncryption), _ravePaymentDataEncryption);
+            Configuration.Bind(nameof(EmailConfiguration), _emailConfiguration);
+
 
             services.AddSingleton(_jwtVConf);
             services.AddSingleton(appVarible);
+            services.AddHttpClient<IRaveClient, RaveClientService>();
+            services.AddSingleton<IPaymentDataEncryption, RavePaymentDataEncryption>();
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddSingleton(_ravePaymentDataEncryption);
+            services.AddSingleton(_flutterRaveConf);
+            services.AddSingleton(_emailConfiguration);
 
-             services.AddDbContext<projectadContext>();
+            
+
+            services.AddDbContext<projectadContext>();
             //    (options =>
             //{
             //    options.UseSqlServer(Configuration["ApiDbConnection:DefaultConnection"]);
@@ -109,13 +129,9 @@ namespace ProjectADApi
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 x.IncludeXmlComments(xmlPath);
 
-
-
                 var security = new Dictionary<string, IEnumerable<string>> {
                     {"Bearer", new string[0] }
                 };
-
-               
 
                 x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -158,19 +174,21 @@ namespace ProjectADApi
             SwaggerConf _swaggerConf = new SwaggerConf();
             Configuration.GetSection(nameof(SwaggerConf)).Bind(_swaggerConf);
 
-            app.UseSwagger(option => { option.RouteTemplate = _swaggerConf.JsonRoute; });
+            app.UseSwagger(option => {
+                option.RouteTemplate = _swaggerConf.JsonRoute;
+            });
             app.UseSwaggerUI(option =>
             {
                 option.SwaggerEndpoint(_swaggerConf.UIEndpoint, _swaggerConf.Description);
                 option.RoutePrefix = string.Empty;
             });
 
-            app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"ArtisanGallery")),
-                RequestPath = new PathString("/ArtisanGallery")
-            });
+            //app.UseStaticFiles();
+            //app.UseStaticFiles(new StaticFileOptions()
+            //{
+            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"ArtisanGallery")),
+            //    RequestPath = new PathString("/ArtisanGallery")
+            //});
 
             app.UseHttpsRedirection();
             app.UseMvc();

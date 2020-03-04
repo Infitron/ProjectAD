@@ -23,7 +23,9 @@ namespace ProjectADApi.ApiConfig
         Active = 4,
         Dismissed = 5,
         Resolved = 6,
-        Completed = 7
+        Completed = 7,
+        Submitted = 8,
+        Initiated = 9
     }
 
     public enum AppUsers

@@ -37,61 +37,61 @@ namespace ProjectADApi.Controllers
         //}
 
         // GET: api/Rating/5
-        //[Route("[action]/{id}")]        
-        //[HttpGet(ApiRoute.Rating.Get)]
-        //public async Task<IActionResult> IwontunWonsimi(int id)
-        //{
-        //    Artisan waOniseOwo = await _artisanRepository.GetByIdAsync(id);
+        [Route("[action]/{id}")]
+        [HttpGet(ApiRoute.Rating.Get)]
+        public async Task<IActionResult> IwontunWonsimi(int id)
+        {
+            Artisan waOniseOwo = await _artisanRepository.GetByIdAsync(id);
 
-        //    if (waOniseOwo == null)
-        //        return NotFound(new { status = HttpStatusCode.NotFound, Message = "We could not fine this user" });
+            if (waOniseOwo == null)
+                return NotFound(new { status = HttpStatusCode.NotFound, Message = "We could not fine this user" });
 
-        //    IEnumerable<Rating> rating = await _ratingRepository.GetAllAsync().ContinueWith((result) =>
-        //    {
-        //        return result.Result.Where(x => x.ArtisanEmail.Equals(waOniseOwo.Id)).ToList();
-        //    });
+            IEnumerable<Rating> rating = await _ratingRepository.GetAllAsync().ContinueWith((result) =>
+            {
+                return result.Result.Where(x => x.ArtisanEmail.Equals(waOniseOwo.Id)).ToList();
+            });
 
-        //    if (rating == null)
-        //    {
-        //        return NotFound(new { status = HttpStatusCode.NotFound, Message = "We could not fine this user" });
-        //    }
+            if (rating == null)
+            {
+                return NotFound(new { status = HttpStatusCode.NotFound, Message = "We could not fine this user" });
+            }
 
-        //    List<Rating> myratin = await _ratingRepository.GetAllAsync().ContinueWith((result) =>
-        //   {
-        //       return result.Result.Where(x => x.ArtisanEmail.Equals(waOniseOwo.Id)).ToList();
-        //   });
+            List<Rating> myratin = await _ratingRepository.GetAllAsync().ContinueWith((result) =>
+           {
+               return result.Result.Where(x => x.ArtisanEmail.Equals(waOniseOwo.Id)).ToList();
+           });
 
-        //    if (myratin.Any())
-        //    {
-        //        return Ok(myratin);
-        //    }
-        //    return NotFound(new { status = HttpStatusCode.NotFound, Message = "No rating/Comment fount for this artisan" });
-        //}
+            if (myratin.Any())
+            {
+                return Ok(myratin);
+            }
+            return NotFound(new { status = HttpStatusCode.NotFound, Message = "No rating/Comment fount for this artisan" });
+        }
 
         // POST: api/Rating
-        //[HttpPost(ApiRoute.Rating.Create)]
-        //public async Task<IActionResult> Post([FromBody] RatingRequest model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        [HttpPost(ApiRoute.Rating.Create)]
+        public async Task<IActionResult> Post([FromBody] RatingRequest model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    Rating IwontunWonsiTuntun = new Rating
-        //    {
-        //        ArtisanEmail = model.ArtisanEmail,
-        //        ClientEmail = model.ClientEmail,
-        //        Description = model.Description,
-        //        Remarks = model.Remarks,
-        //        Rating1 = model.Rating1,
-        //        JobEndDate = model.JobEndDate,
-        //        JobStartDate = model.JobStartDate,
-        //        ProjectId = model.ProjectId
-        //    };
+            Rating IwontunWonsiTuntun = new Rating
+            {
+                ArtisanId = model.ArtisanId,
+                ClientId = model.ClientId,
+                Description = model.Description,
+                Remarks = model.Remarks,
+                Rating1 = model.Rating1,
+                JobEndDate = model.JobEndDate,
+                JobStartDate = model.JobStartDate,
+                ProjectId = model.ProjectId
+            };
 
-        //    Rating iwontunWonsiTutun = await _ratingRepository.CreateAsync(IwontunWonsiTuntun);
-        //    return CreatedAtAction(nameof(IwontunWonsimi), new { id = iwontunWonsiTutun.Id }, iwontunWonsiTutun);
-        //}
+            Rating iwontunWonsiTutun = await _ratingRepository.CreateAsync(IwontunWonsiTuntun);
+            return CreatedAtAction(nameof(IwontunWonsimi), new { id = iwontunWonsiTutun.Id }, iwontunWonsiTutun);
+        }
 
         // PUT: api/Rating/5
         //[HttpPut("{id}")]
