@@ -11,12 +11,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
+using ProjectADApi.Contract.V1.Response;
 
 namespace ProjectADApi.Controllers.v1
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
+   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ArtisanCategoryController : ControllerBase
     {
         readonly private IRepository<ArtisanCategories> _artisanCatergoryRepository;
@@ -30,7 +30,18 @@ namespace ProjectADApi.Controllers.v1
             IEnumerable<ArtisanCategories> allCategory = await _artisanCatergoryRepository.GetAllAsync();
 
             if (allCategory != null)
-                return Ok(new { status = HttpStatusCode.OK, message = allCategory });
+            {
+                List<ArtisanCategoryResponse> allACategoryResponse = allCategory.Select(x => new ArtisanCategoryResponse
+                {
+                    Id = x.Id,
+                    CategoryName = x.CategoryName,
+                    SubCategories = x.SubCategories,
+                    CreatedDate = x.CreatedDate
+                }).ToList();
+
+                return Ok(new { status = HttpStatusCode.OK, message = allACategoryResponse });
+            }
+
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
         }
 
@@ -38,12 +49,18 @@ namespace ProjectADApi.Controllers.v1
         [HttpGet(ApiRoute.ACategory.Get)]
         public async Task<IActionResult> GetThisCategory(int id)
         {
-            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetAllAsync().ContinueWith((result) =>
+            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByIdAsync(id);
+
+            ArtisanCategoryResponse _thisCategory = new ArtisanCategoryResponse
             {
-                return result.Result.SingleOrDefault(x => x.Id == id);
-            });
+                Id = thisCategory.Id,
+                CategoryName = thisCategory.CategoryName,
+                SubCategories = thisCategory.SubCategories,
+                CreatedDate = thisCategory.CreatedDate
+            };
+
             if (thisCategory != null)
-                return Ok(new { status = HttpStatusCode.OK, message = thisCategory });
+                return Ok(new { status = HttpStatusCode.OK, message = _thisCategory });
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No record found" });
         }
 
@@ -52,16 +69,15 @@ namespace ProjectADApi.Controllers.v1
         public async Task<IActionResult> Post([FromBody] ArCatergoryRequest model)
         {
             ArtisanCategories addNew = new ArtisanCategories
-            {                
+            {
                 CategoryName = model.CategoryName,
                 SubCategories = model.SubCategories,
                 CreatedDate = DateTime.Now
-
             };
 
             var isAdded = await _artisanCatergoryRepository.CreateAsync(addNew);
 
-            return CreatedAtAction(nameof(GetThisCategory), new { id = isAdded.Id }, isAdded);
+            return CreatedAtAction(nameof(GetThisCategory), new { id = isAdded.Id }, new { status = HttpStatusCode.Created, message = isAdded });
         }
 
         // PUT: api/ArtisanCategory/5
@@ -70,9 +86,9 @@ namespace ProjectADApi.Controllers.v1
         {
             ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByIdAsync(id);
             if (thisCategory != null)
-            {                
+            {
                 thisCategory.CategoryName = model.CategoryName;
-                thisCategory.SubCategories = model.SubCategories;               
+                thisCategory.SubCategories = model.SubCategories;
 
                 await _artisanCatergoryRepository.UpdateAsync(thisCategory);
 

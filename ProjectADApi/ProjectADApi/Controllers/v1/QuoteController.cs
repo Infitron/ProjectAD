@@ -73,7 +73,7 @@ namespace ProjectADApi.Controllers.v1
 
             await _quoteRepository.CreateAsync(newQuote);
 
-            return CreatedAtAction(nameof(ThisQuote), new { id = newQuote.Id }, newQuote);
+            return CreatedAtAction(nameof(ThisQuote), new { id = newQuote.Id }, new { status = HttpStatusCode.Created, message = newQuote });
         }
 
         //// PUT: api/Quote/5

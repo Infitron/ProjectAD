@@ -32,6 +32,7 @@ namespace ProjectADApi.ApiConfig
     {
         Artisan,
         Client,
+        Admin
        
     }
 }

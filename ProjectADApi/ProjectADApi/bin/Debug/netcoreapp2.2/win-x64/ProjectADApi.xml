@@ -67,7 +67,7 @@
              </remarks>
              
              <response code="201">Returns all Registered users</response>
-             <response code="204">Return not content found </response>
+             <response code="204">Return no content found </response>
             
         </member>
         <member name="M:ProjectADApi.Controllers.V1.AccountController.ForgotPassword(ProjectADApi.Contract.V1.Request.ForgotPasswordRequest)">

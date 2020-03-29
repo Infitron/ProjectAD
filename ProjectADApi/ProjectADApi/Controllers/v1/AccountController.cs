@@ -28,19 +28,22 @@ namespace ProjectADApi.Controllers.V1
     [ApiController]
     public class AccountController : ControllerBase
     {
+      
         readonly JwtConf _jwtConf;
         readonly IRepository<UserLogin> _userRepository;
         readonly IRepository<UserRole> _userRole;
         readonly UserManager<UserLogin> _userManager;
         readonly IEmailSender _emailSender;
+        private readonly projectadContext _dbContext;
 
-        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole, UserManager<UserLogin> userManager, IEmailSender emailSender)
+        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole, UserManager<UserLogin> userManager, IEmailSender emailSender, projectadContext dbContext)
         {
             _jwtConf = jwtConf;
             _userRole = userRole;
             _userManager = userManager;
             _userRepository = userRepository;
             _emailSender = emailSender;
+            _dbContext = dbContext;
         }
 
         // POST: api/V1/Account
@@ -140,6 +143,7 @@ namespace ProjectADApi.Controllers.V1
             }
 
             userCreator = GenerateAuthenticationToken(model, userCreator);
+            userCreator.UserRole = getRoleName.RoleName;
             return Ok(userCreator);
         }
 
@@ -157,7 +161,7 @@ namespace ProjectADApi.Controllers.V1
         /// </remarks>
         /// 
         /// <response code="201">Returns all Registered users</response>
-        /// <response code="204">Return not content found </response>
+        /// <response code="204">Return no content found </response>
         ///
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(201)]
@@ -167,11 +171,20 @@ namespace ProjectADApi.Controllers.V1
         [Produces("application/json")]
         public async Task<IActionResult> AllUserLogin()
         {
-            var allUser = await _userRepository.GetAllAsync();
+            var allUser = await Task.Run(() => (from user in _dbContext.UserLogin
+                                                select new
+                                                {
+                                                    UserId = user.Id,
+                                                    Username = user.UserName,
+                                                    UserRole = user.Role.RoleName,
+                                                    EmailAddress = user.Email,
+                                                    DateRegisterd = user.CreationDate,
+                                                    Status = user.Status.Status
+                                                }).ToList());
 
             if (allUser.Any())
             {
-                return Ok(allUser.OrderBy(x => x.Id));
+                return Ok(new { status = HttpStatusCode.OK, message = allUser });
             }
             return NoContent();
         }
@@ -197,7 +210,7 @@ namespace ProjectADApi.Controllers.V1
         ///
         [Route("[action]")]
         [HttpPost]
-      
+
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest model)
         {
             if (!ModelState.IsValid)
@@ -210,17 +223,17 @@ namespace ProjectADApi.Controllers.V1
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callback = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, "https://bluecollallarhub.com.ng");
 
-           
+
 
             var message = new Message(new string[] { model.Email }, "Reset password token", callback, null);
             await _emailSender.SendEmailAsync(message);
 
-            return Ok(new { status = HttpStatusCode.OK, message = "A reset password mail has been sent to your registered email"});
+            return Ok(new { status = HttpStatusCode.OK, message = "A reset password mail has been sent to your registered email" });
         }
 
         [Route("[action]")]
         [HttpPost]
-    
+
         public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordRequest model)
         {
             if (!ModelState.IsValid)
@@ -239,12 +252,12 @@ namespace ProjectADApi.Controllers.V1
                     ModelState.TryAddModelError(error.Code, error.Description);
                 }
 
-                return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "Password Reset Failed", Data = resetPassResult.Errors.Select(x => x.Description)});
+                return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "Password Reset Failed", Data = resetPassResult.Errors.Select(x => x.Description) });
             }
 
             return Ok(new { status = HttpStatusCode.OK, message = "Your Pass word has been reset" });
 
-        }   
+        }
 
 
         private CreateUserResponse2 GenerateAuthenticationToken(CreateUserRequest model, CreateUserResponse2 thisUser)

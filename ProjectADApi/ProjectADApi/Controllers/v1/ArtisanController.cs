@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using ProjectADApi.Contract.Request;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
+using ProjectADApi.Contract.V1.Response;
 
 namespace ProjectADApi.Controllers
 {
@@ -27,9 +29,11 @@ namespace ProjectADApi.Controllers
         readonly IRepository<Booking> _bookingRepository;
         readonly IRepository<Gallary> _galleryRepository;
         readonly IRepository<PaymentHistory> _paymentHistoryRepository;
+        readonly IRepository<Location> _locationRepository;
+        readonly projectadContext _dbContext;
 
 
-        public ArtisanController(IRepository<Artisan> oniswOwoRepository, IRepository<Services> serviceRepository, IRepository<Projects> projectRepository, IRepository<Quote> quoteRepository, IRepository<Booking> bookingRepository, IRepository<Gallary> galleryRepository, IRepository<PaymentHistory> paymentHistoryRepository)
+        public ArtisanController(IRepository<Artisan> oniswOwoRepository, IRepository<Services> serviceRepository, IRepository<Projects> projectRepository, IRepository<Quote> quoteRepository, IRepository<Booking> bookingRepository, IRepository<Gallary> galleryRepository, IRepository<PaymentHistory> paymentHistoryRepository, projectadContext dbContext, IRepository<Location> locationRepository)
         {
             _artisanRepository = oniswOwoRepository;
             _serviceRepository = serviceRepository;
@@ -38,6 +42,8 @@ namespace ProjectADApi.Controllers
             _bookingRepository = bookingRepository;
             _galleryRepository = galleryRepository;
             _paymentHistoryRepository = paymentHistoryRepository;
+            _dbContext = dbContext;
+            _locationRepository = locationRepository;
         }
 
         // GET: api/OniseOwo
@@ -45,11 +51,36 @@ namespace ProjectADApi.Controllers
         [HttpGet(ApiRoute.Artisan.GetAll)]
         public async Task<IActionResult> AwonOniseOwo()
         {
-            IEnumerable<Artisan> awonOnibara = await _artisanRepository.GetAllAsync();
+            //IEnumerable<Artisan> awonOnibara = await _artisanRepository.GetAllAsync();
 
-            if (awonOnibara != null)
-                return Ok(new { status = HttpStatusCode.OK, message = awonOnibara });
+            //if (awonOnibara != null)
+            //    return Ok(new { status = HttpStatusCode.OK, message = awonOnibara });
+            //return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
+
+            IEnumerable<Artisan> AllArtisans = await _artisanRepository.GetAllAsync();
+
+            if (AllArtisans.Any())
+            {
+                List<ArtisanResponse> _allArtisan = AllArtisans.Select(x => new ArtisanResponse
+                {
+                    Id = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    UserId = x.UserId,
+                    PhoneNumber = x.PhoneNumber,
+                    IdcardNo = x.IdcardNo,
+                    PicturePath = x.PicturePath,
+                    Address = x.Address,
+                    Category = x.ArtisanCategory.CategoryName,
+                    State = x.State,
+                    AboutMe = x.AboutMe,
+                    CreatedDate = x.CreatedDate,
+                    AreaLocation = x.AreaLocation.Area
+                }).ToList();
+                return Ok(new { status = HttpStatusCode.OK, message = _allArtisan });
+            }
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
+
         }
 
         // GET: api/OniseOwo/5
@@ -61,62 +92,32 @@ namespace ProjectADApi.Controllers
                 return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "Artisan ID was not supplied" });
 
             Artisan thisArtsan = await _artisanRepository.GetByIdAsync(id);
-            
 
             if (thisArtsan == null)
                 return BadRequest(new { status = HttpStatusCode.BadRequest, message = "We could not find the artisan you requested" });
 
-            List<Quote> allQuoteRaised = await _quoteRepository.GetAllAsync().ContinueWith((result) =>
+            ArtisanResponse _allArtisan = new ArtisanResponse
             {
-                return result.Result.Where(x => x.ArtisanId.Equals(thisArtsan.Id)).ToList();
-            });
-
-            List<Services> allMyServices = await _serviceRepository.GetAllAsync().ContinueWith((result) =>
-            {
-                return result.Result.Where(x => x.ArtisanId.Equals(thisArtsan.Id)).ToList();
-            });
-
-            List<Booking> allMyBooking = await _bookingRepository.GetAllAsync().ContinueWith((result) =>
-            {
-                return result.Result.Where(x => x.ArtisanId.Equals(thisArtsan.Id)).ToList();
-            });
-
-            List<Gallary> myGallery = await _galleryRepository.GetAllAsync().ContinueWith((result) =>
-            {
-                return result.Result.Where(x => x.ArtisanId.Equals(thisArtsan.Id)).ToList();
-            });
-
-            List<PaymentHistory> allMyPaymentHistory = await _paymentHistoryRepository.GetAllAsync().ContinueWith((result) =>
-            {
-                return result.Result.Where(x => x.ArtisanId.Equals(thisArtsan.Id)).ToList();
-            });
-
-            List<Projects> allMyProjectDone = await _projectRepository.GetAllAsync().ContinueWith((result) =>
-            {
-                return result.Result.Where(x => x.ArtisanId.Equals(thisArtsan.Id)).ToList();
-            });
-
-            thisArtsan.Services = allMyServices.Count() > 0 ? allMyServices :  new List<Services> {
-                new Services { Id = 0, ServiceName = "N/A", ArtisanId = 0, Descriptions = "Not available", CreationDate = DateTime.Now, StatusId = 0 }
+                Id = thisArtsan.Id,
+                FirstName = thisArtsan.FirstName,
+                LastName = thisArtsan.LastName,
+                UserId = thisArtsan.UserId,
+                PhoneNumber = thisArtsan.PhoneNumber,
+                IdcardNo = thisArtsan.IdcardNo,
+                PicturePath = thisArtsan.PicturePath,
+                Address = thisArtsan.Address,
+                Category = thisArtsan.ArtisanCategory.CategoryName,
+                State = thisArtsan.State,
+                AboutMe = thisArtsan.AboutMe,
+                CreatedDate = thisArtsan.CreatedDate,
+                AreaLocation = thisArtsan.AreaLocation.Area
             };
-
-            thisArtsan.Gallary = myGallery.Count() > 0 ? myGallery :  new List<Gallary> {
-                new Gallary { Id = 0, ArtisanId = 0, CreatedDate = DateTime.Now, Descr = "Not available", JobDate = DateTime.Now, JobName = "Not available", PicturePath = "Not available" }
-            };
-            thisArtsan.Booking = allMyBooking.Count() > 0 ? allMyBooking : new List<Booking> {
-                new Booking { Id = 0, ArtisanId = 0, ClienId = 0, CreatedDate  = DateTime.Now, Messages = "Not available", MsgDate = DateTime.Now, MsgTime = DateTime.Now.TimeOfDay, ServiceId = 0, QuoteId = 0}
-            };
-            thisArtsan.PaymentHistory = allMyPaymentHistory.Count() > 0 ? allMyPaymentHistory:  new List<PaymentHistory> {
-                new PaymentHistory{ Id = 0, AmountPaid = 0.00M, ArtisanId = 0, ClientId = 0, CreatedDate = DateTime.Now, PayDate = DateTime.Now, PaymentType = "Not available", ProjectId = 0 }
-            };
-            thisArtsan.Projects = allMyProjectDone.Count() > 0 ? allMyProjectDone : new List<Projects> {
-                new Projects { Id = 0, ArtisanId = 0, ClientId = 0, CreationDate =DateTime.Now} };
-
-            return Ok(new { status = HttpStatusCode.OK, Message = thisArtsan });
+            return Ok(new { status = HttpStatusCode.OK, Message = _allArtisan });
         }
 
         // POST: api/OniseOwo
         [HttpPost(ApiRoute.Artisan.Create)]
+        [Produces("application/json")]
         public async Task<IActionResult> Post([FromBody] UserProfileRequest model)
         {
             if (!ModelState.IsValid)
@@ -134,19 +135,55 @@ namespace ProjectADApi.Controllers
                 Address = model.Address,
                 State = model.State,
                 ArtisanCategoryId = model.ArtisanCategoryId,
-                AreaLocationId = model.AreaLocationId,                
+                AreaLocationId = model.AreaLocationId,
                 AboutMe = model.AboutMe,
-                UserId  = model.UserId                
+                UserId = model.UserId,
+                CreatedDate = DateTime.Now
             };
             Artisan kooniseOwoTuntun = await _artisanRepository.CreateAsync(newArtisan);
-            return CreatedAtAction(nameof(ThisArtisan), new { id = newArtisan.Id }, new { status = HttpStatusCode.Created, message = kooniseOwoTuntun });           
+            return CreatedAtAction(nameof(ThisArtisan), new { id = newArtisan.Id }, new { status = HttpStatusCode.Created, message = kooniseOwoTuntun });
         }
 
-        // PUT: api/OniseOwo/5
-        //[HttpPut(ApiRoute.Artisan.Update)]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        //PUT: api/OniseOwo/5
+        [HttpPut(ApiRoute.Artisan.Update)]
+        public async Task<IActionResult> Put(int id, [FromBody] UserProfileRequest model)
+        {
+            Artisan thisArtisan = await _artisanRepository.GetByIdAsync(id);
+
+            if (thisArtisan == null)
+                return NotFound(new { status = HttpStatusCode.NotFound, message = "This Artisan was not found" });
+
+            thisArtisan.FirstName = model.FirstName;
+            thisArtisan.LastName = model.LastName;
+            thisArtisan.PhoneNumber = model.PhoneNumber;
+            thisArtisan.IdcardNo = model.IdcardNo;
+            thisArtisan.PicturePath = model.PicturePath;
+            thisArtisan.Address = model.Address;
+            thisArtisan.State = model.State;
+            thisArtisan.ArtisanCategoryId = model.ArtisanCategoryId;
+            thisArtisan.AreaLocationId = model.AreaLocationId;
+            thisArtisan.AboutMe = model.AboutMe;
+
+            await _artisanRepository.UpdateAsync(thisArtisan);
+
+            ArtisanResponse artisanUpdateResponse = new ArtisanResponse
+            {
+                Id = thisArtisan.Id,
+                FirstName = thisArtisan.FirstName,
+                LastName = thisArtisan.LastName,
+                UserId = thisArtisan.UserId,
+                PhoneNumber = thisArtisan.PhoneNumber,
+                IdcardNo = thisArtisan.IdcardNo,
+                PicturePath = thisArtisan.PicturePath,
+                Address = thisArtisan.Address,
+                Category = thisArtisan.ArtisanCategory.CategoryName,
+                State = thisArtisan.State,
+                AboutMe = thisArtisan.AboutMe,
+                CreatedDate = thisArtisan.CreatedDate,
+                AreaLocation = thisArtisan.AreaLocation.Area
+            };
+            return Ok(new { status = HttpStatusCode.OK, message = artisanUpdateResponse });
+        }
 
         // DELETE: api/ApiWithActions/5
         //[HttpDelete(ApiRoute.Artisan.Delete)]

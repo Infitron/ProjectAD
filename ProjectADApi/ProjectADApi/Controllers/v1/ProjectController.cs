@@ -67,7 +67,7 @@ namespace ProjectADApi.Controllers.v1
 
             await _projectRepository.CreateAsync(newProject);
 
-            return CreatedAtAction(nameof(ThisProject), new { id = newProject.Id }, newProject);
+            return CreatedAtAction(nameof(ThisProject), new { id = newProject.Id }, new { status = HttpStatusCode.Created, message = newProject });
         }
 
         // PUT: api/Project/5

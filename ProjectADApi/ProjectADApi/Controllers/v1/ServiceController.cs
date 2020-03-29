@@ -94,7 +94,7 @@ namespace ProjectADApi.Controllers.v1
 
             await _serviceRepository.CreateAsync(newServie);
 
-            return CreatedAtAction("ThisService", new { id = newServie.Id },  newServie);
+            return CreatedAtAction("ThisService", new { id = newServie.Id }, new { status = HttpStatusCode.Created, message = newServie });
         }
 
         // PUT: api/Service/5

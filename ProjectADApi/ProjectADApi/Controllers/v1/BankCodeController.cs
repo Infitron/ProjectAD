@@ -71,7 +71,7 @@ namespace ProjectADApi.Controllers.v1
             };
             await _bankCodeRepository.CreateAsync(newBankCode);
 
-            return CreatedAtAction(nameof(ThisBankCode), new { id = newBankCode.Id }, newBankCode);
+            return CreatedAtAction(nameof(ThisBankCode), new { id = newBankCode.Id }, new{status = HttpStatusCode.Created, message = newBankCode});
         }
 
         // PUT: api/BankCode/5

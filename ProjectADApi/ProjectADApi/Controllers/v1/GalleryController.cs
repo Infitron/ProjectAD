@@ -19,7 +19,7 @@ namespace ProjectADApi.Controllers.v1
 {
     //[Route("api/[controller]")]
     //[ApiController]
-    // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GalleryController : ControllerBase
     {
         readonly IRepository<Gallary> _galleryRepository;
@@ -118,7 +118,7 @@ namespace ProjectADApi.Controllers.v1
 
             await _galleryRepository.CreateAsync(newGalleryItem);
 
-            return CreatedAtAction(nameof(ProjectGallery), new { UserId = model.userId, ProjectId = model.ProjectId }, new List<Gallary> { newGalleryItem });
+            return CreatedAtAction(nameof(ProjectGallery), new { UserId = model.userId, ProjectId = model.ProjectId }, new { status = HttpStatusCode.Created, message = new List<Gallary> { newGalleryItem } });
 
 
             //string PicturePath = string.Empty;

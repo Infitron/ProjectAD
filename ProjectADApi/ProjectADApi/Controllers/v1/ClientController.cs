@@ -87,7 +87,7 @@ namespace ProjectADApi.Controllers
 
             Client koOnibaraTuntun = await _clientRepository.CreateAsync(newClient);
 
-            return CreatedAtAction(nameof(ThisClient), new { id = koOnibaraTuntun.Id }, koOnibaraTuntun);
+            return CreatedAtAction(nameof(ThisClient), new { id = koOnibaraTuntun.Id }, new { status = HttpStatusCode.Created, message = koOnibaraTuntun });
         }
 
         // PUT: api/Onibara/5

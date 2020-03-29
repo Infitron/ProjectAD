@@ -72,6 +72,7 @@ namespace ProjectADApi
             services.AddSingleton(_ravePaymentDataEncryption);
             services.AddSingleton(_flutterRaveConf);
             services.AddSingleton(_emailConfiguration);
+            services.AddSingleton(new projectadContext());
 
             
 

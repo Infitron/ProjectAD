@@ -12,3 +12,4 @@ C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp2.2\A
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp2.2\Api.Database.dll
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp2.2\Api.Database.pdb
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp2.2\Api.Database.csprojAssemblyReference.cache
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp2.2\Api.Database.genruntimeconfig.cache

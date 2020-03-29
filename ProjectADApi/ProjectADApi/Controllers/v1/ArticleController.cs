@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
+using ProjectADApi.Contract.V1.Response;
 
 namespace ProjectADApi.Controllers.v1
 {
@@ -20,36 +21,64 @@ namespace ProjectADApi.Controllers.v1
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ArticleController : ControllerBase
     {
-        readonly private IRepository<Article> _articleRepository;
+        private readonly IRepository<Article> _articleRepository;        
 
-        public ArticleController(IRepository<Article> articleRepository) => _articleRepository = articleRepository;
-
-
+        public ArticleController(IRepository<Article> articleRepository)
+        {
+            _articleRepository = articleRepository;
+            
+        }
 
         // GET: api/Article
         [HttpGet(ApiRoute.Article.GetAll)]
         public async Task<IActionResult> GetAll()
         {
-            IEnumerable<Article> AllArticle = await _articleRepository.GetAllAsync().ContinueWith((result) => {
-                return result.Result.Where(x => x.ApprovalStatusId.Equals((int)AppStatus.Approved));
+            projectadContext dbcontxt = new projectadContext();
+
+            List<ArticleResponse> AllArticle = await _articleRepository.GetAllAsync().ContinueWith((resultset) =>
+            {
+                return resultset.Result.Select(x =>
+                new ArticleResponse
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    UserName = x.User.UserName,
+                    ArticleBody = x.ArticleBody,
+                    ApprovalStatus = x.ApprovalStatus.Status,
+                    CreatedDate = x.CreatedDate,
+                    DateApproved = x.DateApproved
+                }).ToList();
             });
 
             if (AllArticle.Any())
                 return Ok(new { status = HttpStatusCode.OK, message = AllArticle });
-            return NoContent();
+            return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
         }
 
         // GET: api/Article/5
         [HttpGet(ApiRoute.Article.Get)]
         public async Task<IActionResult> ThisArticle(int id)
         {
-            Article thisArticle = await _articleRepository.GetAllAsync().ContinueWith((result) =>
-            {
-                return result.Result.SingleOrDefault(x => x.Id == id);
-            });
+            Article thisArticle = await _articleRepository.GetByIdAsync(id);
+
+            ArticleResponse articleRepsonse = null;
 
             if (thisArticle != null)
-                return Ok(new { status = HttpStatusCode.OK, message = thisArticle });
+            {
+                articleRepsonse = new ArticleResponse
+                {
+                    Id = thisArticle.Id,
+                    Title = thisArticle.Title,
+                    UserName = thisArticle.User.UserName,
+                    ArticleBody = thisArticle.ArticleBody,
+                    ApprovalStatus = thisArticle.ApprovalStatus.Status,
+                    CreatedDate = thisArticle.CreatedDate,
+                    DateApproved = thisArticle.DateApproved
+                };
+            }
+
+            if (thisArticle != null)
+                return Ok(new { status = HttpStatusCode.OK, message = articleRepsonse });
             return BadRequest(new { status = HttpStatusCode.BadRequest, message = "No record found for this article" });
         }
 
@@ -57,8 +86,7 @@ namespace ProjectADApi.Controllers.v1
         [HttpPost(ApiRoute.Article.Create)]
         public async Task<IActionResult> Post([FromBody] ArticleRequest model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
+            if (!ModelState.IsValid) return BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
 
             Article newArticle = new Article
             {
@@ -72,8 +100,7 @@ namespace ProjectADApi.Controllers.v1
 
             await _articleRepository.CreateAsync(newArticle);
 
-            return CreatedAtAction(nameof(ThisArticle), new { id = newArticle.Id }, newArticle);
-
+            return CreatedAtAction(nameof(ThisArticle), new { id = newArticle.Id }, new { status = HttpStatusCode.Created, message = newArticle });
         }
 
         // PUT: api/Article/5

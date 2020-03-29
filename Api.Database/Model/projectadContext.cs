@@ -40,7 +40,9 @@ namespace Api.Database.Model
             if (!optionsBuilder.IsConfigured)
             {
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("server=103.108.220.238;database=projectad;user id=dbAd; password=8Y#3iDY:8wCcf8");
+                optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlServer("server=103.108.220.238;database=projectad;user id=dbAd; password=8Y#3iDY:8wCcf8");
             }
         }
 

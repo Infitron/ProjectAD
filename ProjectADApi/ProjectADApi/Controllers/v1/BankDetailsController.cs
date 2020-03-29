@@ -101,7 +101,7 @@ namespace ProjectADApi.Controllers.v1
 
                 await _artisanBankDetialsRepository.CreateAsync(newProject);
 
-                return CreatedAtAction(nameof(ThisBankDetail), new { id = newProject.Id }, newProject);
+                return CreatedAtAction(nameof(ThisBankDetail), new { id = newProject.Id }, new { status = HttpStatusCode.Created, message = newProject });
             }
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "We could not the determine who this user is" });
 
