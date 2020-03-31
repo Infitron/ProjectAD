@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QCBxQa5drj1aZFrUN9i2nk0wBoPk8kbUpGWoYo2GmL+WsbTVShf2ghUO53agE10KRPfHrxL/7TX6UJ8fJJ7mfA==",
+  "dgSpecHash": "HTBmQYDU/VJIS3KqzctuGpmqvBzd3gFZPd2QHOrWiKHtxcqJ0dTzrrLt/rsfb8LmIzk0RNTzF8BYL7iEP6HUqw==",
   "success": true,
   "projectFilePath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\ProjectADApi\\ProjectADApi.csproj",
   "expectedPackageFiles": [
@@ -71,6 +71,8 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.mvc.razor.viewcompilation\\2.2.0\\microsoft.aspnetcore.mvc.razor.viewcompilation.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.mvc.razorpages\\2.2.0\\microsoft.aspnetcore.mvc.razorpages.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.mvc.taghelpers\\2.2.0\\microsoft.aspnetcore.mvc.taghelpers.2.2.0.nupkg.sha512",
+    "C:\\Users\\tesli\\.nuget\\packages\\microsoft.aspnetcore.mvc.versioning\\2.2.0\\microsoft.aspnetcore.mvc.versioning.2.2.0.nupkg.sha512",
+    "C:\\Users\\tesli\\.nuget\\packages\\microsoft.aspnetcore.mvc.versioning.apiexplorer\\2.2.0\\microsoft.aspnetcore.mvc.versioning.apiexplorer.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.mvc.viewfeatures\\2.2.0\\microsoft.aspnetcore.mvc.viewfeatures.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.nodeservices\\2.2.0\\microsoft.aspnetcore.nodeservices.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.aspnetcore.owin\\2.2.0\\microsoft.aspnetcore.owin.2.2.0.nupkg.sha512",

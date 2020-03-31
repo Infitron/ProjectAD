@@ -17,6 +17,8 @@
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
+          "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\NuGet.Config",
+          "C:\\Users\\tesli\\Documents\\NuGet.Config",
           "C:\\Users\\tesli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -25,7 +27,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.myget.org/f/aspnetwebstacknightlyrelease/": {}
         },
         "frameworks": {
           "netcoreapp2.2": {
@@ -91,6 +94,8 @@
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
+          "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\NuGet.Config",
+          "C:\\Users\\tesli\\Documents\\NuGet.Config",
           "C:\\Users\\tesli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -99,7 +104,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.myget.org/f/aspnetwebstacknightlyrelease/": {}
         },
         "frameworks": {
           "netstandard2.0": {
@@ -153,6 +159,8 @@
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
+          "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\NuGet.Config",
+          "C:\\Users\\tesli\\Documents\\NuGet.Config",
           "C:\\Users\\tesli\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -161,7 +169,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.myget.org/f/aspnetwebstacknightlyrelease/": {}
         },
         "frameworks": {
           "netcoreapp2.2": {
@@ -188,6 +197,14 @@
         "netcoreapp2.2": {
           "dependencies": {
             "Microsoft.AspNetCore.App": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Versioning": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer": {
               "target": "Package",
               "version": "[2.2.0, )"
             },

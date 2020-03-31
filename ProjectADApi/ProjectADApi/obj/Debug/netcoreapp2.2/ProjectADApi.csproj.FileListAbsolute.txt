@@ -15,7 +15,6 @@ C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\ne
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp2.2\Api.EmailService.pdb
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp2.2\EncryptionService.pdb
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Debug\netcoreapp2.2\ProjectADApi.csprojAssemblyReference.cache
-C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Debug\netcoreapp2.2\ProjectADApi.csproj.CoreCompileInputs.cache
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Debug\netcoreapp2.2\ProjectADApi.RazorAssemblyInfo.cache
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Debug\netcoreapp2.2\ProjectADApi.RazorAssemblyInfo.cs
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Debug\netcoreapp2.2\ProjectADApi.AssemblyInfoInputs.cache
@@ -25,3 +24,4 @@ C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Debug\ne
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Debug\netcoreapp2.2\ProjectADApi.dll
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Debug\netcoreapp2.2\ProjectADApi.pdb
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Debug\netcoreapp2.2\ProjectADApi.genruntimeconfig.cache
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\obj\Debug\netcoreapp2.2\ProjectADApi.csproj.CoreCompileInputs.cache

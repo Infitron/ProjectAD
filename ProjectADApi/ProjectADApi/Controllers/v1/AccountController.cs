@@ -24,7 +24,7 @@ using ProjectADApi.Factories.V1.UserFactory;
 
 namespace ProjectADApi.Controllers.V1
 {
-  
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]   
     [ApiController]
     public class AccountController : ControllerBase
