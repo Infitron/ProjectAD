@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,8 +47,8 @@ namespace ProjectADApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
-           // services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+
+            // services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
             JwtConf _jwtVConf = new JwtConf();
@@ -55,7 +56,7 @@ namespace ProjectADApi
             FlutterRaveConf _flutterRaveConf = new FlutterRaveConf();
             RavePaymentDataEncryption _ravePaymentDataEncryption = new RavePaymentDataEncryption();
             EmailConfiguration _emailConfiguration = new EmailConfiguration();
-            
+
 
             Configuration.Bind(nameof(JwtConf), _jwtVConf);
             Configuration.Bind(nameof(AppVariable), appVarible);
@@ -74,8 +75,6 @@ namespace ProjectADApi
             services.AddSingleton(_emailConfiguration);
             services.AddSingleton(new projectadContext());
 
-            
-
             services.AddDbContext<projectadContext>();
             //    (options =>
             //{
@@ -83,8 +82,6 @@ namespace ProjectADApi
             //});
             services.AddDefaultIdentity<UserLogin>()
                 .AddEntityFrameworkStores<projectadContext>();
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddAuthentication(option =>
             {
@@ -104,14 +101,16 @@ namespace ProjectADApi
                     ValidateLifetime = true
                 };
             });
+
             services.AddSwaggerGen(x =>
             {
+
                 x.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Blue Collar Api",
                     Version = "v1",
                     Description = "The is the various api endpoint developed to be consumed by the frondend team workingn on the " +
-                    "blue colla hub project. Further clarification are provided alongside the various endpoints.",
+                                   "blue colla hub project. Further clarification are provided alongside the various endpoints.",
                     Contact = new OpenApiContact
                     {
                         Name = $"Lukman Ishola (Project Supervisor), {Environment.NewLine} Opeyemi Nurudeen (Project Admin)",
@@ -154,6 +153,8 @@ namespace ProjectADApi
                 });
             });
 
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -175,14 +176,17 @@ namespace ProjectADApi
             SwaggerConf _swaggerConf = new SwaggerConf();
             Configuration.GetSection(nameof(SwaggerConf)).Bind(_swaggerConf);
 
-            app.UseSwagger(option => {
+            app.UseSwagger(option =>
+            {
                 option.RouteTemplate = _swaggerConf.JsonRoute;
             });
+
             app.UseSwaggerUI(option =>
             {
                 option.SwaggerEndpoint(_swaggerConf.UIEndpoint, _swaggerConf.Description);
                 option.RoutePrefix = string.Empty;
             });
+
 
             //app.UseStaticFiles();
             //app.UseStaticFiles(new StaticFileOptions()

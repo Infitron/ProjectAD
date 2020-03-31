@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.Request;
 using ProjectADApi.Contract.V1;
+using ProjectADApi.Controllers.V1.Contracts.Response;
 
 namespace ProjectADApi.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
+
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ClientController : ControllerBase
     {
@@ -37,7 +37,23 @@ namespace ProjectADApi.Controllers
             IEnumerable<Client> awonOnibara = await _clientRepository.GetAllAsync();
 
             if (awonOnibara != null)
-                return Ok(new { status = HttpStatusCode.OK, message = awonOnibara });
+            {
+                List<ClientResponse> allClient = awonOnibara.Select(x =>
+                new ClientResponse
+                {
+                    Id = x.Id,
+                    UserId = x.UserId,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    PhoneNumber = x.PhoneNumber,
+                    PicturePath = x.PicturePath,
+                    Address = x.Address,
+                    State = x.State,
+                    CreatedDate = x.CreatedDate
+                }).ToList();
+
+                return Ok(new { status = HttpStatusCode.OK, message = allClient });
+            }
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
         }
 
@@ -45,12 +61,25 @@ namespace ProjectADApi.Controllers
         [HttpGet(ApiRoute.Client.Get)]
         public async Task<IActionResult> ThisClient(int id)
         {
-            Client onibariyi = await _clientRepository.GetAllAsync().ContinueWith((result) =>
-            {
-                return result.Result.SingleOrDefault(x => x.Id == id);
-            });
+            Client onibariyi = await _clientRepository.GetByIdAsync(id);
+
             if (onibariyi != null)
-                return Ok(new { status = HttpStatusCode.OK, message = onibariyi });
+            {
+                ClientResponse thisClient = new ClientResponse
+                {
+                    Id = onibariyi.Id,
+                    UserId = onibariyi.UserId,
+                    FirstName = onibariyi.FirstName,
+                    LastName = onibariyi.LastName,
+                    PhoneNumber = onibariyi.PhoneNumber,
+                    PicturePath = onibariyi.PicturePath,
+                    Address = onibariyi.Address,
+                    State = onibariyi.State,
+                    CreatedDate = onibariyi.CreatedDate
+                };
+                return Ok(new { status = HttpStatusCode.OK, message = thisClient });
+            }
+
             return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "No record found/Wrong user id supplied" });
         }
 
@@ -91,10 +120,26 @@ namespace ProjectADApi.Controllers
         }
 
         // PUT: api/Onibara/5
-        //[HttpPut(ApiRoute.Client.Update)]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPut(ApiRoute.Client.Update)]
+        public async Task<IActionResult>  Put(int id, [FromBody] ClientRequest model)
+        {
+            Client thisClient = await _clientRepository.GetByIdAsync(id);
+            if (thisClient != null)
+            {
+                thisClient.FirstName = model.FirstName;
+                thisClient.LastName = model.LastName;
+                thisClient.PhoneNumber = model.PhoneNumber;
+                thisClient.PicturePath = model.PicturePath;
+                thisClient.Address = model.Address;
+                thisClient.State = model.State;                
+
+                await _clientRepository.UpdateAsync(thisClient);
+
+                return Ok(new { status = HttpStatusCode.OK, message = thisClient });
+            }
+
+            return NotFound(new { status = HttpStatusCode.NotFound, Message = "No record  exist for the category specified" });
+        }
 
         //// DELETE: api/ApiWithActions/5
         //[HttpDelete(ApiRoute.Client.Delete)]

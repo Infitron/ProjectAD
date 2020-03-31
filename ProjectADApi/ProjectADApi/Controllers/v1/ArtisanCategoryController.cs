@@ -13,10 +13,10 @@ using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
 using ProjectADApi.Contract.V1.Response;
 
-namespace ProjectADApi.Controllers.v1
+namespace ProjectADApi.Controllers.V1
 {
-
-   [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+   //[ApiVersion("1")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ArtisanCategoryController : ControllerBase
     {
         readonly private IRepository<ArtisanCategories> _artisanCatergoryRepository;

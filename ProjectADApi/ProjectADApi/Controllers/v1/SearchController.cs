@@ -11,8 +11,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectADApi.Contract.V1;
 
-namespace ProjectADApi.Controllers.v1
+namespace ProjectADApi.Controllers.V1
 {
+   //[ApiVersion("1")]
     //[Route("api/[controller]")]
     //[ApiController]   
     public class SearchController : ControllerBase

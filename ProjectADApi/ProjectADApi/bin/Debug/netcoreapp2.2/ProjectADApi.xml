@@ -90,7 +90,7 @@
                      
             
         </member>
-        <member name="M:ProjectADApi.Controllers.v1.QuoteController.ThisQuote(System.Int32)">
+        <member name="M:ProjectADApi.Controllers.V1.QuoteController.ThisQuote(System.Int32)">
             <summary>Gets all Qoutes submitted for various projects </summary>
             
         </member>

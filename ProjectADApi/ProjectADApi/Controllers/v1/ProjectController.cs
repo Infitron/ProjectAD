@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
+using ProjectADApi.Controllers.V1.Contracts.Response;
 
-namespace ProjectADApi.Controllers.v1
+namespace ProjectADApi.Controllers.V1
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
+
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProjectController : ControllerBase
     {
@@ -33,7 +33,20 @@ namespace ProjectADApi.Controllers.v1
         {
             IEnumerable<Projects> AllArticle = await _projectRepository.GetAllAsync();
             if (AllArticle.Any())
-                return Ok(new { status = HttpStatusCode.OK, message = AllArticle });
+            {
+                List<ProjectResponse> allProject = AllArticle.Select(x => new ProjectResponse
+                {
+                    Id = x.Id,
+                    ArtisanId = x.ArtisanId,
+                    ClientId = x.ClientId,
+                    CreationDate = x.CreationDate,
+                    StartDate = x.StartDate,
+                    EndDate = x.EndDate,
+                    ProjectName = x.ProjectName,
+                    StatusId = x.StatusId
+                }).ToList();
+                return Ok(new { status = HttpStatusCode.OK, message = allProject });
+            }
             return NotFound(new { status = HttpStatusCode.NotFound, message = "No record found" });
         }
 
@@ -43,7 +56,21 @@ namespace ProjectADApi.Controllers.v1
         {
             Projects thisProject = await _projectRepository.GetByIdAsync(id);
             if (thisProject != null)
-                return Ok(new { status = HttpStatusCode.OK, message = thisProject });
+            {
+                ProjectResponse _thisProject = new ProjectResponse
+                {
+                    Id = thisProject.Id,
+                    ArtisanId = thisProject.ArtisanId,
+                    ClientId = thisProject.ClientId,
+                    CreationDate = thisProject.CreationDate,
+                    StartDate = thisProject.StartDate,
+                    EndDate = thisProject.EndDate,
+                    ProjectName = thisProject.ProjectName,
+                    StatusId = thisProject.StatusId
+                };
+
+                return Ok(new { status = HttpStatusCode.OK, message = _thisProject });
+            }
             return BadRequest(new { status = HttpStatusCode.BadRequest, message = "No record found for this article" });
         }
 
@@ -71,22 +98,21 @@ namespace ProjectADApi.Controllers.v1
         }
 
         // PUT: api/Project/5
-        [HttpPut("{id}")]
+        [HttpPut(ApiRoute.Project.Update)]
         public async Task<IActionResult> Put(int id, [FromBody] ProjectUpdateRequest model)
         {
             Projects getProject = await _projectRepository.GetByIdAsync(id);
 
             if (getProject == null)
-                return NotFound(new { status = HttpStatusCode.NotFound, meesage = "We project your requesting does not exist" });
-            
+                return NotFound(new { status = HttpStatusCode.NotFound, meesage = "The project you're requesting does not exist" });
+
             getProject.StatusId = model.StatusId;
             getProject.EndDate = model.EndDate;
             getProject.QuoteId = model.QuoteId;
 
             await _projectRepository.UpdateAsync(getProject);
 
-            return Ok(new { status = HttpStatusCode.OK, message = getProject });        
-            
+            return Ok(new { status = HttpStatusCode.OK, message = getProject });
         }
 
         //// DELETE: api/ApiWithActions/5

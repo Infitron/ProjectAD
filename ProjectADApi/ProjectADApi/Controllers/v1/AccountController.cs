@@ -24,11 +24,12 @@ using ProjectADApi.Factories.V1.UserFactory;
 
 namespace ProjectADApi.Controllers.V1
 {
-    [Route("api/[controller]")]
+  
+    [Route("api/[controller]")]   
     [ApiController]
     public class AccountController : ControllerBase
     {
-      
+
         readonly JwtConf _jwtConf;
         readonly IRepository<UserLogin> _userRepository;
         readonly IRepository<UserRole> _userRole;
@@ -210,7 +211,6 @@ namespace ProjectADApi.Controllers.V1
         ///
         [Route("[action]")]
         [HttpPost]
-
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest model)
         {
             if (!ModelState.IsValid)
@@ -233,7 +233,6 @@ namespace ProjectADApi.Controllers.V1
 
         [Route("[action]")]
         [HttpPost]
-
         public async Task<IActionResult> ResetPassword([FromForm] ResetPasswordRequest model)
         {
             if (!ModelState.IsValid)
@@ -256,9 +255,7 @@ namespace ProjectADApi.Controllers.V1
             }
 
             return Ok(new { status = HttpStatusCode.OK, message = "Your Pass word has been reset" });
-
-        }
-
+        }       
 
         private CreateUserResponse2 GenerateAuthenticationToken(CreateUserRequest model, CreateUserResponse2 thisUser)
         {

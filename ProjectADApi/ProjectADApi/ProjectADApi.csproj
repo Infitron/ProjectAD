@@ -1,91 +1,88 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <Configurations>Debug;Release;New Debug</Configurations>  
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp2.2</TargetFramework>
+		<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+		<Configurations>Debug;Release;New Debug</Configurations>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\ProjectADApi.xml</DocumentationFile>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <WarningLevel>2</WarningLevel>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors>NU1605</WarningsAsErrors>
-    <Optimize>false</Optimize>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DocumentationFile>C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\ProjectADApi.xml</DocumentationFile>
+		<NoWarn>1701;1702;1591</NoWarn>
+		<WarningLevel>2</WarningLevel>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<WarningsAsErrors>NU1605</WarningsAsErrors>
+		<Optimize>false</Optimize>
+		<GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='New Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\ProjectADApi.xml</DocumentationFile>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <WarningLevel>3</WarningLevel>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors>NU1605</WarningsAsErrors>
-    <Optimize>true</Optimize>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='New Debug|AnyCPU'">
+		<DocumentationFile>C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\ProjectADApi.xml</DocumentationFile>
+		<NoWarn>1701;1702;1591</NoWarn>
+		<WarningLevel>3</WarningLevel>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<WarningsAsErrors>NU1605</WarningsAsErrors>
+		<Optimize>true</Optimize>
+		<GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\ProjectADApi.xml</DocumentationFile>
-    <WarningLevel>1</WarningLevel>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Controllers\v1\**" />
-    <Compile Remove="Factories\V1\UserFactory\**" />
-    <Content Remove="Controllers\v1\**" />
-    <Content Remove="Factories\V1\UserFactory\**" />
-    <EmbeddedResource Remove="Controllers\v1\**" />
-    <EmbeddedResource Remove="Factories\V1\UserFactory\**" />
-    <None Remove="Controllers\v1\**" />
-    <None Remove="Factories\V1\UserFactory\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Controllers\GalleryController.cs" />
-    <Compile Remove="Factories\Implementation\ArtisanCreator.cs" />
-    <Compile Remove="Factories\Implementation\ClientCreator.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Controllers\v1\AccountController.cs" />
-    <Compile Include="Controllers\v1\ArticleController.cs" />
-    <Compile Include="Controllers\v1\ArtisanCategoryController.cs" />
-    <Compile Include="Controllers\v1\ArtisanController.cs" />
-    <Compile Include="Controllers\v1\BankCodeController.cs" />
-    <Compile Include="Controllers\v1\BankDetailsController.cs" />
-    <Compile Include="Controllers\v1\BookingController.cs" />
-    <Compile Include="Controllers\v1\ClientController.cs" />
-    <Compile Include="Controllers\v1\GalleryController.cs" />
-    <Compile Include="Controllers\v1\LocationController.cs" />
-    <Compile Include="Controllers\v1\PaymentController.cs" />
-    <Compile Include="Controllers\v1\ProjectController.cs" />
-    <Compile Include="Controllers\v1\QuoteController.cs" />
-    <Compile Include="Controllers\v1\SearchController.cs" />
-    <Compile Include="Controllers\v1\ServiceController.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\ProjectADApi.xml</DocumentationFile>
+		<WarningLevel>1</WarningLevel>
+		<NoWarn>1701;1702;1591</NoWarn>
+		<GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+	</PropertyGroup>
 	
-  </ItemGroup>
+	
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Api.Database\Api.Database.csproj" />
-    <ProjectReference Include="..\..\Api.EmailService\Api.EmailService.csproj" />
-    <ProjectReference Include="..\..\RavePaymentDataEncryption-master\EncryptionService\EncryptionService.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Factories\V1\UserFactory\**" />
+		<Content Remove="Factories\V1\UserFactory\**" />
+		<EmbeddedResource Remove="Factories\V1\UserFactory\**" />
+		<None Remove="Factories\V1\UserFactory\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\V2\" />
-    <Folder Include="ArtisanGallery\" />
-    <Folder Include="Factories\V1\UserFactory\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Controllers\V1\RatingController.cs" />
+		<Compile Remove="Factories\Implementation\ArtisanCreator.cs" />
+		<Compile Remove="Factories\Implementation\ClientCreator.cs" />
+		<Compile Remove="Controllers\AccountController.cs" />
+		<Compile Remove="Controllers\ArticleController.cs" />
+		<Compile Remove="Controllers\ArtisanCategoryController.cs" />
+		<Compile Remove="Controllers\ArtisanController.cs" />
+		<Compile Remove="Controllers\BankCodeController.cs" />
+		<Compile Remove="Controllers\BankDetailsController.cs" />
+		<Compile Remove="Controllers\BookingController.cs" />
+		<Compile Remove="Controllers\ClientController.cs" />
+		<Compile Remove="Controllers\GalleryController.cs" />
+		<Compile Remove="Controllers\LocationController.cs" />
+		<Compile Remove="Controllers\PaymentController.cs" />
+		<Compile Remove="Controllers\ProjectController.cs" />
+		<Compile Remove="Controllers\QuoteController.cs" />
+		<Compile Remove="Controllers\RatingController.cs" />
+		<Compile Remove="Controllers\SearchController.cs" />
+		<Compile Remove="Controllers\ServiceController.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Api.Database\Api.Database.csproj" />
+		<ProjectReference Include="..\..\Api.EmailService\Api.EmailService.csproj" />
+		<ProjectReference Include="..\..\RavePaymentDataEncryption-master\EncryptionService\EncryptionService.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Controllers\V2\Contract\Response\" />
+		<Folder Include="Controllers\V2\Contract\Request\" />
+		<Folder Include="ArtisanGallery\" />
+		<Folder Include="Factories\V1\UserFactory\" />
+	</ItemGroup>
 
 </Project>

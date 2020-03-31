@@ -17,6 +17,7 @@ using ProjectADApi.Contract.V1.Response;
 
 namespace ProjectADApi.Controllers
 {
+   //[ApiVersion("1")]
     // [Route("api/[controller]")]
     //[ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

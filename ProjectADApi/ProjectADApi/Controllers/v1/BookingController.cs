@@ -15,11 +15,11 @@ using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.Request;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
+using ProjectADApi.Controllers.V1.Contracts.Response;
 
 namespace ProjectADApi.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
+   
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BookingController : ControllerBase
     {
@@ -46,7 +46,26 @@ namespace ProjectADApi.Controllers
             var allBooking = await _bookingRepository.GetAllAsync();
 
             if (allBooking != null)
-                return Ok(allBooking);
+            {
+                List<BookingResponse> allBookingResponse = allBooking.Select(x =>
+                new BookingResponse
+                {
+                    Id = x.Id,
+                    ArtisanId = x.ArtisanId,
+                    ClientId = x.ClienId,
+                    ArtisanFullName = $"{x.Artisan.FirstName ?? string.Empty} {x.Artisan?.LastName ?? string.Empty}",
+                    ClientFullName = $"{x.Clien.FirstName ?? string.Empty} {x.Clien.LastName ?? string.Empty}",
+                    Messages = x.Messages,
+                    MsgTime = x.MsgTime,
+                    MsgDate = x.MsgDate,
+                    CreatedDate = x.CreatedDate,
+                    ServiceId = x.Id,
+                    QuoteId = x.QuoteId
+
+                }).ToList();
+                return Ok( new { status = HttpStatusCode.OK, message = allBookingResponse });
+            }
+
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
         }
 
@@ -54,45 +73,58 @@ namespace ProjectADApi.Controllers
         [HttpGet(ApiRoute.Order.Get)]
         public async Task<IActionResult> ThisService(int id)
         {
-            Booking getBooking = await _bookingRepository.GetAllAsync().ContinueWith((result) =>
-            {
-                return result.Result.SingleOrDefault(x => x.Id == id);
-            });
+            Booking getBooking = await _bookingRepository.GetByIdAsync(id);
 
             if (getBooking != null)
-                return Ok(new { status = HttpStatusCode.NotFound, Message = getBooking });
+            {
+                BookingResponse thisBooking = new BookingResponse
+                {
+                    Id = getBooking.Id,
+                    ArtisanId = getBooking.ArtisanId,
+                    ClientId = getBooking.ClienId,
+                    ArtisanFullName = $"{getBooking.Artisan.FirstName ?? string.Empty} {getBooking.Artisan?.LastName ?? string.Empty}",
+                    ClientFullName = $"{getBooking.Clien.FirstName ?? string.Empty} {getBooking.Clien.LastName ?? string.Empty}",
+                    Messages = getBooking.Messages,
+                    MsgTime = getBooking.MsgTime,
+                    MsgDate = getBooking.MsgDate,
+                    CreatedDate = getBooking.CreatedDate,
+                    ServiceId = getBooking.Id,
+                    QuoteId = getBooking.QuoteId
+                };
+                return Ok(new { status = HttpStatusCode.OK, Message = thisBooking });
+            }
             return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "Wrond booking id supplied" });
         }
 
         // POST: api/Booking
         [Produces("application/json")]
         [ProducesErrorResponseType(typeof(StatusCodes))]
-        [ProducesResponseType(StatusCodes.Status201Created)]        
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [HttpPost(ApiRoute.Order.Create)]
         public async Task<IActionResult> Post([FromBody] BookingRequest model)
         {
 
-            if (!ModelState.IsValid)return BadRequest(ModelState);            
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            Services thisService = await _serviceRepository.GetByIdAsync(model.ServiceId);           
+            Services thisService = await _serviceRepository.GetByIdAsync(model.ServiceId);
 
             UserLogin getThisClientUser = await _userLoginRepository.GetByIdAsync(model.ClientUserId);
-            
+
             var allClient = await _clientRepository.GetAllAsync();
 
             Client getThisClient = allClient.SingleOrDefault(x => x.UserId.Equals(getThisClientUser.Id));
 
-            if (getThisClient == null)return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Client do not have Client Profile yet" });            
+            if (getThisClient == null) return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Client do not have Client Profile yet" });
 
             Artisan thisArtisan = await _artisanRepository.GetByIdAsync(thisService.ArtisanId);
-            UserLogin getThisArtisanUserStatus = null; 
+            UserLogin getThisArtisanUserStatus = null;
 
             if (thisArtisan != null)
             {
                 getThisArtisanUserStatus = await _userLoginRepository.GetByIdAsync(thisArtisan.UserId);
-            }            
+            }
 
-            if (getThisArtisanUserStatus.StatusId != (int)AppStatus.Active)return BadRequest(new { status = HttpStatusCode.BadRequest, message = "We can not proceed with your booking, the artisan is not active on the platform" });           
+            if (getThisArtisanUserStatus.StatusId != (int)AppStatus.Active) return BadRequest(new { status = HttpStatusCode.BadRequest, message = "We can not proceed with your booking, the artisan is not active on the platform" });
 
             Booking newRequest = new Booking
             {
@@ -113,17 +145,17 @@ namespace ProjectADApi.Controllers
 
         // PUT: api/Booking/5
         [Produces("application/json")]
-       // [Consumes(MediaTypeNames.Application.Json)]
+        // [Consumes(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [HttpPut(ApiRoute.Order.Update)]
         public async Task<IActionResult> Put(int id, [FromBody] UpdateBookingRequest model)
         {
-            if (!ModelState.IsValid) BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState }); 
-                
+            if (!ModelState.IsValid) BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
+
             Booking getThisBooking = await _bookingRepository.GetByIdAsync(model.BookingId);
 
-            if(getThisBooking == null)return NotFound(new { status = HttpStatusCode.NotFound, message = "We could not find the booking requested" });
-            
+            if (getThisBooking == null) return NotFound(new { status = HttpStatusCode.NotFound, message = "We could not find the booking requested" });
+
             getThisBooking.QuoteId = model.QouteId;
             await _bookingRepository.UpdateAsync(getThisBooking);
 

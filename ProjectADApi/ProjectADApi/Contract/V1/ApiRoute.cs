@@ -67,7 +67,7 @@ namespace ProjectADApi.Contract.V1
             public const string GetAll = Base + "/Article";
             public const string Get = Base + "/Article/{id}";
             public const string Create = Base + "/Article";
-            public const string Update = Base + "/Article";
+            public const string Update = Base + "/Article{id}";
             public const string Delete = Base + "/Article/{id}";
         }
 
