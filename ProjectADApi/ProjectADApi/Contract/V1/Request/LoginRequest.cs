@@ -11,6 +11,8 @@ namespace ProjectADApi.Contract.V1.Request
         [Required]
         [EmailAddress]
         public string  username { get; set; }
+
+        [Required]
         public string password { get; set; }
 
     }

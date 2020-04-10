@@ -21,10 +21,5 @@ namespace ProjectADApi.Factories.V1.UserFactory
         
     }
 
-    public enum AppUsers
-    {
-        Artisan,
-        Client,
-        
-    }
+   
 }

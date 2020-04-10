@@ -1,4 +1,6 @@
-﻿using System;
+﻿//using Api.Database.Model;
+using Api.Database.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,15 +10,13 @@ namespace ProjectADApi.Contract.Request
 {
     public class BookingRequest
     {
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        public string ClientEmail { get; set; }
+       
+        public int ClientUserId { get; set; }       
+        public string Messages { get; set; }       
+        public int ServiceId { get; set; }       
 
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        public string ArtisanEmail { get; set; }
-
-        public string Messages { get; set; }
-        
+        //public virtual Artisan Artisan { get; set; }
+        //public virtual Client Clien { get; set; }
+        //public virtual ICollection<Quote> Quote { get; set; }
     }
 }

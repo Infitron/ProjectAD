@@ -2,16 +2,28 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Configurations>Debug;Release;New Debug</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="microsoft.entityframeworkcore.design" Version="2.2" />
-    <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="2.2" />
+    <Compile Remove="Implementation\UnitOfWork.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="Implementation\" />
+    <PackageReference Include="microsoft.entityframeworkcore.design" Version="2.2" />
+    <PackageReference Include="microsoft.entityframeworkcore.proxies" Version="2.2.0" />
+    <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="2.2" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="2.2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Identity.Stores">
+      <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.identity.stores\2.2.0\lib\netstandard2.0\Microsoft.Extensions.Identity.Stores.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

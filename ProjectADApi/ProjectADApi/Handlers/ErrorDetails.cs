@@ -8,8 +8,8 @@ namespace ProjectADApi.Handlers
 {
     public class ErrorDetails
     {
-        public int StatusCode { get; set; }
-        public string Message { get; set; }
+        public int status { get; set; }
+        public string message { get; set; }
 
 
         public override string ToString()

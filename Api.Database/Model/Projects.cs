@@ -5,17 +5,28 @@ namespace Api.Database.Model
 {
     public partial class Projects
     {
+        public Projects()
+        {
+            Gallary = new HashSet<Gallary>();
+            PaymentHistory = new HashSet<PaymentHistory>();
+            Rating = new HashSet<Rating>();
+        }
+
         public int Id { get; set; }
-        public string ArtisanEmail { get; set; }
-        public string ClientEmail { get; set; }
+        public int ArtisanId { get; set; }
+        public int ClientId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public string ProjectStatus { get; set; }
+        public int StatusId { get; set; }
         public string ProjectName { get; set; }
-        public int BookingId { get; set; }
+        public int QuoteId { get; set; }
+        public DateTime? CreationDate { get; set; }
 
-        public virtual Artisan ArtisanEmailNavigation { get; set; }
-        public virtual Booking Booking { get; set; }
-        public virtual Client ClientEmailNavigation { get; set; }
+        public virtual Artisan Artisan { get; set; }
+        public virtual Client Client { get; set; }
+        public virtual Quote Quote { get; set; }
+        public virtual ICollection<Gallary> Gallary { get; set; }
+        public virtual ICollection<PaymentHistory> PaymentHistory { get; set; }
+        public virtual ICollection<Rating> Rating { get; set; }
     }
 }

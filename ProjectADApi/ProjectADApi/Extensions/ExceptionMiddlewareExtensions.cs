@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using NLog;
+
 using ProjectADApi.Handlers;
 using System.Net;
 
@@ -16,7 +16,7 @@ namespace ProjectADApi.Extensions
             {
                 appError.Run(async context =>
                 {
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;                   
                     context.Response.ContentType = "application/json";
 
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
@@ -26,8 +26,8 @@ namespace ProjectADApi.Extensions
 
                         await context.Response.WriteAsync(new ErrorDetails()
                         {
-                            StatusCode = context.Response.StatusCode,
-                            Message = contextFeature.Error.Message
+                            status = context.Response.StatusCode,
+                            message = contextFeature.Error.InnerException.Message
                         }.ToString());
                     }
                 });

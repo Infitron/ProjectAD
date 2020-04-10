@@ -1,0 +1,12 @@
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.EmailService\bin\Release\netstandard2.0\Api.EmailService.deps.json
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.EmailService\bin\Release\netstandard2.0\Api.EmailService.dll
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.EmailService\bin\Release\netstandard2.0\Api.EmailService.pdb
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.EmailService\bin\Release\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.EmailService\bin\Release\netstandard2.0\Microsoft.AspNetCore.Http.Features.xml
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.EmailService\obj\Release\netstandard2.0\Api.EmailService.csprojAssemblyReference.cache
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.EmailService\obj\Release\netstandard2.0\Api.EmailService.csproj.CoreCompileInputs.cache
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.EmailService\obj\Release\netstandard2.0\Api.EmailService.AssemblyInfoInputs.cache
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.EmailService\obj\Release\netstandard2.0\Api.EmailService.AssemblyInfo.cs
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.EmailService\obj\Release\netstandard2.0\Api.EmailService.csproj.CopyComplete
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.EmailService\obj\Release\netstandard2.0\Api.EmailService.dll
+C:\Users\tesli\Documents\GitHub\ProjectAD\Api.EmailService\obj\Release\netstandard2.0\Api.EmailService.pdb

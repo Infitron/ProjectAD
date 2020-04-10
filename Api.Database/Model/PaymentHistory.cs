@@ -7,13 +7,15 @@ namespace Api.Database.Model
     {
         public int Id { get; set; }
         public int ProjectId { get; set; }
-        public string ArtisanEmail { get; set; }
+        public int ArtisanId { get; set; }
         public decimal AmountPaid { get; set; }
         public DateTime PayDate { get; set; }
         public string PaymentType { get; set; }
-        public string ClientEmail { get; set; }
+        public int ClientId { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
-        public virtual Artisan ArtisanEmailNavigation { get; set; }
-        public virtual Client ClientEmailNavigation { get; set; }
+        public virtual Artisan Artisan { get; set; }
+        public virtual Client Client { get; set; }
+        public virtual Projects Project { get; set; }
     }
 }
