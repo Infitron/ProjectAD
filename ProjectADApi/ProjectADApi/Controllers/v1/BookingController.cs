@@ -19,7 +19,7 @@ using ProjectADApi.Controllers.V1.Contracts.Response;
 
 namespace ProjectADApi.Controllers
 {
-   
+    [ApiVersion("1")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BookingController : ControllerBase
     {

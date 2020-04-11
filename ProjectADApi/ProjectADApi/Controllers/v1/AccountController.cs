@@ -21,12 +21,14 @@ using ProjectADApi.Contract.V1.Request;
 using ProjectADApi.Contract.V1.Response;
 using ProjectADApi.Factories;
 using ProjectADApi.Factories.V1.UserFactory;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace ProjectADApi.Controllers.V1
 {
-    [ApiVersion("1.0")]
-    [Route("api/[controller]")]   
+    [ApiVersion("1")]
+    [Route("api/[controller]")]
     [ApiController]
+    [SwaggerTag("This is the version 1.0 of the Account endpoints. Please use the UpdateStatus Endpoint on version 1.1 of the Account endpoint to update the user status.")]
     public class AccountController : ControllerBase
     {
 
@@ -170,8 +172,8 @@ namespace ProjectADApi.Controllers.V1
         [Route("[action]")]
         [HttpGet]
         [Produces("application/json")]
-        public async Task<IActionResult> AllUserLogin()
-        {
+        public async Task<IActionResult> AllUserLogin(int? id)
+        {           
             var allUser = await Task.Run(() => (from user in _dbContext.UserLogin
                                                 select new
                                                 {
@@ -255,7 +257,7 @@ namespace ProjectADApi.Controllers.V1
             }
 
             return Ok(new { status = HttpStatusCode.OK, message = "Your Pass word has been reset" });
-        }       
+        }
 
         private CreateUserResponse2 GenerateAuthenticationToken(CreateUserRequest model, CreateUserResponse2 thisUser)
         {
