@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "YStss0z6dA8KfOJ6QAXyarjdPemS5z3irI04uDb/fvsMsojOch4jxbVXju4pw0GWxd80jn3pf6THXP3Sc+7gTA==",
+  "dgSpecHash": "gykjhT1oa0r9rwX7Lsgfq7h7ZaloYcyWnrE/6Pp/iITkuqJexeFcXsRWs6WCfbUry5J5L1Bozdj95EPwnILMMg==",
   "success": true,
   "projectFilePath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\Api.Database\\Api.Database.csproj",
   "expectedPackageFiles": [
@@ -23,6 +23,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.extensions.dependencyinjection\\2.2.0\\microsoft.extensions.dependencyinjection.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.extensions.dependencyinjection.abstractions\\2.2.0\\microsoft.extensions.dependencyinjection.abstractions.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.extensions.identity.core\\2.2.0\\microsoft.extensions.identity.core.2.2.0.nupkg.sha512",
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.extensions.identity.stores\\2.2.0\\microsoft.extensions.identity.stores.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.extensions.logging\\2.2.0\\microsoft.extensions.logging.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.extensions.logging.abstractions\\2.2.0\\microsoft.extensions.logging.abstractions.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.extensions.options\\2.2.0\\microsoft.extensions.options.2.2.0.nupkg.sha512",
