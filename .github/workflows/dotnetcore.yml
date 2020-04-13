@@ -18,6 +18,7 @@ jobs:
       with:
         dotnet-version: 2.2.104
     - name: Install dependencies
+      working-directory: ./ProjectAD
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
