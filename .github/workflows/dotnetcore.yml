@@ -24,6 +24,6 @@ jobs:
       working-directory: ./ProjectADApi/ProjectADApi
       run: dotnet build --configuration Release 
     - name: Deploy Blue
-      working-directory: ./ProjectADApi/ProjectADApi
+      working-directory: ./ProjectADApi/ProjectADApi/ProjectADApi.csproj
       run: dotnet publish src -c Release -o BlueDeploy
     
