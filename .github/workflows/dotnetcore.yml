@@ -22,6 +22,6 @@ jobs:
       run: dotnet restore
     - name: Build
       working-directory: ./ProjectADApi/ProjectADApi
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release --restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
