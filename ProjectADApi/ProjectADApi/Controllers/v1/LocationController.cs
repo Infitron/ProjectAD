@@ -16,9 +16,7 @@ using ProjectADApi.Contract.V1.Response;
 
 namespace ProjectADApi.Controllers.V1
 {
-   //[ApiVersion("1")]
-    //[Route("api/[controller]")]
-    //[ApiController]
+    [ApiVersion("1")]   
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class LocationController : ControllerBase
     {

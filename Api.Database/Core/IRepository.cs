@@ -14,7 +14,7 @@ namespace Api.Database.Core
  
     Task<TEntity> CreateAsync(TEntity entity);
  
-    Task<int> UpdateAsync(TEntity entity);
+    Task<TEntity> UpdateAsync(TEntity entity);
  
     Task<int> DeleteAsync(TEntity entity);
       }

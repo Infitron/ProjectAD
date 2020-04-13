@@ -65,12 +65,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.4" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="5.2.1" />
 
 	</ItemGroup>
 
@@ -81,8 +84,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Controllers\V2\Contract\Response\" />
-		<Folder Include="Controllers\V2\Contract\Request\" />
 		<Folder Include="ArtisanGallery\" />
 		<Folder Include="Factories\V1\UserFactory\" />
 	</ItemGroup>

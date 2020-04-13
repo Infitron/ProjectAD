@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Database.Core;
- using Api.Database.Model;
+using Api.Database.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Database.Implementation
@@ -37,10 +37,11 @@ namespace Api.Database.Implementation
         public async Task<TEntity> GetByIdAsync(int id) => await _context.Set<TEntity>().FindAsync(id);
 
 
-        public async Task<int> UpdateAsync(TEntity entity)
+        public async Task<TEntity> UpdateAsync(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return entity;
         }
     }
 }

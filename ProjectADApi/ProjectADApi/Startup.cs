@@ -10,6 +10,7 @@ using Api.Database.Implementation;
 using Api.Database.Model;
 using Api.EmailService.Core;
 using Api.EmailService.EmailConfig;
+using AutoMapper;
 using EncryptionService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -24,6 +25,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProjectADApi.ApiConfig;
@@ -49,6 +51,8 @@ namespace ProjectADApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // services.AddSingleton(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
@@ -127,30 +131,19 @@ namespace ProjectADApi
             services.AddSwaggerGen(x =>
             {
                 x.OperationFilter<SwaggerDefaultValues>();
+                x.ResolveConflictingActions(apiDescriptions => apiDescriptions.Last());
 
-                //x.SwaggerDoc("v1", new OpenApiInfo
-                //{
-                //    Title = "Blue Collar Api",
-                //    //Version = "v1",
-                //    Description = "The is the various api endpoint developed to be consumed by the frondend team workingn on the " +
-                //                   "blue colla hub project. Further clarification are provided alongside the various endpoints.",
-                //    Contact = new OpenApiContact
-                //    {
-                //        Name = $"Lukman Ishola (Project Supervisor), {Environment.NewLine} Opeyemi Nurudeen (Project Admin)",
-                //        Email = "info@bluecollarhub.com.ng, team.pad@outlook.com",
-                //        Url = new Uri("https://bluecollarhub.com.ng")
-                //    },
-                //    License = new OpenApiLicense
-                //    {
-                //        Name = "Blue Collar Hub API",
-                //        Url = new Uri("https://bluecollarhub.com.ng"),
-                //    }
-                //});
+                x.EnableAnnotations();
 
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                x.IncludeXmlComments(xmlPath);
+                //// Set the comments path for the Swagger JSON and UI.
+                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                //x.IncludeXmlComments(xmlPath);
+                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
+                //Path.Combine(basePath, fileName);
+                x.IncludeXmlComments(Path.Combine(basePath, fileName));
+
 
                 var security = new Dictionary<string, IEnumerable<string>> {
                     {"Bearer", new string[0] }
@@ -207,8 +200,8 @@ namespace ProjectADApi
             app.UseSwaggerUI(
                options =>
                {
-                    // build a swagger endpoint for each discovered API version
-                    foreach (var description in provider.ApiVersionDescriptions)
+                   // build a swagger endpoint for each discovered API version
+                   foreach (var description in provider.ApiVersionDescriptions)
                    {
                        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
                    }

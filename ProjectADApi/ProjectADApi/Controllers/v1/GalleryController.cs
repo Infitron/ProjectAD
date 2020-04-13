@@ -17,9 +17,7 @@ using ProjectADApi.Contract.V1.Request;
 
 namespace ProjectADApi.Controllers.V1
 {
-   //[ApiVersion("1")]
-    //[Route("api/[controller]")]
-    //[ApiController]
+    [ApiVersion("1")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GalleryController : ControllerBase
     {
