@@ -17,7 +17,7 @@ using ProjectADApi.Contract.V1.Response;
 namespace ProjectADApi.Controllers.V1
 {
     [ApiVersion("1")]    
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ArticleController : ControllerBase
     {
         private readonly IRepository<Article> _articleRepository;        
