@@ -25,5 +25,5 @@ jobs:
       run: dotnet build --configuration Release 
     - name: Publish Blue
       working-directory: ./ProjectADApi/ProjectADApi/ProjectADApi.csproj
-      run: dotnet publish src -c Release -o publish
+      run: dotnet publish src -c Release 
     
