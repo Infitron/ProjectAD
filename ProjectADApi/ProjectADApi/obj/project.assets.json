@@ -5310,6 +5310,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Http.Features": "2.2.0",
           "NETCore.MailKit": "2.0.2"
         },
         "compile": {

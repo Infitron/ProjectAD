@@ -74,21 +74,21 @@ namespace ProjectADApi.Controllers.V1
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(new CreateUserResponse { Success = false, ErrorMessage = "username/password validation failed" });
+                return BadRequest(new CreateUserResponse2 { Success = false, ErrorMessage = ModelState.SelectMany(x => x.Value.Errors).Select(y => y.ErrorMessage), Token = "", UserId = 0, UserRole = "" });
             }
 
             UserLogin userExist = await _userManager.FindByEmailAsync(model.username);
 
             if (userExist == null)
             {
-                return NotFound(new CreateUserResponse2 { ErrorMessage = new[] { "User does not exist" }, Success = false });
+                return NotFound(new CreateUserResponse2 { ErrorMessage = new[] { "Wrong email, username or password" }, Success = false });
             }
 
             var userHasValidPassword = await _userManager.CheckPasswordAsync(userExist, model.password);
 
             if (!userHasValidPassword)
             {
-                return NotFound(new CreateUserResponse2 { ErrorMessage = new[] { "User does not exist" }, Success = false });
+                return NotFound(new CreateUserResponse2 { ErrorMessage = new[] { "Wrong email, username or password" }, Success = false });
             }
 
 
