@@ -20,7 +20,9 @@ jobs:
     - name: Install dependencies
       working-directory: ./ProjectADApi/ProjectADApi
       run: dotnet restore
-    - name: Build
+    - name: Build net core
       working-directory: ./ProjectADApi/ProjectADApi
       run: dotnet build --configuration Release 
+    - name: Deploy net core
+      run: dotnet publish src -c Release -o BlueDeploy
     
