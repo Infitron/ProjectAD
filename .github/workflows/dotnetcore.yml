@@ -5,6 +5,11 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+    
+env:
+     BLUE_APP_NAME: ProjectAdApi
+     BLUE_API_PACKAGE_PATH: './BlueDeploy'      # set this to the path to your web app project, defaults to the repository root
+     
 
 jobs:
   build:
@@ -17,13 +22,15 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.104
+    
     - name: Install dependencies
       working-directory: ./ProjectADApi/ProjectADApi
       run: dotnet restore
+    
     - name: Build Blue
       working-directory: ./ProjectADApi/ProjectADApi
-      run: dotnet build --configuration Release 
-    - name: Publish Blue
-      working-directory: ./ProjectADApi/ProjectADApi/ProjectADApi.csproj
-      run: dotnet publish  -c Release -o projectad
+      run: dotnet build --configuration Release --no-restore
+    
+    - name: Publish Blue      
+      run: dotnet publish  --configuration Release --no-build --output ${{env.BLUE_API_PACKAGE_PATH}}
     
