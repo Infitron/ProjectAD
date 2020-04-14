@@ -32,6 +32,6 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     
     - name: Publish Blue      
-      working-directory: ./ProjectADApi/ProjectADApi/ProjectADapi.cproj
+      working-directory: ./ProjectADApi/ProjectADApi/ProjectADApi.csproj
       run: dotnet publish  --configuration Release --no-build --output ${{env.BLUE_API_PACKAGE_PATH}}
     
