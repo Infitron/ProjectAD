@@ -37,7 +37,7 @@ jobs:
       run: dotnet publish  --configuration Release --no-build --output ${{env.BLUE_API_PACKAGE_PATH}}
             
     - name: Deploy to Blue vis ssh
-      uses: garygrossgarten/github-action-scp@0.5.3
+      uses: garygrossgarten/github-action-scp@v0.5.3
       with:
         local: ${{secrets.LOCAL_DIRECTORY}}
         remote: ${{secrets.BLUE_REMOTE_TARGET}}
