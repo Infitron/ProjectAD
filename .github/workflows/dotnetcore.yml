@@ -42,6 +42,7 @@ jobs:
         local: ${{secrets.LOCAL_DIRECTORY}}
         remote: ${{secrets.BLUE_REMOTE_TARGET}}
         host: ${{ secrets.BLUE_HOST }}
+        port: ${{secrets.HOSH_PORT}} 
         username: ${{ secrets.HOST_USERNAME }}
         password: ${{ secrets.HOST_PASSWORD }}
       
