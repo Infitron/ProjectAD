@@ -23,6 +23,7 @@ jobs:
       with:
         dotnet-version: 2.2.104
     
+  
     - name: Install dependencies
       working-directory: ./ProjectADApi/ProjectADApi
       run: dotnet restore
@@ -35,13 +36,13 @@ jobs:
       working-directory: ./ProjectADApi/ProjectADApi/
       run: dotnet publish  --configuration Release --no-build --output ${{env.BLUE_API_PACKAGE_PATH}}
             
-    - name: Copy via ssh
-          uses: garygrossgarten/github-action-scp@release
-            with:
-               local: ${{secrets.LOCAL_DIRECTORY}}
-               remote: ${{secrets.BLUE_REMOTE_TARGET}}
-               host: ${{ secrets.BLUE_HOST }}
-               username: ${{ secrets.HOST_USERNAME }}
-               password: ${{ secrets.HOST_PASSWORD }}
+    - name: Deploy to Blue vis ssh
+      uses: garygrossgarten/github-action-scp@release
+      with:
+        local: ${{secrets.LOCAL_DIRECTORY}}
+        remote: ${{secrets.BLUE_REMOTE_TARGET}}
+        host: ${{ secrets.BLUE_HOST }}
+        username: ${{ secrets.HOST_USERNAME }}
+        password: ${{ secrets.HOST_PASSWORD }}
       
     
