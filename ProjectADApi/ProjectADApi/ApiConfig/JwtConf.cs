@@ -25,14 +25,14 @@ namespace ProjectADApi.ApiConfig
         Resolved = 6,
         Completed = 7,
         Submitted = 8,
-        Initiated = 9
+        Initiated = 9,
+        Suspended = 10
     }
 
     public enum AppUsers
     {
         Artisan,
         Client,
-        Admin
-       
+        Admin       
     }
 }

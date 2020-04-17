@@ -57,7 +57,6 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
             CreateMap<Gallary, GallaryResponse>();
         }
 
-
     }
 
     public class PaymentHistoryProfile : Profile
