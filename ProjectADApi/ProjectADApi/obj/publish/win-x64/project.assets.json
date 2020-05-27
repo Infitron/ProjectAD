@@ -5294,6 +5294,7 @@
         "framework": ".NETCoreApp,Version=v2.2",
         "dependencies": {
           "Microsoft.Extensions.Identity.Core": "2.2.0",
+          "Microsoft.Extensions.Identity.Stores": "2.2.0",
           "microsoft.entityframeworkcore.design": "2.2.0",
           "microsoft.entityframeworkcore.proxies": "2.2.0",
           "microsoft.entityframeworkcore.sqlserver": "2.2.0"
@@ -5309,6 +5310,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Http.Features": "2.2.0",
           "NETCore.MailKit": "2.0.2"
         },
         "compile": {
@@ -10614,6 +10616,7 @@
         "framework": ".NETCoreApp,Version=v2.2",
         "dependencies": {
           "Microsoft.Extensions.Identity.Core": "2.2.0",
+          "Microsoft.Extensions.Identity.Stores": "2.2.0",
           "microsoft.entityframeworkcore.design": "2.2.0",
           "microsoft.entityframeworkcore.proxies": "2.2.0",
           "microsoft.entityframeworkcore.sqlserver": "2.2.0"
@@ -10629,6 +10632,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "Microsoft.AspNetCore.Http.Features": "2.2.0",
           "NETCore.MailKit": "2.0.2"
         },
         "compile": {
