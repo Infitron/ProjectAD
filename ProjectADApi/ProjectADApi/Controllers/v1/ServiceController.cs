@@ -102,16 +102,16 @@ namespace ProjectADApi.Controllers.V1
             return CreatedAtAction("ThisService", new { id = newServie.Id }, new { status = HttpStatusCode.Created, message = serviceCreated });
         }
 
-        // PUT: api/Service/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+       // PUT: api/Service/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] ServiceRequest model)
+        {
+        }
 
-        //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+        }
     }
 }

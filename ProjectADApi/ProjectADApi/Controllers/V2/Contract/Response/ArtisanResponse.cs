@@ -69,7 +69,7 @@ namespace ProjectADApi.Controllers.V2.Contract.Response
         /// <summary>
         ///
        /// </summary>
-         public ArtisanCategoryResponse ArtisanCategory { get; set; }
+         public CategoryResponse ArtisanCategory { get; set; }
 
         /// <summary>
         /// 

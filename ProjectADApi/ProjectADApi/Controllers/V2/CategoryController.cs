@@ -9,29 +9,29 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ProjectADApi.Contract.V1;
-using ProjectADApi.Contract.V1.Request;
-using ProjectADApi.Contract.V1.Response;
+using ProjectADApi.Controllers.V2.Contract;
+using ProjectADApi.Controllers.V2.Contract.Request;
+using ProjectADApi.Controllers.V2.Contract.Response;
 
-namespace ProjectADApi.Controllers.V1
+namespace ProjectADApi.Controllers.V2
 {
-    [ApiVersion("1")]
+    [ApiVersion("1.1")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class ArtisanCategoryController : ControllerBase
+    public class CategoryController : ControllerBase
     {
         readonly private IRepository<ArtisanCategories> _artisanCatergoryRepository;
 
-        public ArtisanCategoryController(IRepository<ArtisanCategories> artisanCatergoryRepository) => _artisanCatergoryRepository = artisanCatergoryRepository;
+        public CategoryController(IRepository<ArtisanCategories> artisanCatergoryRepository) => _artisanCatergoryRepository = artisanCatergoryRepository;
 
         // GET: api/ArtisanCategory 
-        [HttpGet(ApiRoute.ACategory.GetAll)]
+        [HttpGet(ApiRoute.Category.GetAll)]
         public async Task<IActionResult> AllCategory()
         {
             IEnumerable<ArtisanCategories> allCategory = await _artisanCatergoryRepository.GetAllAsync();
 
             if (allCategory != null)
             {
-                List<ArtisanCategoryResponse> allACategoryResponse = allCategory.Select(x => new ArtisanCategoryResponse
+                List<CategoryResponse> allACategoryResponse = allCategory.Select(x => new CategoryResponse
                 {
                     Id = x.Id,
                     CategoryName = x.CategoryName,
@@ -46,12 +46,12 @@ namespace ProjectADApi.Controllers.V1
         }
 
         // GET: api/ArtisanCategory/5
-        [HttpGet(ApiRoute.ACategory.Get)]
+        [HttpGet(ApiRoute.Category.Get)]
         public async Task<IActionResult> GetThisCategory(int id)
         {
             ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByIdAsync(id);
 
-            ArtisanCategoryResponse _thisCategory = new ArtisanCategoryResponse
+            CategoryResponse _thisCategory = new CategoryResponse
             {
                 Id = thisCategory.Id,
                 CategoryName = thisCategory.CategoryName,
@@ -65,8 +65,8 @@ namespace ProjectADApi.Controllers.V1
         }
 
         // POST: api/ArtisanCategory
-        [HttpPost(ApiRoute.ACategory.Create)]
-        public async Task<IActionResult> Post([FromBody] ArCatergoryRequest model)
+        [HttpPost(ApiRoute.Category.Create)]
+        public async Task<IActionResult> Post([FromBody] CatergoryRequest model)
         {
             ArtisanCategories addNew = new ArtisanCategories
             {
@@ -81,8 +81,8 @@ namespace ProjectADApi.Controllers.V1
         }
 
         // PUT: api/ArtisanCategory/5
-        [HttpPut(ApiRoute.ACategory.Update)]
-        public async Task<IActionResult> Put(int id, [FromBody] ArCatergoryRequest model)
+        [HttpPut(ApiRoute.Category.Update)]
+        public async Task<IActionResult> Put(int id, [FromBody] CatergoryRequest model)
         {
             ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByIdAsync(id);
             if (thisCategory != null)

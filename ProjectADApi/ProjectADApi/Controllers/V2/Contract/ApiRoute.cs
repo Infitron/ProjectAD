@@ -34,5 +34,31 @@ namespace ProjectADApi.Controllers.V2.Contract
         {
             public const string Get = Base + "/Search";
         }
+
+        public static class Service
+        {
+            public const string GetAll = Base + "/Service";
+            public const string Get = Base + "/Service/{id}";
+            public const string Create = Base + "/Service";
+            public const string Update = Base + "/Service";
+            public const string Delete = Base + "/Service/{id}";
+        }
+        public static class Category
+        {
+            public const string GetAll = Base + "/Category";
+            public const string Get = Base + "/Category/{id}";
+            public const string Create = Base + "/Category";
+            public const string Update = Base + "/Category/{id}";
+            public const string Delete = Base + "/Category/{id}";
+        }
+
+        public static class SubCategory
+        {
+            public const string GetAll = Base + "/SubCategory";
+            public const string Get = Base + "/SubCategory/{id}";
+            public const string Create = Base + "/SubCategory";
+            public const string Update = Base + "/SubCategory/{id}";
+            public const string Delete = Base + "/SubCategory/{id}";
+        }
     }
 }

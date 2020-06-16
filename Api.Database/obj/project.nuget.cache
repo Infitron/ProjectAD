@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "LZ+x52Jswu6gPk3WE5Sx8DK9xTeG7v8PsBbeT5VT4h6h4PUluE5Yferwm6BHSMwWOqWcmhXO0oZXXNujSFVVfA==",
+  "dgSpecHash": "gykjhT1oa0r9rwX7Lsgfq7h7ZaloYcyWnrE/6Pp/iITkuqJexeFcXsRWs6WCfbUry5J5L1Bozdj95EPwnILMMg==",
   "success": true,
   "projectFilePath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\Api.Database\\Api.Database.csproj",
   "expectedPackageFiles": [
@@ -40,10 +40,6 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\runtime.native.system.data.sqlclient.sni\\4.5.0\\runtime.native.system.data.sqlclient.sni.4.5.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-arm64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
-    "C:\\Users\\tesli\\.nuget\\packages\\runtime.win-x64.microsoft.netcore.app\\2.2.0\\runtime.win-x64.microsoft.netcore.app.2.2.0.nupkg.sha512",
-    "C:\\Users\\tesli\\.nuget\\packages\\runtime.win-x64.microsoft.netcore.dotnetapphost\\2.2.0\\runtime.win-x64.microsoft.netcore.dotnetapphost.2.2.0.nupkg.sha512",
-    "C:\\Users\\tesli\\.nuget\\packages\\runtime.win-x64.microsoft.netcore.dotnethostpolicy\\2.2.0\\runtime.win-x64.microsoft.netcore.dotnethostpolicy.2.2.0.nupkg.sha512",
-    "C:\\Users\\tesli\\.nuget\\packages\\runtime.win-x64.microsoft.netcore.dotnethostresolver\\2.2.0\\runtime.win-x64.microsoft.netcore.dotnethostresolver.2.2.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\runtime.win-x64.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x64.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\runtime.win-x86.runtime.native.system.data.sqlclient.sni\\4.4.0\\runtime.win-x86.runtime.native.system.data.sqlclient.sni.4.4.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",

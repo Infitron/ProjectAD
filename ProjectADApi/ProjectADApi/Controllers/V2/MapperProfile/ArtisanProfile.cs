@@ -79,7 +79,7 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
     {
         public ArtisanCategoryProfile()
         {
-            CreateMap<ArtisanCategories, ArtisanCategoryResponse>();
+            CreateMap<ArtisanCategories, CategoryResponse>();
         }
     }
 
@@ -88,6 +88,24 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
         public ServiceProfile()
         {
             CreateMap<Services, ServiceResponse>();
+        }
+    }
+
+    public class SubCategoryProfile : Profile
+    {
+        public SubCategoryProfile()
+        {
+            CreateMap<ArtisanSubCategory, SubCategoryResponse>()
+                .ForMember(destination => destination.Name, source => source.MapFrom(src => src.SubCategories))
+                .ForMember(destination => destination.Description, source => source.MapFrom(src => src.Descr));
+        }
+    }
+
+    public class CategoryProfile : Profile
+    {
+        public CategoryProfile()
+        {
+            CreateMap<ArtisanCategories, CategoryResponse>();
         }
     }
 }

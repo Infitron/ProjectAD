@@ -21,7 +21,7 @@ namespace ProjectADApi.Factories.V1.UserFactory.Implementation
 
         async Task<CreateUserResponse> IUserCreator.CreateUser(CreateUserRequest model)
         {
-            var userExist = _projectadContext.UserLogin.SingleOrDefault(x => x.EmailAddress.Equals(model.EmailAddress));
+            var userExist = _projectadContext.UserLogin.SingleOrDefault(x => x.Email.Equals(model.EmailAddress));
 
             if (userExist != null)
                 return new CreateUserResponse
@@ -34,8 +34,7 @@ namespace ProjectADApi.Factories.V1.UserFactory.Implementation
 
             UserLogin newLogin = new UserLogin
             {
-                EmailAddress = model.EmailAddress,
-                
+                Email = model.EmailAddress,                
                 UserName = model.UserName = model.UserName,
                 RoleId = model.RoleId,
                 CreationDate = DateTime.Now

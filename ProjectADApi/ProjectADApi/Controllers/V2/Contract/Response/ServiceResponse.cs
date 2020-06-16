@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Api.Database.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace ProjectADApi.Controllers.V2.Contract.Response
         public int StatusId { get; set; }
         public DateTime? CreationDate { get; set; }
 
-        //public virtual Artisan Artisan { get; set; }
+       // public Artisan Artisan { get; set; }
         //public virtual Lov Status { get; set; }
     }
 }

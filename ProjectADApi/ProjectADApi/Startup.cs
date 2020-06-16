@@ -81,13 +81,13 @@ namespace ProjectADApi
             services.AddSingleton(_emailConfiguration);
             services.AddSingleton(new projectadContext());
 
-            services.AddDbContext<projectadContext>();
+           // services.AddDbContext<projectadContext>();
             //    (options =>
             //{
             //    options.UseSqlServer(Configuration["ApiDbConnection:DefaultConnection"]);
             //});
-            services.AddDefaultIdentity<UserLogin>()
-                .AddEntityFrameworkStores<projectadContext>();
+            //services.AddDefaultIdentity<UserLogin>()
+            //    .AddEntityFrameworkStores<projectadContext>();
 
             services.AddAuthentication(option =>
             {

@@ -19,6 +19,7 @@ namespace Api.Database.Model
         public virtual DbSet<Artisan> Artisan { get; set; }
         public virtual DbSet<ArtisanCategories> ArtisanCategories { get; set; }
         public virtual DbSet<ArtisanServices> ArtisanServices { get; set; }
+        public virtual DbSet<ArtisanSubCategory> ArtisanSubCategory { get; set; }
         public virtual DbSet<BankCodeLov> BankCodeLov { get; set; }
         public virtual DbSet<BankDetails> BankDetails { get; set; }
         public virtual DbSet<Booking> Booking { get; set; }
@@ -40,9 +41,7 @@ namespace Api.Database.Model
             if (!optionsBuilder.IsConfigured)
             {
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder
-                .UseLazyLoadingProxies()
-                .UseSqlServer("server=103.108.220.238;database=projectad;user id=dbAd; password=8Y#3iDY:8wCcf8");
+                optionsBuilder.UseSqlServer("server=103.108.220.238;database=projectad;user id=dbAd; password=8Y#3iDY:8wCcf8");
             }
         }
 
@@ -149,7 +148,7 @@ namespace Api.Database.Model
                     .WithMany(p => p.Artisan)
                     .HasForeignKey(d => d.ArtisanCategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Artisan_Catg");
+                    .HasConstraintName("FK_Artisan_ArtisanCategories");
             });
 
             modelBuilder.Entity<ArtisanCategories>(entity =>
@@ -163,8 +162,8 @@ namespace Api.Database.Model
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
-                entity.Property(e => e.SubCategories)
-                    .HasMaxLength(80)
+                entity.Property(e => e.Description)
+                    .HasMaxLength(250)
                     .IsUnicode(false);
             });
 
@@ -193,6 +192,17 @@ namespace Api.Database.Model
                     .HasForeignKey(d => d.ArtisanId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ArtisanServices_Artisan");
+            });
+
+            modelBuilder.Entity<ArtisanSubCategory>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.CategoryId).HasColumnName("Category_Id");
+
+                entity.Property(e => e.CreationDate).HasColumnType("datetime");
+
+                entity.Property(e => e.SubCategories).IsRequired();
             });
 
             modelBuilder.Entity<BankCodeLov>(entity =>
@@ -677,6 +687,8 @@ namespace Api.Database.Model
                 entity.Property(e => e.CreationDate).HasColumnType("datetime");
 
                 entity.Property(e => e.RoleId).HasColumnName("RoleID");
+
+                entity.Property(e => e.StatusId).HasDefaultValueSql("((4))");
 
                 entity.Property(e => e.UserName)
                     .IsRequired()
