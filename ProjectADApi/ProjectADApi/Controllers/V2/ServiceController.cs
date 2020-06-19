@@ -142,7 +142,6 @@ namespace ProjectADApi.Controllers.V2
             {
                 return BadRequest();
             }
-
             
             thisService.Descriptions = model.Descriptions;
             thisService.ServiceName = model.ServiceName;

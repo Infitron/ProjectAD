@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProjectADApi.Controllers.V2.Contract;
+using ProjectADApi.Controllers.V2.Contract.Request;
 using ProjectADApi.Controllers.V2.Contract.Response;
 
 namespace ProjectADApi.Controllers.V2
@@ -60,16 +61,37 @@ namespace ProjectADApi.Controllers.V2
         }
 
         // POST: api/ArSubCategory
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
+        [HttpPost(ApiRoute.SubCategory.Create)]
+        public async Task<IActionResult> Post([FromBody] SubCategoryRequest model)
+        {
+            ArtisanSubCategory newSubCategory = _mapper.Map<ArtisanSubCategory>(model);
+
+            newSubCategory = await _artisanSubCatergoryRepository.CreateAsync(newSubCategory);
+
+            SubCategoryResponse response = _mapper.Map<SubCategoryResponse>(newSubCategory);
+
+            return CreatedAtAction(nameof(ThisSubCategory), new { id = newSubCategory.Id }, new { status = HttpStatusCode.Created, message = response });
+        }
 
         // PUT: api/ArSubCategory/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPut(ApiRoute.SubCategory.Update)]
+        public async Task<IActionResult> Put(int id, [FromBody] SubCategoryRequest model)
+        {
+            ArtisanSubCategory updateSubCategory = await _artisanSubCatergoryRepository.GetByIdAsync(id);
+
+            if (updateSubCategory == null) return BadRequest(new { status = HttpStatusCode.BadRequest, message = "We could find the artisan sub-category you are trying to modify" });
+
+            
+            updateSubCategory.Id = id;
+            updateSubCategory.SubCategories = model.Name;
+            updateSubCategory.Descr = model.Description;
+
+            updateSubCategory = await _artisanSubCatergoryRepository.UpdateAsync(updateSubCategory);
+
+            SubCategoryResponse response = _mapper.Map<SubCategoryResponse>(updateSubCategory);
+
+            return Ok( new { status = HttpStatusCode.Created, message = response });
+        }
 
         // DELETE: api/ApiWithActions/5
         //[HttpDelete("{id}")]

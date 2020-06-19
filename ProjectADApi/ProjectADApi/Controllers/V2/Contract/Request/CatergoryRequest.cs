@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 namespace ProjectADApi.Controllers.V2.Contract.Request
 {
     public class CatergoryRequest
-    {
-        
+    {        
         public string CategoryName { get; set; }
         public string Description { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
 
        // public virtual ICollection<Artisan> Artisan { get; set; }
     }
