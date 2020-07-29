@@ -9,13 +9,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
 
 namespace ProjectADApi.Controllers.V1
 {
-    [ApiVersion("1")]
+    [ApiVersion("1", Deprecated = true)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ServiceController : ControllerBase
     {
@@ -45,7 +46,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpGet(ApiRoute.Service.Get)]
         public async Task<IActionResult> ThisService(int id)
         {
-            Services thisService = await _serviceRepository.GetByIdAsync(id);
+            Services thisService = await _serviceRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (thisService == null)
                 return NotFound(new { status = HttpStatusCode.NotFound, Message = "The requested service may have been discontinued by the Artisan" });
@@ -69,7 +70,7 @@ namespace ProjectADApi.Controllers.V1
             if (!ModelState.IsValid)
                 return BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
 
-            UserLogin getUser = await _userLoginRepository.GetByIdAsync(model.UserId);
+            UserLogin getUser = await _userLoginRepository.GetByAsync(x => x.Id.Equals(model.UserId)).FirstOrDefaultAsync();
             int? userStatus = getUser?.StatusId;
 
             if (getUser == null)

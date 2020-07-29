@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.V1.Request;
@@ -92,7 +93,7 @@ namespace ProjectADApi.Controllers.V1
             }
 
 
-            UserRole role = await _userRole.GetByIdAsync(userExist.RoleId);
+            UserRole role = await _userRole.GetByAsync(x => x.RoleId.Equals(userExist.RoleId)).FirstOrDefaultAsync();
             CreateUserRequest userDetails = new CreateUserRequest { EmailAddress = userExist.Email };
             CreateUserResponse2 userResponse = new CreateUserResponse2 { Success = true, UserId = userExist.Id, UserRole = role.RoleName };
 
@@ -130,7 +131,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] CreateUserRequest model)
         {
-            var getRoleName = await _userRole.GetByIdAsync(model.RoleId);
+            var getRoleName = await _userRole.GetByAsync(x => x.RoleId.Equals(model.RoleId)).FirstOrDefaultAsync();
 
             if (getRoleName == null)
             {

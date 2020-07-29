@@ -9,7 +9,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Internal;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.Controllers.V2.Contract;
 using ProjectADApi.Controllers.V2.Contract.Request;
 using ProjectADApi.Controllers.V2.Contract.Response;
@@ -17,18 +19,19 @@ using ProjectADApi.Controllers.V2.Contract.Response;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SubCategoryController : ControllerBase
     {
         readonly private IRepository<ArtisanSubCategory> _artisanSubCatergoryRepository;
         private readonly IMapper _mapper;
+        readonly projectadContext dbContext;
 
-        public SubCategoryController(IRepository<ArtisanSubCategory> artisanSubCatergoryRepository, IMapper mapper)
+        public SubCategoryController(IRepository<ArtisanSubCategory> artisanSubCatergoryRepository, IMapper mapper, projectadContext BbContext)
         {
             _artisanSubCatergoryRepository = artisanSubCatergoryRepository;
             _mapper = mapper;
+            dbContext = BbContext;
         }
-
 
         // GET: api/ArSubCategory
         [HttpGet(ApiRoute.SubCategory.GetAll)]
@@ -45,11 +48,37 @@ namespace ProjectADApi.Controllers.V2
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
         }
 
+
+        // GET: api/ArSubCategory/5
+        [HttpGet()]
+        [Route(ApiRoute.SubCategory.GetAllSub)]
+        public async Task<IActionResult> GetAllSub(int CategoryId)
+        {
+            // ArtisanSubCategory thisSubCategory = await _artisanSubCatergoryRepository.GetByIdAsync(Cat);
+           // bool isCatId = int.TryParse(CategoryId, out int catid);
+
+            //if(isCatId)           
+            //{
+            //SubCategoryResponse subCategory = _mapper.Map<SubCategoryResponse>(thisSubCategory);
+
+            List<SubCategoryResponse> subCategory = _mapper.Map<List<SubCategoryResponse>>(await
+                                                   (from subs in dbContext.ArtisanSubCategory
+                                                    where subs.CategoryId == CategoryId
+                                                    select subs).ToListAsync());
+
+            if (subCategory.Any()) return Ok(new { status = HttpStatusCode.OK, message = subCategory });
+            return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
+
+
+            //}
+            //return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Invalid category id format" });            
+        }
+
         // GET: api/ArSubCategory/5
         [HttpGet(ApiRoute.SubCategory.Get)]
         public async Task<IActionResult> ThisSubCategory(int id)
         {
-            ArtisanSubCategory thisSubCategory = await _artisanSubCatergoryRepository.GetByIdAsync(id);
+            ArtisanSubCategory thisSubCategory = await _artisanSubCatergoryRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (thisSubCategory != null)
             {
@@ -77,11 +106,11 @@ namespace ProjectADApi.Controllers.V2
         [HttpPut(ApiRoute.SubCategory.Update)]
         public async Task<IActionResult> Put(int id, [FromBody] SubCategoryRequest model)
         {
-            ArtisanSubCategory updateSubCategory = await _artisanSubCatergoryRepository.GetByIdAsync(id);
+            ArtisanSubCategory updateSubCategory = await _artisanSubCatergoryRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (updateSubCategory == null) return BadRequest(new { status = HttpStatusCode.BadRequest, message = "We could find the artisan sub-category you are trying to modify" });
 
-            
+
             updateSubCategory.Id = id;
             updateSubCategory.SubCategories = model.Name;
             updateSubCategory.Descr = model.Description;
@@ -90,7 +119,7 @@ namespace ProjectADApi.Controllers.V2
 
             SubCategoryResponse response = _mapper.Map<SubCategoryResponse>(updateSubCategory);
 
-            return Ok( new { status = HttpStatusCode.Created, message = response });
+            return Ok(new { status = HttpStatusCode.Created, message = response });
         }
 
         // DELETE: api/ApiWithActions/5

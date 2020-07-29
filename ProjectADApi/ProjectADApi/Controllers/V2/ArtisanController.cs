@@ -42,7 +42,10 @@ namespace ProjectADApi.Controllers.V2
 
             if (AllArtisans.Any())
             {
-                List<ArtisanResponse> sll = _mapper.Map<List<ArtisanResponse>>(AllArtisans);               
+                List<ArtisanResponse> sll = _mapper.Map<List<ArtisanResponse>>(AllArtisans);
+                
+
+                //var des = JsonConvert.DeserializeObject(ser);
                 return Ok(new { status = HttpStatusCode.OK, message = sll });
             }
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
@@ -55,7 +58,7 @@ namespace ProjectADApi.Controllers.V2
             if (id == 0)
                 return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "Artisan ID was not supplied" });
            
-            var thisArtsan = await _artisanRepository.GetByIdAsync(id);
+            var thisArtsan = await _artisanRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (thisArtsan == null)
                 return BadRequest(new { status = HttpStatusCode.BadRequest, message = "We could not find the artisan you requested" });
@@ -85,7 +88,7 @@ namespace ProjectADApi.Controllers.V2
         [HttpPut(ApiRoute.Artisan.Update)]
         public async Task<IActionResult> Put(int id, [FromBody] ArtisanRequest model)
         {
-            Artisan thisArtisan = await _artisanRepository.GetByIdAsync(id);
+            Artisan thisArtisan = await _artisanRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (thisArtisan == null)
                 return NotFound(new { status = HttpStatusCode.NotFound, message = "This Artisan was not found" });

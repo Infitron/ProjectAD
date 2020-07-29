@@ -93,6 +93,6 @@ namespace ProjectADApi.Controllers.V2.Contract.Response
        /// <summary>
         ///  The service an artisan offers
         /// </summary>
-        public List<ServiceResponse> Services { get; set; }
+       // public List<ServiceResponse> Services { get; set; }
     }
 }

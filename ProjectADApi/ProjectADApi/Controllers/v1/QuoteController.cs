@@ -9,12 +9,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
 
 namespace ProjectADApi.Controllers.V1
 {
-   [ApiVersion("1")]   
+   [ApiVersion("1", Deprecated =true)]   
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class QuoteController : ControllerBase
     {
@@ -45,7 +46,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpGet(ApiRoute.Quote.Get)]
         public async Task<IActionResult> ThisQuote(int projectId)
         {
-            Quote thisArticle = await _quoteRepository.GetByIdAsync(projectId);
+            Quote thisArticle = await _quoteRepository.GetByAsync(x => x.Id.Equals(projectId)).FirstOrDefaultAsync();
             if (thisArticle != null)
                 return Ok(new { status = HttpStatusCode.OK, message = thisArticle });
             return NotFound(new { status = HttpStatusCode.NotFound, message = "No record found for this article" });

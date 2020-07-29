@@ -326,10 +326,9 @@
              The list  of all the project the artisan has done on the platform
             </summary>
         </member>
-        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.Services">
-            <summary>
-             The service an artisan offers
-            </summary>
+        <member name="M:ProjectADApi.Controllers.V2.QuoteController.ThisQuote(System.Int32)">
+            <summary>Gets all Qoutes submitted for various projects </summary>
+            
         </member>
         <member name="T:ProjectADApi.SwaggerOptions.ConfigureSwaggerOptions">
             <summary>

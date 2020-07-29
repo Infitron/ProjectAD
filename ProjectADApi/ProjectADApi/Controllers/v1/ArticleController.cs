@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
@@ -16,7 +17,7 @@ using ProjectADApi.Contract.V1.Response;
 
 namespace ProjectADApi.Controllers.V1
 {
-    [ApiVersion("1")]    
+    [ApiVersion("1", Deprecated = false)]    
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ArticleController : ControllerBase
     {
@@ -58,7 +59,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpGet(ApiRoute.Article.Get)]
         public async Task<IActionResult> ThisArticle(int id)
         {
-            Article thisArticle = await _articleRepository.GetByIdAsync(id);
+            Article thisArticle = await _articleRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             ArticleResponse articleRepsonse = null;
 
@@ -106,7 +107,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpPut(ApiRoute.Article.Update)]
         public async Task<IActionResult> Put(int id, [FromBody]Article model)
         {
-            Article thisArticle = await _articleRepository.GetByIdAsync(model.Id);
+            Article thisArticle = await _articleRepository.GetByAsync(x => x.Id.Equals(model.Id)).FirstOrDefaultAsync();
             if (thisArticle == null)
                 return NotFound(new { status = HttpStatusCode.NotFound, message = "This article was not found" });
 

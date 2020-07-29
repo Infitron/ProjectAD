@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.Controllers.V2.Contract;
 using ProjectADApi.Controllers.V2.Contract.Request;
 using ProjectADApi.Controllers.V2.Contract.Response;
@@ -49,7 +50,7 @@ namespace ProjectADApi.Controllers.V2
         [HttpGet(ApiRoute.Category.Get)]
         public async Task<IActionResult> GetThisCategory(int id)
         {
-            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByIdAsync(id);
+            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             CategoryResponse _thisCategory = new CategoryResponse
             {
@@ -84,7 +85,7 @@ namespace ProjectADApi.Controllers.V2
         [HttpPut(ApiRoute.Category.Update)]
         public async Task<IActionResult> Put(int id, [FromBody] CatergoryRequest model)
         {
-            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByIdAsync(id);
+            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
             if (thisCategory != null)
             {
                 thisCategory.CategoryName = model.CategoryName;

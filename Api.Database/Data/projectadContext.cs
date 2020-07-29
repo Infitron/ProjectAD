@@ -20,12 +20,14 @@ namespace Api.Database.Model
         public virtual DbSet<ArtisanCategories> ArtisanCategories { get; set; }
         public virtual DbSet<ArtisanServices> ArtisanServices { get; set; }
         public virtual DbSet<ArtisanSubCategory> ArtisanSubCategory { get; set; }
+        public virtual DbSet<AuditTrail> AuditTrail { get; set; }
         public virtual DbSet<BankCodeLov> BankCodeLov { get; set; }
         public virtual DbSet<BankDetails> BankDetails { get; set; }
         public virtual DbSet<Booking> Booking { get; set; }
         public virtual DbSet<Client> Client { get; set; }
         public virtual DbSet<Complaint> Complaint { get; set; }
         public virtual DbSet<Gallary> Gallary { get; set; }
+        public virtual DbSet<Lga> Lga { get; set; }
         public virtual DbSet<Location> Location { get; set; }
         public virtual DbSet<Lov> Lov { get; set; }
         public virtual DbSet<PaymentHistory> PaymentHistory { get; set; }
@@ -33,6 +35,7 @@ namespace Api.Database.Model
         public virtual DbSet<Quote> Quote { get; set; }
         public virtual DbSet<Rating> Rating { get; set; }
         public virtual DbSet<Services> Services { get; set; }
+        public virtual DbSet<State> State { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
 
@@ -40,7 +43,7 @@ namespace Api.Database.Model
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("server=103.108.220.238;database=projectad;user id=dbAd; password=8Y#3iDY:8wCcf8");
             }
         }
@@ -203,6 +206,52 @@ namespace Api.Database.Model
                 entity.Property(e => e.CreationDate).HasColumnType("datetime");
 
                 entity.Property(e => e.SubCategories).IsRequired();
+            });
+
+            modelBuilder.Entity<AuditTrail>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Browser)
+                    .HasMaxLength(70)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedTime)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreationDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Device)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IpAddress)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Lat)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Long)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MacAddress)
+                    .HasColumnName("Mac_address")
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Os)
+                    .HasColumnName("OS")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.AuditTrail)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_AuditTrail_Login");
             });
 
             modelBuilder.Entity<BankCodeLov>(entity =>
@@ -396,6 +445,25 @@ namespace Api.Database.Model
                     .WithMany(p => p.Gallary)
                     .HasForeignKey(d => d.ProjectId)
                     .HasConstraintName("FK_Gallary_Projects");
+            });
+
+            modelBuilder.Entity<Lga>(entity =>
+            {
+                entity.ToTable("LGA");
+
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Lga1)
+                    .IsRequired()
+                    .HasColumnName("LGA")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.State)
+                    .WithMany(p => p.Lga)
+                    .HasForeignKey(d => d.StateId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LGA_State");
             });
 
             modelBuilder.Entity<Location>(entity =>
@@ -654,6 +722,10 @@ namespace Api.Database.Model
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Image)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.ServiceName)
                     .IsRequired()
                     .HasMaxLength(150)
@@ -667,11 +739,36 @@ namespace Api.Database.Model
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Services_Artisan");
 
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.Services)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("FK_Services_Category");
+
+                entity.HasOne(d => d.Lga)
+                    .WithMany(p => p.Services)
+                    .HasForeignKey(d => d.LgaId)
+                    .HasConstraintName("FK_Services_LGA");
+
+                entity.HasOne(d => d.Location)
+                    .WithMany(p => p.Services)
+                    .HasForeignKey(d => d.LocationId)
+                    .HasConstraintName("FK_Services_Location");
+
                 entity.HasOne(d => d.Status)
                     .WithMany(p => p.Services)
                     .HasForeignKey(d => d.StatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Services__Status");
+            });
+
+            modelBuilder.Entity<State>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedNever();
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<UserLogin>(entity =>

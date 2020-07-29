@@ -17,8 +17,8 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
                 .ForMember(destination => destination.Booking, source => source.MapFrom(src => src.Booking))
                 .ForMember(destination => destination.Projects, source => source.MapFrom(src => src.Projects))
                 .ForMember(dest => dest.Gallary, source => source.MapFrom(src => src.Gallary))
-                //.ForMember(dest => dest.AreaLocation, source => source.MapFrom(src => src.AreaLocation))
-                .ForMember(dest => dest.Services, source => source.MapFrom(src => src.Services))
+                .ForMember(dest => dest.AreaLocation, source => source.MapFrom(src => src.AreaLocation))
+               // .ForMember(dest => dest.Services, source => source.MapFrom(src => src.Services))
                 .ForMember(dest => dest.PaymentHistory, source => source.MapFrom(src => src.PaymentHistory))
                 .ForMember(dest => dest.ArtisanCategory, source => source.MapFrom(src => src.ArtisanCategory));
 
@@ -71,7 +71,11 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
     {
         public LocationProfile()
         {
-            CreateMap<Location, LocationResponse>();
+            CreateMap<Location, LocationResponse>()
+                .ForMember(destination => destination.Artisan, source => source.MapFrom(src => src.Artisan))
+                .ForMember(destination => destination.Services, source => source.MapFrom(src => src.Services));
+
+            CreateMap<LocationResponse, Location>();
         }
     }
 
@@ -88,6 +92,8 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
         public ServiceProfile()
         {
             CreateMap<Services, ServiceResponse>();
+           
+            CreateMap<ServiceRequest, Services>().ReverseMap();
         }
     }
 
@@ -112,6 +118,37 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
         {
             CreateMap<ArtisanCategories, CategoryResponse>();
             CreateMap<CatergoryRequest, ArtisanCategories>();
+        }
+    }
+
+    public class ArtisanServiceProfile : Profile
+    {
+        public ArtisanServiceProfile()
+        {
+            CreateMap<ArtisanServices, ArtisanServiceResponse>();
+            CreateMap<ArtisanServiceRequest, ArtisanServices>();
+        }
+    }
+
+    public class StateProfile : Profile
+    {
+        public StateProfile()
+        {
+            CreateMap<State, StateResponse>()
+                .ForMember(destination => destination.LocalGovernment, source => source.MapFrom(src => src.Lga));
+            CreateMap<ArtisanServiceRequest, ArtisanServices>();
+        }
+    }
+
+    public class ComplaintProfile : Profile
+    {
+        public ComplaintProfile()
+        {
+            CreateMap<Complaint, ComplaintResponse>()
+                .ForMember(destination => destination.ArtisanId, source => source.MapFrom(src => src.EmailId));
+                
+            CreateMap<ComplaintRequest, Complaint>()
+                .ForMember(destination => destination.EmailId, source => source.MapFrom(src => src.ArtisanId)); ;
         }
     }
 }

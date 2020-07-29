@@ -9,13 +9,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
 using ProjectADApi.Contract.V1.Response;
 
 namespace ProjectADApi.Controllers.V1
 {
-    [ApiVersion("1")]
+    [ApiVersion("1", Deprecated =true)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ArtisanCategoryController : ControllerBase
     {
@@ -49,7 +50,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpGet(ApiRoute.ACategory.Get)]
         public async Task<IActionResult> GetThisCategory(int id)
         {
-            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByIdAsync(id);
+            ArtisanCategories thisCategory = await Task.Run(() => _artisanCatergoryRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefault());
 
             ArtisanCategoryResponse _thisCategory = new ArtisanCategoryResponse
             {
@@ -84,7 +85,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpPut(ApiRoute.ACategory.Update)]
         public async Task<IActionResult> Put(int id, [FromBody] ArCatergoryRequest model)
         {
-            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByIdAsync(id);
+            ArtisanCategories thisCategory = await _artisanCatergoryRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
             if (thisCategory != null)
             {
                 thisCategory.CategoryName = model.CategoryName;

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
@@ -16,7 +17,7 @@ using ProjectADApi.Controllers.V1.Contracts.Response;
 
 namespace ProjectADApi.Controllers.V1
 {
-    [ApiVersion("1")]
+    [ApiVersion("1", Deprecated =true)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProjectController : ControllerBase
     {
@@ -54,7 +55,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpGet(ApiRoute.Project.Get)]
         public async Task<IActionResult> ThisProject(int id)
         {
-            Projects thisProject = await _projectRepository.GetByIdAsync(id);
+            Projects thisProject = await _projectRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
             if (thisProject != null)
             {
                 ProjectResponse _thisProject = new ProjectResponse
@@ -101,7 +102,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpPut(ApiRoute.Project.Update)]
         public async Task<IActionResult> Put(int id, [FromBody] ProjectUpdateRequest model)
         {
-            Projects getProject = await _projectRepository.GetByIdAsync(id);
+            Projects getProject = await _projectRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (getProject == null)
                 return NotFound(new { status = HttpStatusCode.NotFound, meesage = "The project you're requesting does not exist" });

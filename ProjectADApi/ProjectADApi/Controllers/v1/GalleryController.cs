@@ -11,13 +11,14 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
 
 namespace ProjectADApi.Controllers.V1
 {
-    [ApiVersion("1")]
+    [ApiVersion("1", Deprecated =true)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class GalleryController : ControllerBase
     {
@@ -40,7 +41,7 @@ namespace ProjectADApi.Controllers.V1
         public async Task<IActionResult> MyGallery(int UserId)
         {
 
-            UserLogin thisUser = await _userLoginRepository.GetByIdAsync(UserId);
+            UserLogin thisUser = await _userLoginRepository.GetByAsync(x => x.Id.Equals(UserId)).FirstOrDefaultAsync();
 
             if (thisUser == null)
                 return BadRequest(new { status = HttpStatusCode.BadRequest, message = "User does not exist" });
@@ -66,7 +67,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpGet(ApiRoute.Gallery.GetAllProjectGallery)]
         public async Task<IActionResult> ProjectGallery(int UserId, int ProjectId)
         {
-            UserLogin thisUser = await _userLoginRepository.GetByIdAsync(UserId);
+            UserLogin thisUser = await _userLoginRepository.GetByAsync(x => x.Id.Equals(UserId)).FirstOrDefaultAsync();
 
             if (thisUser == null)
                 return BadRequest(new { status = HttpStatusCode.BadRequest, message = "User does not exist" });
@@ -91,7 +92,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpPost(ApiRoute.Gallery.Create)]
         public async Task<IActionResult> Post([FromBody] GalleryRequest model)
         {
-            UserLogin thisUser = await _userLoginRepository.GetByIdAsync(model.userId);
+            UserLogin thisUser = await _userLoginRepository.GetByAsync(x => x.Id.Equals(model.userId)).FirstOrDefaultAsync();
 
             if (thisUser == null)
                 return BadRequest(new { status = HttpStatusCode.BadRequest, message = "User does not exist" });

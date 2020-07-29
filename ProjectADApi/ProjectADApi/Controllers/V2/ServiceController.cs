@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 using System.Web;
 using Api.Database.Core;
 using Api.Database.Model;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Controllers.V2.Contract;
 using ProjectADApi.Controllers.V2.Contract.Request;
@@ -29,13 +31,19 @@ namespace ProjectADApi.Controllers.V2
         readonly IRepository<Artisan> _artisanRepository;
         readonly IRepository<UserLogin> _userLoginRepository;
         readonly FlutterRaveConf _flutterRaveConf;
+        projectadContext dbContext;
+        private readonly IMapper _mapper;
 
-        public ServiceController(IRepository<Services> serviceRepository, IRepository<Artisan> artisanRepository, IRepository<UserLogin> userLoginRepository, FlutterRaveConf flutterRaveConf)
+
+
+        public ServiceController(IRepository<Services> serviceRepository, IRepository<Artisan> artisanRepository, IRepository<UserLogin> userLoginRepository, FlutterRaveConf flutterRaveConf, projectadContext BbContext, IMapper mapper)
         {
             _serviceRepository = serviceRepository;
             _artisanRepository = artisanRepository;
             _userLoginRepository = userLoginRepository;
             _flutterRaveConf = flutterRaveConf;
+            dbContext = BbContext;
+            _mapper = mapper;
         }
 
         // GET: api/Service
@@ -64,13 +72,35 @@ namespace ProjectADApi.Controllers.V2
             return NoContent();
         }
 
+
+        [HttpGet()]
+        [Route(ApiRoute.Service.GetService)]
+        public async Task<IActionResult> GetServices(int ArtisanId)
+        {
+            // ArtisanSubCategory thisSubCategory = await _artisanSubCatergoryRepository.GetByIdAsync(Cat);
+            // bool isCatId = int.TryParse(CategoryId, out int catid);
+
+            //if(isCatId)           
+            //{
+            //SubCategoryResponse subCategory = _mapper.Map<SubCategoryResponse>(thisSubCategory);
+
+            List<ServiceResponse> subCategory = _mapper.Map<List<ServiceResponse>>(await dbContext.Services.Where(x => x.ArtisanId == ArtisanId).ToListAsync());
+
+            if (subCategory.Any()) return Ok(new { status = HttpStatusCode.OK, message = subCategory });
+            return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
+
+
+            //}
+            //return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Invalid category id format" });            
+        }
+
         // GET: api/Service/5
         [HttpGet(ApiRoute.Service.Get)]
         public async Task<IActionResult> ThisService(int id)
         {
            // string rawUrlString = HttpUtility.UrlDecode(id);
            //var decryptId = int.Parse(Decrypt(rawUrlString, _flutterRaveConf.EncryptionKey));
-            Services getThisService = await _serviceRepository.GetByIdAsync(id);
+            Services getThisService = await _serviceRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (getThisService == null)
                 return NotFound(new { status = HttpStatusCode.NotFound, Message = "The requested service may have been discontinued by the Artisan" });
@@ -95,48 +125,34 @@ namespace ProjectADApi.Controllers.V2
             if (!ModelState.IsValid)
                 return BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
 
+            Artisan getArtisan = await _artisanRepository.GetByAsync(x => x.Id.Equals(model.ArtisanId)).FirstOrDefaultAsync();
 
             //int decryptId = int.Parse(Decrypt(model.ArtisanId, _flutterRaveConf.EncryptionKey));
 
             //if (model.UserId == 0) return BadRequest(new { status = HttpStatusCode.BadRequest, message = "This user has been suspended, please contact the administrator" });
 
-            UserLogin getUser = await _userLoginRepository.GetByIdAsync(model.UserId);
+            UserLogin getUser = await _userLoginRepository.GetByAsync(x => x.Id.Equals(getArtisan.UserId)).FirstOrDefaultAsync();
             int? userStatus = getUser?.StatusId;
 
             if (getUser == null)BadRequest(new { status = HttpStatusCode.BadRequest, message = "This user does not exist on the platform" });
 
 
-            if (userStatus.Value != (int)AppStatus.Active) return BadRequest(new { status = HttpStatusCode.BadRequest, message = "This user has been suspended, please contact the administrator" });
+            if (userStatus.Value != (int)AppStatus.Active) return BadRequest(new { status = HttpStatusCode.BadRequest, message = "This user has been suspended, please contact the administrator" });          
 
-            Artisan thisArtisan = await _artisanRepository.GetAllAsync().ContinueWith((result) =>
-            {
-                return result.Result.SingleOrDefault(x => x.UserId.Equals(getUser.Id));
-            });
-
-            //if (thisArtisan == null)
-            //    return BadRequest(new { status = HttpStatusCode.BadRequest, message = "No artisan profile exist for the user id entered" });
-
-            Services newServie = new Services
-            {
-                ArtisanId = thisArtisan.Id,
-                ServiceName = model.ServiceName,
-                StatusId = (int)AppStatus.Active,
-                Descriptions = model.Descriptions,
-                CreationDate = DateTime.Now
-            };
+            Services newServie = _mapper.Map<Services>(model);            
 
             var newService = await _serviceRepository.CreateAsync(newServie);
-            var serviceCreated = new { ArtisanId = newService.Id, ServiceName = newService.ServiceName, StatusId = newService.StatusId, Description = newService.Descriptions };
+            var serviceCreated = new { ArtisanId = newService.Id, newService.ServiceName, newService.StatusId, Description = newService.Descriptions };
 
             return CreatedAtAction("ThisService", new { id = newServie.Id }, new { status = HttpStatusCode.Created, message = serviceCreated });
         }
 
         // PUT: api/Service/5
         [HttpPut(ApiRoute.Service.Update)]
-        public async Task<IActionResult> Put([FromBody] ServiceResponse model)
+        public async Task<IActionResult> Put( int id, [FromBody] ServiceRequest model)
         {
             //var decryptId = int.Parse(Decrypt(id, _flutterRaveConf.EncryptionKey));
-            Services thisService = await _serviceRepository.GetByIdAsync(model.Id);
+            Services thisService = await _serviceRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (thisService == null)
             {

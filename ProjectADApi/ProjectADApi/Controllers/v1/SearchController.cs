@@ -13,7 +13,7 @@ using ProjectADApi.Contract.V1;
 
 namespace ProjectADApi.Controllers.V1
 {
-   [ApiVersion("1")]   
+   [ApiVersion("1", Deprecated =true)]   
     public class SearchController : ControllerBase
     {
         readonly private IRepository<Artisan> _artisanRepository;
