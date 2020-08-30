@@ -43,27 +43,25 @@ namespace ProjectADApi.Controllers.V2
         // GET: api/Search/5
         [HttpGet(ApiRoute.Search.Get)]
         [Produces("application/json")]
-        public async Task<IActionResult> DoSearch(int CatId, int? SubCatId = 0, int? StateId = 0, int? LgId = 0, int? LocationId = 0)
+        public async Task<IActionResult> DoSearch(int SubCatId, int? StateId = 0, int? LgId = 0)
         {
             //var AllArtisan = await _artisanRepository.GetAllAsync();
+            List<ServiceResponse> matchedServices = null;
 
-            List<Services> Allservices = await _servicesRepository.GetByAsync(x => x.CategoryId.Equals(CatId)).ToListAsync();            
+            List<Services> Allservices = await _servicesRepository.GetByAsync(x => x.SubCategoryId.Equals(SubCatId)).ToListAsync();            
 
             if (Allservices.Any())
             {
-                if (SubCatId.Value > 0) Allservices = Allservices.FindAll(x => x.Id == StateId.Value && x.CategoryId.Value.Equals(CatId));
+                if (StateId.Value > 0 && LgId.Value == 0) Allservices = Allservices.FindAll(x => x.Id == StateId.Value);
 
-                if (StateId.Value > 0) Allservices = Allservices.FindAll(x => x.Id.Equals(StateId.Value));
+                if (StateId.Value == 0 && LgId.Value > 0) Allservices = Allservices.FindAll(x => x.Id.Equals(LgId.Value));
 
-                if (LgId.Value > 0) Allservices = Allservices.FindAll(x => x.Id.Equals(LgId.Value));
+                if (StateId.Value > 0 && LgId.Value > 0) Allservices = Allservices.FindAll(x => x.Id.Equals(LgId.Value));               
 
-                if (LocationId.Value > 0) Allservices = Allservices.FindAll(x => x.Id.Equals(LocationId.Value));
-
-                List<ServiceResponse> matchedServices = _mapper.Map<List<ServiceResponse>>(Allservices);
-
-                return Ok(new { status = HttpStatusCode.NotFound, message = matchedServices });
+                // matchedServices = _mapper.Map<List<ServiceResponse>>(Allservices);
             }
-            return NotFound(new { status = HttpStatusCode.NotFound, message = new List<object>() });
+            matchedServices = _mapper.Map<List<ServiceResponse>>(Allservices);
+            return Ok(new { status = HttpStatusCode.NotFound, message = matchedServices ?? new List<ServiceResponse>() });
         }
         //// GET: api/Search/5
         //[HttpGet("{id}", Name = "Get")]

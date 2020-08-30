@@ -11,16 +11,16 @@ namespace Api.Database.Migrations
     [DbContext(typeof(projectadContext))]
     partial class projectadContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildModel(ModelBuilder ModelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            ModelBuilder
+            modelBuilder
                 .HasDefaultSchema("dbAd")
                 .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            ModelBuilder.Entity("Api.Database.Model.Article", b =>
+            modelBuilder.Entity("Api.Database.Model.Article", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,26 +41,24 @@ namespace Api.Database.Migrations
                     b.Property<DateTime>("DateApproved")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("EmailAddress")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .IsUnicode(false);
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
                         .IsUnicode(false);
 
+                    b.Property<int>("UserId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ApprovalStatusId");
 
-                    b.HasIndex("EmailAddress");
+                    b.HasIndex("UserId")
+                        .HasName("IX_Article_EmailAddress");
 
                     b.ToTable("Article");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Artisan", b =>
+            modelBuilder.Entity("Api.Database.Model.Artisan", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,10 +74,7 @@ namespace Api.Database.Migrations
                         .HasMaxLength(150)
                         .IsUnicode(false);
 
-                    b.Property<string>("AreaLocation")
-                        .IsRequired()
-                        .HasMaxLength(60)
-                        .IsUnicode(false);
+                    b.Property<int>("AreaLocationId");
 
                     b.Property<int>("ArtisanCategoryId")
                         .HasColumnName("ArtisanCategoryID");
@@ -111,15 +106,20 @@ namespace Api.Database.Migrations
                         .HasMaxLength(150)
                         .IsUnicode(false);
 
-                    b.Property<int>("StateId");
+                    b.Property<string>("RefererCode");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
 
                     b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ArtisanCategoryId");
+                    b.HasIndex("AreaLocationId");
 
-                    b.HasIndex("StateId");
+                    b.HasIndex("ArtisanCategoryId");
 
                     b.HasIndex("UserId")
                         .IsUnique()
@@ -128,7 +128,7 @@ namespace Api.Database.Migrations
                     b.ToTable("Artisan");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.ArtisanCategories", b =>
+            modelBuilder.Entity("Api.Database.Model.ArtisanCategories", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -143,8 +143,8 @@ namespace Api.Database.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("date");
 
-                    b.Property<string>("SubCategories")
-                        .HasMaxLength(80)
+                    b.Property<string>("Description")
+                        .HasMaxLength(250)
                         .IsUnicode(false);
 
                     b.HasKey("Id");
@@ -152,7 +152,7 @@ namespace Api.Database.Migrations
                     b.ToTable("ArtisanCategories");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.ArtisanServices", b =>
+            modelBuilder.Entity("Api.Database.Model.ArtisanServices", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -185,18 +185,90 @@ namespace Api.Database.Migrations
                     b.ToTable("ArtisanServices");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.BankCodeLov", b =>
+            modelBuilder.Entity("Api.Database.Model.ArtisanSubCategory", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnName("Category_Id");
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Descr");
+
+                    b.Property<string>("SubCategories")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ArtisanSubCategory");
+                });
+
+            modelBuilder.Entity("Api.Database.Model.AuditTrail", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<string>("Browser")
+                        .HasMaxLength(70)
+                        .IsUnicode(false);
+
+                    b.Property<string>("CreatedTime")
+                        .HasMaxLength(10)
+                        .IsUnicode(false);
+
+                    b.Property<DateTime?>("CreationDate")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Device")
+                        .HasMaxLength(150)
+                        .IsUnicode(false);
+
+                    b.Property<string>("IpAddress")
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
+
+                    b.Property<string>("Lat")
+                        .HasMaxLength(150)
+                        .IsUnicode(false);
+
+                    b.Property<string>("Long")
+                        .HasMaxLength(150)
+                        .IsUnicode(false);
+
+                    b.Property<string>("MacAddress")
+                        .HasColumnName("Mac_address")
+                        .HasMaxLength(150)
+                        .IsUnicode(false);
+
+                    b.Property<string>("Os")
+                        .HasColumnName("OS")
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
+
+                    b.Property<int?>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AuditTrail");
+                });
+
+            modelBuilder.Entity("Api.Database.Model.BankCodeLov", b =>
                 {
                     b.Property<string>("Bankcode")
-                        .HasMaxLength(60);
+                        .HasMaxLength(10);
 
                     b.Property<string>("BankName")
                         .IsRequired()
                         .HasMaxLength(70)
                         .IsUnicode(false);
 
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("(getdate())");
 
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -212,7 +284,7 @@ namespace Api.Database.Migrations
                     b.ToTable("BankCodeLOV");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.BankDetails", b =>
+            modelBuilder.Entity("Api.Database.Model.BankDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -224,30 +296,31 @@ namespace Api.Database.Migrations
                         .HasMaxLength(80)
                         .IsUnicode(false);
 
-                    b.Property<string>("AccountNumber");
+                    b.Property<string>("AccountNumber")
+                        .HasMaxLength(110);
 
                     b.Property<int>("ArtisanId");
 
                     b.Property<string>("BankCode")
                         .IsRequired()
-                        .HasMaxLength(60);
+                        .HasMaxLength(10);
 
-                    b.Property<long>("Bvn")
-                        .HasColumnName("BVN");
+                    b.Property<string>("Bvn")
+                        .IsRequired()
+                        .HasColumnName("BVN")
+                        .HasMaxLength(11);
 
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime>("CreatedDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("(getdate())");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ArtisanId");
-
-                    b.HasIndex("BankCode");
 
                     b.ToTable("BankDetails");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Booking", b =>
+            modelBuilder.Entity("Api.Database.Model.Booking", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -287,7 +360,7 @@ namespace Api.Database.Migrations
                     b.ToTable("Booking");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Client", b =>
+            modelBuilder.Entity("Api.Database.Model.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -338,7 +411,7 @@ namespace Api.Database.Migrations
                     b.ToTable("Client");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Complaint", b =>
+            modelBuilder.Entity("Api.Database.Model.Complaint", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -376,7 +449,7 @@ namespace Api.Database.Migrations
                     b.ToTable("Complaint");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Gallary", b =>
+            modelBuilder.Entity("Api.Database.Model.Gallary", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -415,10 +488,31 @@ namespace Api.Database.Migrations
                     b.ToTable("Gallary");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Location", b =>
+            modelBuilder.Entity("Api.Database.Model.Lga", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<string>("Lga1")
+                        .IsRequired()
+                        .HasColumnName("LGA")
+                        .HasMaxLength(100)
+                        .IsUnicode(false);
+
+                    b.Property<int>("StateId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StateId");
+
+                    b.ToTable("LGA");
+                });
+
+            modelBuilder.Entity("Api.Database.Model.Location", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnName("ID");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("ID")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Area")
                         .HasMaxLength(100)
@@ -442,10 +536,12 @@ namespace Api.Database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("StatusId");
+
                     b.ToTable("Location");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Lov", b =>
+            modelBuilder.Entity("Api.Database.Model.Lov", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -471,7 +567,7 @@ namespace Api.Database.Migrations
                     b.ToTable("LOV");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.PaymentHistory", b =>
+            modelBuilder.Entity("Api.Database.Model.PaymentHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -512,7 +608,7 @@ namespace Api.Database.Migrations
                     b.ToTable("PaymentHistory");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Projects", b =>
+            modelBuilder.Entity("Api.Database.Model.Projects", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -552,7 +648,7 @@ namespace Api.Database.Migrations
                     b.ToTable("Projects");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Quote", b =>
+            modelBuilder.Entity("Api.Database.Model.Quote", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -621,7 +717,7 @@ namespace Api.Database.Migrations
                     b.ToTable("Quote");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Rating", b =>
+            modelBuilder.Entity("Api.Database.Model.Rating", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -670,7 +766,7 @@ namespace Api.Database.Migrations
                     b.ToTable("Rating");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Services", b =>
+            modelBuilder.Entity("Api.Database.Model.Services", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -679,12 +775,22 @@ namespace Api.Database.Migrations
 
                     b.Property<int>("ArtisanId");
 
+                    b.Property<int?>("CategoryId");
+
                     b.Property<DateTime?>("CreationDate")
                         .HasColumnType("datetime");
 
                     b.Property<string>("Descriptions")
                         .HasMaxLength(255)
                         .IsUnicode(false);
+
+                    b.Property<string>("Image")
+                        .HasMaxLength(255)
+                        .IsUnicode(false);
+
+                    b.Property<int?>("LgaId");
+
+                    b.Property<int?>("LocationId");
 
                     b.Property<string>("ServiceName")
                         .IsRequired()
@@ -694,16 +800,40 @@ namespace Api.Database.Migrations
                     b.Property<int>("StatusId")
                         .HasColumnName("StatusID");
 
+                    b.Property<int?>("SubCategoryId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ArtisanId");
 
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("LgaId");
+
+                    b.HasIndex("LocationId");
+
                     b.HasIndex("StatusId");
+
+                    b.HasIndex("SubCategoryId");
 
                     b.ToTable("Services");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.UserLogin", b =>
+            modelBuilder.Entity("Api.Database.Model.State", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .IsUnicode(false);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("State");
+                });
+
+            modelBuilder.Entity("Api.Database.Model.UserLogin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -740,7 +870,9 @@ namespace Api.Database.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<int>("StatusId");
+                    b.Property<int>("StatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValueSql("((4))");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -762,7 +894,7 @@ namespace Api.Database.Migrations
                     b.ToTable("UserLogin");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.UserRole", b =>
+            modelBuilder.Entity("Api.Database.Model.UserRole", b =>
                 {
                     b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
@@ -783,28 +915,33 @@ namespace Api.Database.Migrations
                     b.ToTable("UserRole");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Article", b =>
+            modelBuilder.Entity("Api.Database.Model.Article", b =>
                 {
                     b.HasOne("Api.Database.Model.Lov", "ApprovalStatus")
                         .WithMany("Article")
                         .HasForeignKey("ApprovalStatusId")
-                        .HasConstraintName("FK_Article_ArticleStatusLOV");
+                        .HasConstraintName("FK_Article_LOV");
+
+                    b.HasOne("Api.Database.Model.UserLogin", "User")
+                        .WithMany("Article")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_Article_UserLogin");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Artisan", b =>
+            modelBuilder.Entity("Api.Database.Model.Artisan", b =>
                 {
+                    b.HasOne("Api.Database.Model.Location", "AreaLocation")
+                        .WithMany("Artisan")
+                        .HasForeignKey("AreaLocationId")
+                        .HasConstraintName("FK_Artisan_Location");
+
                     b.HasOne("Api.Database.Model.ArtisanCategories", "ArtisanCategory")
                         .WithMany("Artisan")
                         .HasForeignKey("ArtisanCategoryId")
-                        .HasConstraintName("FK_Artisan_Catg");
-
-                    b.HasOne("Api.Database.Model.Location", "State")
-                        .WithMany("Artisan")
-                        .HasForeignKey("StateId")
-                        .HasConstraintName("FK_Artisan_Location");
+                        .HasConstraintName("FK_Artisan_ArtisanCategories");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.ArtisanServices", b =>
+            modelBuilder.Entity("Api.Database.Model.ArtisanServices", b =>
                 {
                     b.HasOne("Api.Database.Model.Artisan", "Artisan")
                         .WithMany("ArtisanServices")
@@ -812,20 +949,15 @@ namespace Api.Database.Migrations
                         .HasConstraintName("FK_ArtisanServices_Artisan");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.BankDetails", b =>
+            modelBuilder.Entity("Api.Database.Model.AuditTrail", b =>
                 {
-                    b.HasOne("Api.Database.Model.Artisan", "Artisan")
-                        .WithMany("BankDetails")
-                        .HasForeignKey("ArtisanId")
-                        .HasConstraintName("FK_BankDetails_Artisan");
-
-                    b.HasOne("Api.Database.Model.BankCodeLov", "BankCodeNavigation")
-                        .WithMany("BankDetails")
-                        .HasForeignKey("BankCode")
-                        .HasConstraintName("FK_BankDetails_BankDetails");
+                    b.HasOne("Api.Database.Model.UserLogin", "User")
+                        .WithMany("AuditTrail")
+                        .HasForeignKey("UserId")
+                        .HasConstraintName("FK_AuditTrail_Login");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Booking", b =>
+            modelBuilder.Entity("Api.Database.Model.Booking", b =>
                 {
                     b.HasOne("Api.Database.Model.Artisan", "Artisan")
                         .WithMany("Booking")
@@ -838,7 +970,7 @@ namespace Api.Database.Migrations
                         .HasConstraintName("FK_Booking_Client");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Complaint", b =>
+            modelBuilder.Entity("Api.Database.Model.Complaint", b =>
                 {
                     b.HasOne("Api.Database.Model.Lov", "Status")
                         .WithMany("Complaint")
@@ -846,7 +978,7 @@ namespace Api.Database.Migrations
                         .HasConstraintName("FK_Complainant_StatusTable");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Gallary", b =>
+            modelBuilder.Entity("Api.Database.Model.Gallary", b =>
                 {
                     b.HasOne("Api.Database.Model.Artisan", "Artisan")
                         .WithMany("Gallary")
@@ -859,15 +991,23 @@ namespace Api.Database.Migrations
                         .HasConstraintName("FK_Gallary_Projects");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Location", b =>
+            modelBuilder.Entity("Api.Database.Model.Lga", b =>
                 {
-                    b.HasOne("Api.Database.Model.Lov", "IdNavigation")
-                        .WithOne("Location")
-                        .HasForeignKey("Api.Database.Model.Location", "Id")
+                    b.HasOne("Api.Database.Model.State", "State")
+                        .WithMany("Lga")
+                        .HasForeignKey("StateId")
+                        .HasConstraintName("FK_LGA_State");
+                });
+
+            modelBuilder.Entity("Api.Database.Model.Location", b =>
+                {
+                    b.HasOne("Api.Database.Model.Lov", "Status")
+                        .WithMany("Location")
+                        .HasForeignKey("StatusId")
                         .HasConstraintName("FK_Location_LOV");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.PaymentHistory", b =>
+            modelBuilder.Entity("Api.Database.Model.PaymentHistory", b =>
                 {
                     b.HasOne("Api.Database.Model.Artisan", "Artisan")
                         .WithMany("PaymentHistory")
@@ -885,7 +1025,7 @@ namespace Api.Database.Migrations
                         .HasConstraintName("FK_PaymentHistory_Projects");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Projects", b =>
+            modelBuilder.Entity("Api.Database.Model.Projects", b =>
                 {
                     b.HasOne("Api.Database.Model.Artisan", "Artisan")
                         .WithMany("Projects")
@@ -903,7 +1043,7 @@ namespace Api.Database.Migrations
                         .HasConstraintName("FK_Projects_Quote");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Quote", b =>
+            modelBuilder.Entity("Api.Database.Model.Quote", b =>
                 {
                     b.HasOne("Api.Database.Model.Booking", "Booking")
                         .WithMany("Quote")
@@ -926,7 +1066,7 @@ namespace Api.Database.Migrations
                         .HasConstraintName("FK__LOV_Quote");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Rating", b =>
+            modelBuilder.Entity("Api.Database.Model.Rating", b =>
                 {
                     b.HasOne("Api.Database.Model.Artisan", "Artisan")
                         .WithMany("Rating")
@@ -944,20 +1084,39 @@ namespace Api.Database.Migrations
                         .HasConstraintName("FK__Rating__Project");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.Services", b =>
+            modelBuilder.Entity("Api.Database.Model.Services", b =>
                 {
                     b.HasOne("Api.Database.Model.Artisan", "Artisan")
                         .WithMany("Services")
                         .HasForeignKey("ArtisanId")
                         .HasConstraintName("FK_Services_Artisan");
 
+                    b.HasOne("Api.Database.Model.ArtisanCategories", "Category")
+                        .WithMany("Services")
+                        .HasForeignKey("CategoryId")
+                        .HasConstraintName("FK_Services_Category");
+
+                    b.HasOne("Api.Database.Model.Lga", "Lga")
+                        .WithMany("Services")
+                        .HasForeignKey("LgaId")
+                        .HasConstraintName("FK_Services_LGA");
+
+                    b.HasOne("Api.Database.Model.Location", "Location")
+                        .WithMany("Services")
+                        .HasForeignKey("LocationId")
+                        .HasConstraintName("FK_Services_Location");
+
                     b.HasOne("Api.Database.Model.Lov", "Status")
                         .WithMany("Services")
                         .HasForeignKey("StatusId")
                         .HasConstraintName("FK__Services__Status");
+
+                    b.HasOne("Api.Database.Model.ArtisanSubCategory", "SubCategory")
+                        .WithMany()
+                        .HasForeignKey("SubCategoryId");
                 });
 
-            ModelBuilder.Entity("Api.Database.Model.UserLogin", b =>
+            modelBuilder.Entity("Api.Database.Model.UserLogin", b =>
                 {
                     b.HasOne("Api.Database.Model.UserRole", "Role")
                         .WithMany("UserLogin")

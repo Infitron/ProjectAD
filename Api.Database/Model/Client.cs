@@ -10,7 +10,6 @@ namespace Api.Database.Model
             Booking = new HashSet<Booking>();
             PaymentHistory = new HashSet<PaymentHistory>();
             Projects = new HashSet<Projects>();
-            Quote = new HashSet<Quote>();
             Rating = new HashSet<Rating>();
         }
 
@@ -27,7 +26,6 @@ namespace Api.Database.Model
         public virtual ICollection<Booking> Booking { get; set; }
         public virtual ICollection<PaymentHistory> PaymentHistory { get; set; }
         public virtual ICollection<Projects> Projects { get; set; }
-        public virtual ICollection<Quote> Quote { get; set; }
         public virtual ICollection<Rating> Rating { get; set; }
     }
 }

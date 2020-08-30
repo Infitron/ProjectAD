@@ -66,6 +66,7 @@ namespace ProjectADApi.Controllers.V2.Contract
         public static class Order
         {
             public const string GetAll = Base + "/Order";
+            public const string GetOrder = Base + "/Order/Artisan/{ArtisanId}";
             public const string Get = Base + "/Order/{id}";
             public const string Create = Base + "/Order";
             public const string Update = Base + "/Order";
@@ -102,9 +103,9 @@ namespace ProjectADApi.Controllers.V2.Contract
         public static class Quote
         {
             public const string GetAll = Base + "/Quote";
-            public const string Get = Base + "/Quote/{projectId}";
+            public const string Get = Base + "/Quote/id";
             public const string Create = Base + "/Quote";
-            public const string Update = Base + "/Quote";
+            public const string Update = Base + "/Quote/{id}";
             public const string Delete = Base + "/Quote/{id}";
         }
 
@@ -165,15 +166,17 @@ namespace ProjectADApi.Controllers.V2.Contract
         public static class StateLocalGovernment
         {
             public const string ThisState = Base + "/StateLocalGovernment/ThisState/{stateId}";
-            public const string AllState = Base + "/StateLocalGovernment/AllState";
-            public const string AllLocalGovernment = Base + "/StateLocalGovernment/AllState";
+            public const string AllState = Base + "/StateLocalGovernment/State/AllState";
+            public const string AllLocalGovernment = Base + "/StateLocalGovernment/LocalGoverment/AllLocalGovernment{StateId}";
 
         }
 
         public static class Complaint
         {
-            public const string GetAll = Base + "/Complaint/GetAllComplaints/{ArtisanId}";
-            public const string Get = Base + "/GetComplaint/GetComplaint/{ComplaintId}";
+            public const string GetAll = Base + "/Complaint";
+            public const string GetByArtisan = Base + "/Complaint/Artisan/{ArtisanId}";
+            public const string Get = Base + "/Complaint/{ComplaintId}";
+            public const string GetByStatus = Base + "/Complaint/Status/{StatusId}";
             public const string Create = Base + "/Complaint";
             public const string Update = Base + "/Complaint/{ComplaintId}";
             public const string Delete = Base + "/Complaint/{id}";

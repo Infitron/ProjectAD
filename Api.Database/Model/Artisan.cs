@@ -29,10 +29,10 @@ namespace Api.Database.Model
         public string State { get; set; }
         public string AboutMe { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public string RefererCode { get; set; }
 
         public virtual Location AreaLocation { get; set; }
         public virtual ArtisanCategories ArtisanCategory { get; set; }
-        public virtual Quote Quote { get; set; }
         public virtual ICollection<ArtisanServices> ArtisanServices { get; set; }
         public virtual ICollection<Booking> Booking { get; set; }
         public virtual ICollection<Gallary> Gallary { get; set; }

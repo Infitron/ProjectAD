@@ -13,6 +13,7 @@ namespace ProjectADApi.ApiConfig
     public class AppVariable
     {
         public string BaseUrlPath { get; set; }
+        public string VAT { get; set; }
     }
 
     public enum AppStatus
@@ -26,7 +27,10 @@ namespace ProjectADApi.ApiConfig
         Completed = 7,
         Submitted = 8,
         Initiated = 9,
-        Suspended = 10
+        Suspended = 10,
+        Accepted = 11,
+        Raised = 12,
+        Adjusted = 13
     }
 
     public enum AppUsers
@@ -35,4 +39,6 @@ namespace ProjectADApi.ApiConfig
         Client,
         Admin       
     }
+
+    
 }

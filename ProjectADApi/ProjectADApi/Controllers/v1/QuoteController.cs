@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
 
@@ -61,14 +63,13 @@ namespace ProjectADApi.Controllers.V1
 
             Quote newQuote = new Quote
             {
-                Price = model.Price,
-                Quantity = model.Quantity,
-                Descr = model.Descr,
                 Address1 = model.Address1,
-                Item = model.Item,
+                Item = JsonConvert.SerializeObject(model.Item),
                 Discount = model.Discount,
-                Vat = model.Vat,
-                ArtisanId = model.ArtisanId
+                OrderStatusId = (int)AppStatus.Initiated,
+                CreatedDate = DateTime.Now,
+                QuoteStatusId = (int)AppStatus.Raised,
+                BookingId = model.BookingId
             };
 
             await _quoteRepository.CreateAsync(newQuote);

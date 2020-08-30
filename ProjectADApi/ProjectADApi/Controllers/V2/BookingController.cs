@@ -6,6 +6,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -30,14 +31,16 @@ namespace ProjectADApiControllers.V2
         readonly IRepository<UserLogin> _userLoginRepository;
         readonly IRepository<Client> _clientRepository;
         readonly IRepository<Services> _serviceRepository;
+        readonly IMapper _mapper;
 
-        public BookingController(IRepository<Booking> bookingRepository, IRepository<Artisan> artisanRepository, IRepository<UserLogin> userLoginRepository, IRepository<Client> clientRepository, IRepository<Services> serviceRepository)
+        public BookingController(IRepository<Booking> bookingRepository, IRepository<Artisan> artisanRepository, IRepository<UserLogin> userLoginRepository, IRepository<Client> clientRepository, IRepository<Services> serviceRepository, IMapper mapper)
         {
             _bookingRepository = bookingRepository;
             _artisanRepository = artisanRepository;
             _userLoginRepository = userLoginRepository;
             _clientRepository = clientRepository;
             _serviceRepository = serviceRepository;
+            _mapper = mapper;
         }
 
         // GET: api/Booking
@@ -94,6 +97,37 @@ namespace ProjectADApiControllers.V2
                     QuoteId = getBooking.QuoteId
                 };
                 return Ok(new { status = HttpStatusCode.OK, Message = thisBooking });
+            }
+            return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "Wrond booking id supplied" });
+        }
+
+
+        //GET: api/Booking/5        
+        [HttpGet(ApiRoute.Order.GetOrder)]
+        public async Task<IActionResult> GetOrder(int ArtisanId)
+        {
+            List<Booking> getBookings = await _bookingRepository.GetByAsync(x => x.ArtisanId.Equals(ArtisanId)).ToListAsync();
+
+            if (getBookings.Any())
+            {
+                //BookingResponse thisBooking = new BookingResponse
+                //{
+                //    Id = getBooking.Id,
+                //    ArtisanId = getBooking.ArtisanId,
+                //    ClientId = getBooking.ClienId,
+                //    ArtisanFullName = $"{getBooking.Artisan.FirstName ?? string.Empty} {getBooking.Artisan?.LastName ?? string.Empty}",
+                //    ClientFullName = $"{getBooking.Clien.FirstName ?? string.Empty} {getBooking.Clien.LastName ?? string.Empty}",
+                //    Messages = getBooking.Messages,
+                //    MsgTime = getBooking.MsgTime,
+                //    MsgDate = getBooking.MsgDate,
+                //    CreatedDate = getBooking.CreatedDate,
+                //    ServiceId = getBooking.Id,
+                //    QuoteId = getBooking.QuoteId
+                //};
+
+                var myBoodkings = _mapper.Map<List<ProjectADApi.Controllers.V2.Contract.Response.BookingResponse>>(getBookings);
+               
+                return Ok(new { status = HttpStatusCode.OK, Message = myBoodkings });
             }
             return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "Wrond booking id supplied" });
         }

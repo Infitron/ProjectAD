@@ -19,7 +19,7 @@ using ProjectADApi.Controllers.V2.Contract.Response;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ComplaintBoxController : ControllerBase
     {
         readonly private IRepository<Complaint> _complaintRepository;
@@ -32,7 +32,36 @@ namespace ProjectADApi.Controllers.V2
         }
         // GET: api/Complaint
         [HttpGet(ApiRoute.Complaint.GetAll)]
-        public async Task<IActionResult> GetAll(int ArtisanId)
+        public async Task<IActionResult> GetAll()
+        {
+            IEnumerable<Complaint> complaints = await _complaintRepository.GetAllAsync();
+
+            if (complaints.Any())
+            {
+                List<ComplaintResponse> sll = _mapper.Map<List<ComplaintResponse>>(complaints);
+
+                return Ok(new { status = HttpStatusCode.OK, message = sll });
+            }
+            return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
+        }
+
+        [HttpGet(ApiRoute.Complaint.GetByArtisan)]
+        public async Task<IActionResult> GetByArtisan (int ArtisanId)
+        {
+            IEnumerable<Complaint> complaints = await _complaintRepository.GetByAsync(x => x.EmailId.Equals(ArtisanId)).ToListAsync();
+
+            if (complaints.Any())
+            {
+                List<ComplaintResponse> sll = _mapper.Map<List<ComplaintResponse>>(complaints);
+
+                return Ok(new { status = HttpStatusCode.OK, message = sll });
+            }
+            return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
+
+        }
+
+        [HttpGet(ApiRoute.Complaint.GetByStatus)]
+        public async Task<IActionResult> GetByStatus(int ArtisanId)
         {
             IEnumerable<Complaint> complaints = await _complaintRepository.GetByAsync(x => x.EmailId.Equals(ArtisanId)).ToListAsync();
 

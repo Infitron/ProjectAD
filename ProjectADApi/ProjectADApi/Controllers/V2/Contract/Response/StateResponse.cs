@@ -1,4 +1,6 @@
-﻿using Api.Database.Model;
+﻿using Api.Database.Core;
+using Api.Database.Model;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,13 +11,18 @@ using System.Threading.Tasks;
 
 namespace ProjectADApi.Controllers.V2.Contract.Response
 {
-    [JsonObject(IsReference = true)]
+   // [JsonObject(IsReference = true)]
     public class StateResponse
     {
+        private projectadContext _projectadContext = new projectadContext();
+        IRepository<Lga> _lgaRepository;
+
+        public StateResponse () => _lgaRepository = new Api.Database.Implementation.Repository<Lga>(_projectadContext);
+
         public int Id { get; set; }
         public string Name { get; set; }
        
-        public ICollection<Lga> LocalGovernment { get; set; } 
+        public List<Lga> LocalGovernment => _lgaRepository.GetByAsync(x => x.StateId.Equals(Id)).ToList(); 
 
         //public override string ToString()
         //{

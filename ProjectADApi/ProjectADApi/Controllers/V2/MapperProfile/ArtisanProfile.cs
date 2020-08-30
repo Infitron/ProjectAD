@@ -37,8 +37,7 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
     {
         public BookingProfile()
         {
-            CreateMap<Booking, BookingResponse>();
-
+            CreateMap<Booking, BookingResponse>(MemberList.Source);
         }
     }
 

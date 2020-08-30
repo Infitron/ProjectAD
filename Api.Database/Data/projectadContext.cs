@@ -43,8 +43,9 @@ namespace Api.Database.Model
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("server=103.108.220.238;database=projectad;user id=dbAd; password=8Y#3iDY:8wCcf8");
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("server=103.108.220.238;database=projectad;user id=dbAd; password=t017wtP@");
+                optionsBuilder.UseLazyLoadingProxies();
             }
         }
 
@@ -133,6 +134,10 @@ namespace Api.Database.Model
 
                 entity.Property(e => e.PicturePath)
                     .IsRequired()
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RefererCode)
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
@@ -593,17 +598,12 @@ namespace Api.Database.Model
 
             modelBuilder.Entity<Quote>(entity =>
             {
-                entity.HasIndex(e => e.ArtisanId)
-                    .HasName("IX_Quote_ArtisanEmail");
-
                 entity.HasIndex(e => e.BookingId)
                     .HasName("IX_Quote_ProjectID");
 
                 entity.HasIndex(e => e.OrderStatusId);
 
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .ValueGeneratedOnAdd();
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Address1)
                     .IsRequired()
@@ -612,25 +612,20 @@ namespace Api.Database.Model
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Descr)
-                    .IsRequired()
-                    .HasMaxLength(800)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.Discount)
                     .HasColumnType("decimal(38, 2)")
                     .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Item)
                     .IsRequired()
-                    .HasMaxLength(80)
+                    .HasMaxLength(4000)
                     .IsUnicode(false);
 
                 entity.Property(e => e.OrderDate).HasColumnType("datetime");
 
                 entity.Property(e => e.OrderStatusId).HasColumnName("OrderStatus_Id");
 
-                entity.Property(e => e.Price).HasColumnType("decimal(38, 2)");
+                entity.Property(e => e.QuoteStatusId).HasDefaultValueSql("((12))");
 
                 entity.Property(e => e.Vat)
                     .HasColumnName("VAT")
@@ -643,23 +638,16 @@ namespace Api.Database.Model
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Quote_Booking");
 
-                entity.HasOne(d => d.Client)
-                    .WithMany(p => p.Quote)
-                    .HasForeignKey(d => d.ClientId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Quote_Client");
-
-                entity.HasOne(d => d.IdNavigation)
-                    .WithOne(p => p.Quote)
-                    .HasForeignKey<Quote>(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Quote_Artisan");
-
                 entity.HasOne(d => d.OrderStatus)
-                    .WithMany(p => p.Quote)
+                    .WithMany(p => p.QuoteOrderStatus)
                     .HasForeignKey(d => d.OrderStatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__LOV_Quote");
+
+                entity.HasOne(d => d.QuoteStatus)
+                    .WithMany(p => p.QuoteQuoteStatus)
+                    .HasForeignKey(d => d.QuoteStatusId)
+                    .HasConstraintName("FK_Quote_QuoteStatus");
             });
 
             modelBuilder.Entity<Rating>(entity =>
@@ -759,6 +747,11 @@ namespace Api.Database.Model
                     .HasForeignKey(d => d.StatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Services__Status");
+
+                entity.HasOne(d => d.SubCategory)
+                    .WithMany(p => p.Services)
+                    .HasForeignKey(d => d.SubCategoryId)
+                    .HasConstraintName("FK_Services_ArtisanSubCategory");
             });
 
             modelBuilder.Entity<State>(entity =>

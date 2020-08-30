@@ -37,49 +37,53 @@ namespace ProjectADApi.Controllers.V2
         [HttpGet(ApiRoute.StateLocalGovernment.ThisState)]
         public async Task<IActionResult> ThisState(int stateId)
         {
-            //var thisState = _mapper.Map<StateResponse>( await _stateRepository.GetByIdAsync(stateId));
-            var thisState = await _stateRepository.GetByAsync(x => x.Id.Equals(stateId)).FirstOrDefaultAsync();
-            var des = JsonConvert.SerializeObject(thisState, Formatting.Indented, new JsonSerializerSettings()
-            {
-                ReferenceLoopHandling
-     = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            });
+            var thisState = _mapper.Map<StateResponse>(await _stateRepository.GetByAsync(x => x.Id.Equals(stateId)).FirstOrDefaultAsync());
+            //       var thisState = await _stateRepository.GetByAsync(x => x.Id.Equals(stateId)).FirstOrDefaultAsync();
+            //       var des = JsonConvert.SerializeObject(thisState, Formatting.Indented, new JsonSerializerSettings()
+            //       {
+            //           ReferenceLoopHandling
+            //= Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            //       });
 
 
-            return Ok(new { status = HttpStatusCode.Created, message = JsonConvert.DeserializeObject(des) });
+            return Ok(new { status = HttpStatusCode.Created, message = thisState });
         }
 
         // GET: api/States/5
         [HttpGet(ApiRoute.StateLocalGovernment.AllState)]
         public async Task<IActionResult> AllState()
         {
-            //var thisState = _mapper.Map<StateResponse>( await _stateRepository.GetByIdAsync(stateId));
-            var thisState = await _stateRepository.GetAllAsync();
-            var des = JsonConvert.SerializeObject(thisState, Formatting.Indented, new JsonSerializerSettings()
+            IEnumerable<State> allState = await _stateRepository.GetAllAsync();
+            //       var thisState = await _stateRepository.GetAllAsync();
+            //       var des = JsonConvert.SerializeObject(thisState, Formatting.Indented, new JsonSerializerSettings()
+            //       {
+            //           ReferenceLoopHandling
+            //= Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            //       });
+
+            if (allState.Any())
             {
-                ReferenceLoopHandling
-     = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            });
-
-
-            return Ok(new { status = HttpStatusCode.Created, message = JsonConvert.DeserializeObject(des) });
+                List<StateResponse> allStates = _mapper.Map<List<StateResponse>>(allState);
+                return Ok(new { status = HttpStatusCode.OK, message = allStates });
+            }
+            return NoContent();
         }
 
         // POST: api/States
-        [HttpPost(ApiRoute.StateLocalGovernment.AllLocalGovernment)]
-        public async Task<IActionResult> Post([FromBody] StateModel model)
-        {
-            //var thisState = _mapper.Map<StateResponse>( await _stateRepository.GetByIdAsync(stateId));
-            var thisState = await _dbContext.Lga.Select(s => new Lga { Lga1 = s.Lga1, StateId = s.StateId, Id = s.Id }).Where(s => s.StateId == model.StateId).ToListAsync();
-            var des = JsonConvert.SerializeObject(thisState, Formatting.Indented, new JsonSerializerSettings()
-            {
-                ReferenceLoopHandling
-     = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-            });
+        //   [HttpGet(ApiRoute.StateLocalGovernment.AllLocalGovernment)]
+        //   public async Task<IActionResult> AllLocalGoverments( int StateId)
+        //   {
+        //       //var thisState = _mapper.Map<StateResponse>( await _stateRepository.GetByIdAsync(stateId));
+        //       var thisState = await _dbContext.Lga.Select(s => new Lga { Lga1 = s.Lga1, StateId = s.StateId, Id = s.Id }).Where(s => s.StateId == model.StateId).ToListAsync();
+        //       var des = JsonConvert.SerializeObject(thisState, Formatting.Indented, new JsonSerializerSettings()
+        //       {
+        //           ReferenceLoopHandling
+        //= Newtonsoft.Json.ReferenceLoopHandling.Ignore
+        //       });
 
 
-            return Ok(new { status = HttpStatusCode.Created, message = JsonConvert.DeserializeObject(des) });
-        }
+        //       return Ok(new { status = HttpStatusCode.Created, message = JsonConvert.DeserializeObject(des) });
+        //   }
 
         //// PUT: api/States/5
         //[HttpPut("{id}")]

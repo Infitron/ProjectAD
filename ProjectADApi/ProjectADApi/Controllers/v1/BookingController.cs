@@ -17,6 +17,7 @@ using ProjectADApi.Contract.Request;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
 using ProjectADApi.Controllers.V1.Contracts.Response;
+//using ProjectADApi.Controllers.V2.Contract.Response;
 
 namespace ProjectADApi.Controllers
 {
@@ -48,8 +49,8 @@ namespace ProjectADApi.Controllers
 
             if (allBooking != null)
             {
-                List<BookingResponse> allBookingResponse = allBooking.Select(x =>
-                new BookingResponse
+                List<V1.Contracts.Response.BookingResponse> allBookingResponse = allBooking.Select(x =>
+                new V1.Contracts.Response.BookingResponse
                 {
                     Id = x.Id,
                     ArtisanId = x.ArtisanId,

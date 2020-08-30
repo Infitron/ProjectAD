@@ -19,7 +19,7 @@ using ProjectADApi.Controllers.V2.Contract.Response;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class LocationController : ControllerBase
     {
 
@@ -59,7 +59,7 @@ namespace ProjectADApi.Controllers.V2
             if (thisLocation == null)
                 return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "We could not find the location you requested" });
 
-            return Ok(new { status = HttpStatusCode.NotFound, Message = locationsResponse });
+            return Ok(new { status = HttpStatusCode.NotFound, Message = locationsResponse});
         }
 
         // POST: api/Location
