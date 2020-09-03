@@ -15,7 +15,9 @@ namespace ProjectADApi.Controllers.V2.Contract.Request
         public decimal? Discount { get; set; }
         public string Address1 { get; set; } 
         public int BookingId { get; set; }
-        public DateTime? CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; } = DateTime.Now;
+        public DateTime? OrderDate { get; set; } = DateTime.Now;
+
 
         //public int Id { get; set; }
         //public DateTime OrderDate { get; set; } = DateTime.Now;

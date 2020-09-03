@@ -21,7 +21,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [SwaggerTag("New and improved version of the Artisan endpoints. This version give more detail about an artisan. You can see the order(s) an artisan has had. The project he/she has handled over time and lot more.")]
     public class ArtisanController : ControllerBase
     {
@@ -43,10 +43,9 @@ namespace ProjectADApi.Controllers.V2
             if (AllArtisans.Any())
             {
                 List<ArtisanResponse> sll = _mapper.Map<List<ArtisanResponse>>(AllArtisans);
-                
-
-                //var des = JsonConvert.DeserializeObject(ser);
-                return Ok(new { status = HttpStatusCode.OK, message = sll });
+                var ser = JsonConvert.SerializeObject(sll);
+                var des = JsonConvert.DeserializeObject(ser);
+                return Ok(new { status = HttpStatusCode.OK, message = des });
             }
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
         }

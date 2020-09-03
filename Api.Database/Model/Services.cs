@@ -16,6 +16,7 @@ namespace Api.Database.Model
         public int? LgaId { get; set; }
         public string Image { get; set; }
         public DateTime? CreationDate { get; set; }
+        public int? StateId { get; set; }
 
         public virtual Artisan Artisan { get; set; }
         public virtual ArtisanCategories Category { get; set; }

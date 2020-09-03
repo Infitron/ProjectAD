@@ -4,6 +4,7 @@
 		<TargetFramework>netcoreapp2.2</TargetFramework>
 		<AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
 		<Configurations>Debug;Release;New Debug</Configurations>
+		<UserSecretsId>922c159f-fa2c-4b82-be7c-852437c457e7</UserSecretsId>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

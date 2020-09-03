@@ -19,11 +19,11 @@ using ProjectADApi.Controllers.V2.Contract.Response;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ComplaintBoxController : ControllerBase
     {
         readonly private IRepository<Complaint> _complaintRepository;
-        private readonly IMapper _mapper;
+        readonly IMapper _mapper;
 
         public ComplaintBoxController(IRepository<Complaint> complaintRepository, IMapper mapper)
         {

@@ -16,11 +16,12 @@ using ProjectADApi.ApiConfig;
 using Newtonsoft.Json;
 using ProjectADApi.Controllers.V2.Contract.Response;
 using ProjectADApi.Model;
+using AutoMapper;
 
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class QuoteController : ControllerBase
     {
         readonly IRepository<Quote> _quoteRepository;
@@ -28,14 +29,16 @@ namespace ProjectADApi.Controllers.V2
         readonly IRepository<Booking> _bookingRepository;
         readonly IRepository<Services> _serviceRepository;
         readonly AppVariable _appVariable;
+        readonly IMapper _mapper;
 
-        public QuoteController(IRepository<Quote> quoteRepository, IRepository<Projects> projectRepository, IRepository<Booking> bookingRepository, IRepository<Services> serviceRepository, AppVariable appVariable)
+        public QuoteController(IRepository<Quote> quoteRepository, IRepository<Projects> projectRepository, IRepository<Booking> bookingRepository, IRepository<Services> serviceRepository, IMapper mapper, AppVariable appVariable)
         {
             _quoteRepository = quoteRepository;
             _projectRepository = projectRepository;
             _bookingRepository = bookingRepository;
             _serviceRepository = serviceRepository;
             _appVariable = appVariable;
+            _mapper = mapper;
         }
 
 
@@ -79,35 +82,42 @@ namespace ProjectADApi.Controllers.V2
             }
 
             Services getServiceBooking = await _serviceRepository.GetByAsync(x => x.Id.Equals(serviceId.Value)).FirstOrDefaultAsync();
+            Quote newQuote = _mapper.Map<Quote>(model);
+            newQuote.OrderStatusId = (int)AppStatus.Initiated;
+            newQuote.QuoteStatusId =  (int)AppStatus.Raised;
 
-            Quote newQuote = new Quote
-            {
-                Address1 = model.Address1,
-                Item = JsonConvert.SerializeObject(model.Item),
-                Discount = model.Discount,
-                OrderStatusId = (int)AppStatus.Initiated,
-                CreatedDate = DateTime.Now,
-                QuoteStatusId = (int)AppStatus.Raised,
-                BookingId = model.BookingId,
-                OrderDate = DateTime.Now
-            };
 
-            await _quoteRepository.CreateAsync(newQuote);
 
-            QuoteResponse response = new QuoteResponse
-            {
-                Id = newQuote.Id,
-                //Client = $"{getQuoteBooking.Clien.FirstName} {getQuoteBooking.Clien.FirstName}",
-                //Artisan = $"{getQuoteBooking.Artisan.FirstName} {getQuoteBooking.Artisan.LastName}",
-                Item = JsonConvert.DeserializeObject<List<QuoteItem>>(newQuote.Item),
-                Address1 = newQuote.Address1,
-                BookingId = newQuote.BookingId,
-                OrderDate = newQuote.OrderDate,
-                OrderStatus = Enum.GetName(typeof(AppStatus), newQuote.OrderStatusId),
-                QuoteStatus = Enum.GetName(typeof(AppStatus), newQuote.QuoteStatusId),
-                Vat = newQuote.Vat
+            //Quote newQuote = new Quote
+            //{
+            //    Address1 = model.Address1,
+            //    Item = JsonConvert.SerializeObject(model.Item),
+            //    Discount = model.Discount,
+            //    OrderStatusId = (int)AppStatus.Initiated,
+            //    CreatedDate = DateTime.Now,
+            //    QuoteStatusId = (int)AppStatus.Raised,
+            //    BookingId = model.BookingId,
+            //    OrderDate = DateTime.Now
+            //};
 
-            };
+            var created = await _quoteRepository.CreateAsync(newQuote);
+
+            QuoteResponse response = _mapper.Map<QuoteResponse>(created);
+
+            //QuoteResponse response = new QuoteResponse
+            //{
+            //    Id = newQuote.Id,
+            //    //Client = $"{getQuoteBooking.Clien.FirstName} {getQuoteBooking.Clien.FirstName}",
+            //    //Artisan = $"{getQuoteBooking.Artisan.FirstName} {getQuoteBooking.Artisan.LastName}",
+            //    Item = JsonConvert.DeserializeObject<List<QuoteItem>>(newQuote.Item),
+            //    Address1 = newQuote.Address1,
+            //    BookingId = newQuote.BookingId,
+            //    OrderDate = newQuote.OrderDate,
+            //    OrderStatus = Enum.GetName(typeof(AppStatus), newQuote.OrderStatusId),
+            //    QuoteStatus = Enum.GetName(typeof(AppStatus), newQuote.QuoteStatusId),
+            //    Vat = newQuote.Vat
+
+            //};
 
             return CreatedAtAction(nameof(ThisQuote), new { id = newQuote.Id }, new { status = HttpStatusCode.Created, message = response });
         }
@@ -135,8 +145,8 @@ namespace ProjectADApi.Controllers.V2
                     Address1 = getQuote.Address1,
                     BookingId = getQuote.BookingId,
                     OrderDate = getQuote.OrderDate,
-                    OrderStatus = Enum.GetName(typeof(AppStatus), getQuote.OrderStatusId),
-                    QuoteStatus = Enum.GetName(typeof(AppStatus), getQuote.QuoteStatusId),
+                    //OrderStatus = Enum.GetName(typeof(AppStatus), getQuote.OrderStatusId),
+                    //QuoteStatus = Enum.GetName(typeof(AppStatus), getQuote.QuoteStatusId),
                     Vat = getQuote.Vat
 
                 };

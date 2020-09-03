@@ -1,4 +1,5 @@
-﻿using ProjectADApi.Model;
+﻿using ProjectADApi.ApiConfig;
+using ProjectADApi.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,10 @@ namespace ProjectADApi.Controllers.V2.Contract.Response
         public int BookingId { get; set; }
         public DateTime OrderDate { get; set; }
         public int OrderStatusId { get; set; }
+        public int QuoteStatusId { get; set; }
         public DateTime? CreatedDate { get; set; }
 
-        public string QuoteStatus { get; set; }
-        public string OrderStatus { get; set; }
+        public string QuoteStatus => Enum.GetName(typeof(AppStatus),  value: QuoteStatusId);
+        public string OrderStatus => Enum.GetName(typeof(AppStatus), OrderStatusId);
     }
 }

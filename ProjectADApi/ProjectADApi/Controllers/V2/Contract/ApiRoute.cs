@@ -28,6 +28,7 @@ namespace ProjectADApi.Controllers.V2.Contract
             public const string Create = Base + "/artisan";
             public const string Update = Base + "/artisan/{id}";
             public const string Delete = Base + "/artisan/{id}";
+            public const string Upgrade = Base + "/artisan/{id}";
         }
 
         public static class Search

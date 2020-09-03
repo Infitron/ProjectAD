@@ -30,18 +30,22 @@ namespace ProjectADApi.Controllers.V2
         readonly IRepository<Services> _serviceRepository;
         readonly IRepository<Artisan> _artisanRepository;
         readonly IRepository<UserLogin> _userLoginRepository;
+        readonly IRepository<ArtisanSubCategory> _subCatRepository;
+        readonly IRepository<Lga> _lgaRepository;
         readonly FlutterRaveConf _flutterRaveConf;
         projectadContext dbContext;
         private readonly IMapper _mapper;
 
 
 
-        public ServiceController(IRepository<Services> serviceRepository, IRepository<Artisan> artisanRepository, IRepository<UserLogin> userLoginRepository, FlutterRaveConf flutterRaveConf, projectadContext BbContext, IMapper mapper)
+        public ServiceController(IRepository<Services> serviceRepository, IRepository<Artisan> artisanRepository, IRepository<UserLogin> userLoginRepository, FlutterRaveConf flutterRaveConf, projectadContext BbContext, IMapper mapper, IRepository<ArtisanSubCategory> subCatRepository, IRepository<Lga> lgaRepository)
         {
             _serviceRepository = serviceRepository;
             _artisanRepository = artisanRepository;
             _userLoginRepository = userLoginRepository;
             _flutterRaveConf = flutterRaveConf;
+            _subCatRepository = subCatRepository;
+            _lgaRepository = lgaRepository;
             dbContext = BbContext;
             _mapper = mapper;
         }
@@ -54,17 +58,23 @@ namespace ProjectADApi.Controllers.V2
 
             if (AllArticle.Any())
             {
-                List<ServiceResponse> services = AllArticle.Select(x =>
-                new ServiceResponse
-                {
-                    Id = x.Id,
-                    ArtisanId = x.ArtisanId,
-                    ServiceName = x.ServiceName,
-                    StatusId = x.StatusId,
-                    CreationDate = x.CreationDate,
-                    Descriptions = x.Descriptions
-                }
-                ).ToList();
+                List<ServiceResponse> services = _mapper.Map<List<ServiceResponse>>(AllArticle);
+
+                
+
+
+
+                //List<ServiceResponse> services = AllArticle.Select(x =>
+                //new ServiceResponse
+                //{
+                //    Id = x.Id,
+                //    ArtisanId = x.ArtisanId,
+                //    ServiceName = x.ServiceName,
+                //    StatusId = x.StatusId,
+                //    CreationDate = x.CreationDate,
+                //    Descriptions = x.Descriptions
+                //}
+                //).ToList();
 
                 return Ok(new { status = HttpStatusCode.OK, message = services });
 
@@ -86,6 +96,8 @@ namespace ProjectADApi.Controllers.V2
 
             List<ServiceResponse> subCategory = _mapper.Map<List<ServiceResponse>>(await dbContext.Services.Where(x => x.ArtisanId == ArtisanId).ToListAsync());
 
+
+
             if (subCategory.Any()) return Ok(new { status = HttpStatusCode.OK, message = subCategory });
             return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
 
@@ -105,17 +117,25 @@ namespace ProjectADApi.Controllers.V2
             if (getThisService == null)
                 return NotFound(new { status = HttpStatusCode.NotFound, Message = "The requested service may have been discontinued by the Artisan" });
 
-            ServiceResponse thisService = new ServiceResponse
-            {
-                Id = getThisService.Id,
-                ArtisanId = getThisService.ArtisanId,
-                ServiceName = getThisService.ServiceName,
-                StatusId = getThisService.StatusId,
-                CreationDate = getThisService.CreationDate,
-                Descriptions = getThisService.Descriptions
-            };
+            ServiceResponse thisService = _mapper.Map<ServiceResponse>(getThisService);
+            ServiceResponse response = _mapper.Map<ServiceResponse>(thisService);
+            response.State = AppDictionary.States[getThisService.StateId ?? 0 ];
+            response.Status = Enum.GetName(typeof(AppStatus), getThisService.StatusId);
+            response.Category = AppDictionary.Category[getThisService.CategoryId ?? 0];
+            response.SubCategory =  _subCatRepository.GetByAsync(x => x.Id.Equals(getThisService.SubCategoryId ?? 1)).FirstOrDefaultAsync().Result.SubCategories ;
+            response.LGArea = _lgaRepository.GetByAsync(x => x.Id.Equals(getThisService.LgaId ?? 1)).FirstOrDefaultAsync().Result.Lga1;
+           
+            //ServiceResponse thisService = new ServiceResponse
+            //{
+            //    Id = getThisService.Id,
+            //    ArtisanId = getThisService.ArtisanId,
+            //    ServiceName = getThisService.ServiceName,
+            //    StatusId = getThisService.StatusId,
+            //    CreationDate = getThisService.CreationDate,
+            //    Descriptions = getThisService.Descriptions
+            //};
 
-            return Ok(new { status = HttpStatusCode.OK, message = thisService });
+            return Ok(new { status = HttpStatusCode.OK, message = response });
         }
 
         // POST: api/Service
@@ -123,7 +143,7 @@ namespace ProjectADApi.Controllers.V2
         public async Task<IActionResult> Post([FromBody] ServiceRequest model)
         {
             if (!ModelState.IsValid)
-                return BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
+                return BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList() });
 
             Artisan getArtisan = await _artisanRepository.GetByAsync(x => x.Id.Equals(model.ArtisanId)).FirstOrDefaultAsync();
 
@@ -132,19 +152,26 @@ namespace ProjectADApi.Controllers.V2
             //if (model.UserId == 0) return BadRequest(new { status = HttpStatusCode.BadRequest, message = "This user has been suspended, please contact the administrator" });
 
             UserLogin getUser = await _userLoginRepository.GetByAsync(x => x.Id.Equals(getArtisan.UserId)).FirstOrDefaultAsync();
+            if (getUser == null)BadRequest(new { status = HttpStatusCode.BadRequest, message = "This user does not exist on the platform" });
+
             int? userStatus = getUser?.StatusId;
 
-            if (getUser == null)BadRequest(new { status = HttpStatusCode.BadRequest, message = "This user does not exist on the platform" });
 
 
             if (userStatus.Value != (int)AppStatus.Active) return BadRequest(new { status = HttpStatusCode.BadRequest, message = "This user has been suspended, please contact the administrator" });          
 
-            Services newServie = _mapper.Map<Services>(model);            
+            Services newServie = _mapper.Map<Services>(model);           
 
-            var newService = await _serviceRepository.CreateAsync(newServie);
-            var serviceCreated = new { ArtisanId = newService.Id, newService.ServiceName, newService.StatusId, Description = newService.Descriptions };
+            var newService = await _serviceRepository.CreateAsync(newServie);           
 
-            return CreatedAtAction("ThisService", new { id = newServie.Id }, new { status = HttpStatusCode.Created, message = serviceCreated });
+            ServiceResponse response = _mapper.Map<ServiceResponse>(newService);
+            response.State = AppDictionary.States[model.StateId];
+            response.Status = Enum.GetName(typeof(AppStatus), model.StatusId);
+            response.Category = AppDictionary.Category[model.CategoryId];
+            response.SubCategory =  _subCatRepository.GetByAsync(x => x.Id.Equals(model.SubCategoryId)).FirstOrDefaultAsync().Result.SubCategories;
+            response.LGArea = _lgaRepository.GetByAsync(x => x.Id.Equals(model.LgaId)).FirstOrDefaultAsync().Result.Lga1;
+
+            return CreatedAtAction("ThisService", new { id = newServie.Id }, new { status = HttpStatusCode.Created, message = response });
         }
 
         // PUT: api/Service/5
@@ -165,8 +192,15 @@ namespace ProjectADApi.Controllers.V2
 
             thisService = await _serviceRepository.UpdateAsync(thisService);
 
-            ServiceResponse serviceUpdateResponse = new ServiceResponse { Id = thisService.Id, ArtisanId = thisService.ArtisanId, Descriptions = thisService.Descriptions, ServiceName = thisService.ServiceName };
-            return Ok(new { status = HttpStatusCode.BadRequest, message = serviceUpdateResponse });
+            ServiceResponse response = _mapper.Map<ServiceResponse>(thisService);
+            response.State = AppDictionary.States[model.StateId];
+            response.Status = Enum.GetName(typeof(AppStatus), model.StatusId);
+            response.Category = AppDictionary.Category[model.CategoryId];
+            response.SubCategory = _subCatRepository.GetByAsync(x => x.Id.Equals(model.SubCategoryId)).FirstOrDefaultAsync().Result.SubCategories;
+            response.LGArea = _lgaRepository.GetByAsync(x => x.Id.Equals(model.LgaId)).FirstOrDefaultAsync().Result.Lga1;
+
+            // ServiceResponse serviceUpdateResponse = new ServiceResponse { Id = thisService.Id, ArtisanId = thisService.ArtisanId, Descriptions = thisService.Descriptions, ServiceName = thisService.ServiceName };
+            return Ok(new { status = HttpStatusCode.BadRequest, message = response });
         }
 
         // DELETE: api/ApiWithActions/5

@@ -31,10 +31,14 @@ namespace Api.Database.Implementation
         public async Task<IQueryable<TEntity>> GetAllAsync()
         {
             return await Task.Run(() => _context.Set<TEntity>().AsNoTracking());
+            //return await Task.Run(() => _context.Set<TEntity>());
         }
 
         public IQueryable<TEntity> GetByAsync(Expression<Func<TEntity, bool>> expression)
-        {  return    _context.Set<TEntity>().Where(expression).AsNoTracking(); }
+        {
+            //return    _context.Set<TEntity>().Where(expression).AsNoTracking();
+            return _context.Set<TEntity>().Where(expression);
+        }
        
         
         public async Task<int> DeleteAsync(TEntity entity)

@@ -1,7 +1,9 @@
 ﻿using Api.Database.Model;
 using AutoMapper;
+using Newtonsoft.Json;
 using ProjectADApi.Controllers.V2.Contract.Request;
 using ProjectADApi.Controllers.V2.Contract.Response;
+using ProjectADApi.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,7 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
                 .ForMember(destination => destination.Projects, source => source.MapFrom(src => src.Projects))
                 .ForMember(dest => dest.Gallary, source => source.MapFrom(src => src.Gallary))
                 .ForMember(dest => dest.AreaLocation, source => source.MapFrom(src => src.AreaLocation))
-               // .ForMember(dest => dest.Services, source => source.MapFrom(src => src.Services))
+                // .ForMember(dest => dest.Services, source => source.MapFrom(src => src.Services))
                 .ForMember(dest => dest.PaymentHistory, source => source.MapFrom(src => src.PaymentHistory))
                 .ForMember(dest => dest.ArtisanCategory, source => source.MapFrom(src => src.ArtisanCategory));
 
@@ -91,8 +93,8 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
         public ServiceProfile()
         {
             CreateMap<Services, ServiceResponse>();
-           
-            CreateMap<ServiceRequest, Services>().ReverseMap();
+
+            CreateMap<ServiceRequest, Services>();
         }
     }
 
@@ -145,9 +147,22 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
         {
             CreateMap<Complaint, ComplaintResponse>()
                 .ForMember(destination => destination.ArtisanId, source => source.MapFrom(src => src.EmailId));
-                
+
             CreateMap<ComplaintRequest, Complaint>()
                 .ForMember(destination => destination.EmailId, source => source.MapFrom(src => src.ArtisanId)); ;
+        }
+    }
+
+    public class QuoteProfile : Profile
+    {
+        public QuoteProfile()
+        {
+            CreateMap<Quote, QuoteResponse>()
+                .ForMember(destination => destination.Item, source => source.MapFrom(src => JsonConvert.DeserializeObject<List<QuoteItem>>(src.Item)))
+                .ForMember(destination => destination.OrderStatusId, source => source.MapFrom(src => src.OrderStatusId));
+
+            CreateMap<QuoteRequest, Quote>()
+                .ForMember(destination => destination.Item, source => source.MapFrom(src => JsonConvert.SerializeObject(src.Item)));
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProjectADApi.Controllers.V2.Contract.Response
+namespace ProjectADApi.Controllers.V2.Contract.Request
 {
     public class QuoteRequestUpdate
     {
