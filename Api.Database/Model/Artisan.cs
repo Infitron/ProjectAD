@@ -33,6 +33,7 @@ namespace Api.Database.Model
 
         public virtual Location AreaLocation { get; set; }
         public virtual ArtisanCategories ArtisanCategory { get; set; }
+        public virtual Quote Quote { get; set; }
         public virtual ICollection<ArtisanServices> ArtisanServices { get; set; }
         public virtual ICollection<Booking> Booking { get; set; }
         public virtual ICollection<Gallary> Gallary { get; set; }

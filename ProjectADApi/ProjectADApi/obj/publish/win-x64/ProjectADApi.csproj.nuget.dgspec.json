@@ -253,11 +253,15 @@
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[5.0.0, )"
+              "version": "[5.5.1, )"
             },
             "Swashbuckle.AspNetCore.Annotations": {
               "target": "Package",
               "version": "[5.2.1, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.7.1, )"
             }
           },
           "imports": [

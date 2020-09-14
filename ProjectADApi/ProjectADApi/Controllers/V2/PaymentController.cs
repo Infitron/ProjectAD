@@ -24,7 +24,7 @@ namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
 
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     public class PaymentController : ControllerBase
     {
         readonly FlutterRaveConf _flutterRaveConf;

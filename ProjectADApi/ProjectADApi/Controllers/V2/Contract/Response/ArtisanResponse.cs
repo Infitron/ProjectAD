@@ -64,31 +64,31 @@ namespace ProjectADApi.Controllers.V2.Contract.Response
         /// <summary>
         /// 
         /// </summary>
-        public LocationResponse AreaLocation { get; set; }
+       // public LocationResponse AreaLocation { get; set; }
 
         /// <summary>
         ///
        /// </summary>
-         public CategoryResponse ArtisanCategory { get; set; }
+        // public CategoryResponse ArtisanCategory { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public List<BookingResponse> Booking { get; set; }
+       // public List<BookingResponse> Booking { get; set; }
        
         /// <summary>
         /// 
         /// </summary>
-        public List<GallaryResponse> Gallary { get; set; }
+       // public List<GallaryResponse> Gallary { get; set; }
         
         /// <summary>
         /// 
         /// </summary>
-       public List<PaymentHistoryResponse> PaymentHistory { get; set; }
+      // public List<PaymentHistoryResponse> PaymentHistory { get; set; }
         /// <summary>
         ///  The list  of all the project the artisan has done on the platform
         /// </summary>
-        public List<ProjectResponse> Projects { get; set; }
+       // public List<ProjectResponse> Projects { get; set; }
         
        /// <summary>
         ///  The service an artisan offers

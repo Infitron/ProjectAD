@@ -24,11 +24,12 @@ namespace ProjectADApi.Controllers.V2.Contract
         public static class Artisan
         {
             public const string GetAll = Base + "/artisan";
-            public const string Get = Base + "/artisan/{id}";
+            public const string Get = Base + "/artisan/{id?}/";
             public const string Create = Base + "/artisan";
             public const string Update = Base + "/artisan/{id}";
             public const string Delete = Base + "/artisan/{id}";
             public const string Upgrade = Base + "/artisan/{id}";
+           // public const string ByUserId = Base + "/artisan/{user}";
         }
 
         public static class Search

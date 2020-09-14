@@ -14,7 +14,8 @@ namespace ProjectADApi.Controllers.V2.Contract.Response
    // [JsonObject(IsReference = true)]
     public class StateResponse
     {
-        private projectadContext _projectadContext = new projectadContext();
+        //private projectadContext _projectadContext = new projectadContext();
+        private bluechub_ProjectADContext _projectadContext = new bluechub_ProjectADContext();
         IRepository<Lga> _lgaRepository;
 
         public StateResponse () => _lgaRepository = new Api.Database.Implementation.Repository<Lga>(_projectadContext);

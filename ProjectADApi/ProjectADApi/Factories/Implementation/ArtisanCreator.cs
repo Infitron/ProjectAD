@@ -16,8 +16,8 @@ namespace ProjectADApi.Factories.V1.UserFactory.Implementation
 
         //IRepository<Artisan> _artisanRepository;
         //public ArtisanCreator(IRepository<Artisan> artisanRepository) => _artisanRepository = artisanRepository;
-        readonly projectadContext _projectadContext;
-        public ArtisanCreator() => _projectadContext = new projectadContext();
+        readonly bluechub_ProjectADContext _projectadContext;
+        public ArtisanCreator() => _projectadContext = new bluechub_ProjectADContext();
 
         async Task<CreateUserResponse> IUserCreator.CreateUser(CreateUserRequest model)
         {

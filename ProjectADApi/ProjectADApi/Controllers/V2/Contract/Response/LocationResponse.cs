@@ -15,7 +15,7 @@ namespace ProjectADApi.Controllers.V2.Contract.Response
         public DateTime? CreatedDate { get; set; }
 
        // public Lov Status { get; set; }
-        public List<ArtisanResponse> Artisan { get; set; }
+        //public List<ArtisanResponse> Artisan { get; set; }
         public List<ServiceResponse> Services { get; set; }
     }
 }

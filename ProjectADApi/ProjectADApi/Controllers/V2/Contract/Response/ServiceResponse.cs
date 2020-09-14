@@ -13,15 +13,15 @@ namespace ProjectADApi.Controllers.V2.Contract.Response
 {
     public class ServiceResponse
     {
-        private projectadContext _projectadContext = new projectadContext();
+        //private bluechub_ProjectADContext _projectadContext = new bluechub_ProjectADContext();
        
-        //readonly IRepository<ArtisanSubCategory> _subCatRepository;
-        //readonly IRepository<Lga> _lgaRepository;
-        int _stateId;
-        int _statusId;
-        int _categoryId;
-        int _subcategoryId;
-        int _lgId;
+        ////readonly IRepository<ArtisanSubCategory> _subCatRepository;
+        ////readonly IRepository<Lga> _lgaRepository;
+        //int _stateId;
+        //int _statusId;
+        //int _categoryId;
+        //int _subcategoryId;
+        //int _lgId;
         public ServiceResponse()
         {
             //_stateId = stateid;

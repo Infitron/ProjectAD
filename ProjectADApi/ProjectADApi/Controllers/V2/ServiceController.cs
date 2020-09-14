@@ -7,7 +7,7 @@ using System.Web;
 using Api.Database.Core;
 using Api.Database.Model;
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +24,7 @@ namespace ProjectADApi.Controllers.V2
     //[Route("api/[controller]")]
     [ApiVersion("1.1")]
     [SwaggerTag("The version controller version 1.1. This include all endpoint of version the update endpoint.")]       
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     public class ServiceController : ControllerBase
     {
         readonly IRepository<Services> _serviceRepository;
@@ -33,12 +33,12 @@ namespace ProjectADApi.Controllers.V2
         readonly IRepository<ArtisanSubCategory> _subCatRepository;
         readonly IRepository<Lga> _lgaRepository;
         readonly FlutterRaveConf _flutterRaveConf;
-        projectadContext dbContext;
-        private readonly IMapper _mapper;
+        readonly bluechub_ProjectADContext dbContext;
+        readonly IMapper _mapper;
 
 
 
-        public ServiceController(IRepository<Services> serviceRepository, IRepository<Artisan> artisanRepository, IRepository<UserLogin> userLoginRepository, FlutterRaveConf flutterRaveConf, projectadContext BbContext, IMapper mapper, IRepository<ArtisanSubCategory> subCatRepository, IRepository<Lga> lgaRepository)
+        public ServiceController(IRepository<Services> serviceRepository, IRepository<Artisan> artisanRepository, IRepository<UserLogin> userLoginRepository, FlutterRaveConf flutterRaveConf, bluechub_ProjectADContext BbContext, IMapper mapper, IRepository<ArtisanSubCategory> subCatRepository, IRepository<Lga> lgaRepository)
         {
             _serviceRepository = serviceRepository;
             _artisanRepository = artisanRepository;
@@ -119,7 +119,7 @@ namespace ProjectADApi.Controllers.V2
 
             ServiceResponse thisService = _mapper.Map<ServiceResponse>(getThisService);
             ServiceResponse response = _mapper.Map<ServiceResponse>(thisService);
-            response.State = AppDictionary.States[getThisService.StateId ?? 0 ];
+            response.State = AppDictionary.States[getThisService.StateId ];
             response.Status = Enum.GetName(typeof(AppStatus), getThisService.StatusId);
             response.Category = AppDictionary.Category[getThisService.CategoryId ?? 0];
             response.SubCategory =  _subCatRepository.GetByAsync(x => x.Id.Equals(getThisService.SubCategoryId ?? 1)).FirstOrDefaultAsync().Result.SubCategories ;
@@ -204,9 +204,9 @@ namespace ProjectADApi.Controllers.V2
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

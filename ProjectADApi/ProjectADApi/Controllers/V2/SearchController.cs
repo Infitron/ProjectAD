@@ -22,12 +22,12 @@ namespace ProjectADApi.Controllers.V2
         readonly private IRepository<Artisan> _artisanRepository;
         readonly private IRepository<ArtisanSubCategory> _artisanSubCategoryRepository;
         readonly private IRepository<Services> _servicesRepository;
-        private readonly projectadContext _dbContext;
+        private readonly bluechub_ProjectADContext _dbContext;
         private readonly IMapper _mapper;
         readonly IRepository<ArtisanSubCategory> _subCatRepository;
         readonly IRepository<Lga> _lgaRepository;
 
-        public SearchController(IRepository<Artisan> artisanRepository, projectadContext dbContext, IMapper mapper, IRepository<ArtisanSubCategory> artisanSubCategoryRepository, IRepository<Services> servicesRepository, IRepository<ArtisanSubCategory> subCatRepository, IRepository<Lga> lgaRepository)
+        public SearchController(IRepository<Artisan> artisanRepository, bluechub_ProjectADContext dbContext, IMapper mapper, IRepository<ArtisanSubCategory> artisanSubCategoryRepository, IRepository<Services> servicesRepository, IRepository<ArtisanSubCategory> subCatRepository, IRepository<Lga> lgaRepository)
         {
             _artisanRepository = artisanRepository;
             _dbContext = dbContext;
@@ -69,7 +69,7 @@ namespace ProjectADApi.Controllers.V2
             for(int i = 0; i < Allservices.Count; i++)
             {
                 var service = _mapper.Map<ServiceResponse>(Allservices[i]);
-                service.State = AppDictionary.States[Allservices[i].StateId ?? 0];
+                service.State = AppDictionary.States[Allservices[i].StateId];
                 service.Status = Enum.GetName(typeof(AppStatus), Allservices[i].StatusId);
                 service.Category = AppDictionary.Category[Allservices[i].CategoryId ?? 0];
                 service.SubCategory = _subCatRepository.GetByAsync(x => x.Id.Equals(Allservices[i].SubCategoryId ?? 1)).FirstOrDefaultAsync().Result.SubCategories;

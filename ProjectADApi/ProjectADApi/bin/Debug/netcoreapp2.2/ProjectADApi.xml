@@ -296,36 +296,6 @@
             
             </summary>
         </member>
-        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.AreaLocation">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.ArtisanCategory">
-             <summary>
-            
-             </summary>
-        </member>
-        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.Booking">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.Gallary">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.PaymentHistory">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.Projects">
-            <summary>
-             The list  of all the project the artisan has done on the platform
-            </summary>
-        </member>
         <member name="M:ProjectADApi.Controllers.V2.QuoteController.ThisQuote(System.Int32)">
             <summary>Gets all Qoutes submitted for various projects </summary>
             

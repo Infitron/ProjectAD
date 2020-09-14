@@ -21,7 +21,7 @@ using AutoMapper;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+     [Authorize]
     public class QuoteController : ControllerBase
     {
         readonly IRepository<Quote> _quoteRepository;
@@ -84,7 +84,7 @@ namespace ProjectADApi.Controllers.V2
             Services getServiceBooking = await _serviceRepository.GetByAsync(x => x.Id.Equals(serviceId.Value)).FirstOrDefaultAsync();
             Quote newQuote = _mapper.Map<Quote>(model);
             newQuote.OrderStatusId = (int)AppStatus.Initiated;
-            newQuote.QuoteStatusId =  (int)AppStatus.Raised;
+           // newQuote.QuoteStatusId =  (int)AppStatus.Raised;
 
 
 
@@ -133,7 +133,7 @@ namespace ProjectADApi.Controllers.V2
                 getQuote.BookingId = model.BookingId;
                 getQuote.Item = JsonConvert.SerializeObject(model.Item);
                 getQuote.OrderStatusId = model.OrderStatusId;
-                getQuote.QuoteStatusId = model.QuoteStatusId;
+                //getQuote.QuoteStatusId = model.QuoteStatusId;
 
                 await _quoteRepository.UpdateAsync(getQuote);
                 QuoteResponse response = new QuoteResponse

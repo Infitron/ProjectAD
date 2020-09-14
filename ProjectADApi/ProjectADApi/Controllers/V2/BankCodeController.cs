@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     public class BankCodeController : ControllerBase
     {
         readonly IRepository<BankCodeLov> _bankCodeRepository;

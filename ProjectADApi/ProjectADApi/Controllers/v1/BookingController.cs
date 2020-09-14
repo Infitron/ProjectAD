@@ -6,7 +6,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +22,7 @@ using ProjectADApi.Controllers.V1.Contracts.Response;
 namespace ProjectADApi.Controllers
 {
     [ApiVersion("1", Deprecated =true)]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     public class BookingController : ControllerBase
     {
         readonly IRepository<Booking> _bookingRepository;

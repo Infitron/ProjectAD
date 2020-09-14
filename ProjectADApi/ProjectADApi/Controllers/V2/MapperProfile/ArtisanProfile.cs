@@ -16,13 +16,14 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
         public ArtisanProfile()
         {
             CreateMap<Artisan, ArtisanResponse>()
-                .ForMember(destination => destination.Booking, source => source.MapFrom(src => src.Booking))
-                .ForMember(destination => destination.Projects, source => source.MapFrom(src => src.Projects))
-                .ForMember(dest => dest.Gallary, source => source.MapFrom(src => src.Gallary))
-                .ForMember(dest => dest.AreaLocation, source => source.MapFrom(src => src.AreaLocation))
-                // .ForMember(dest => dest.Services, source => source.MapFrom(src => src.Services))
-                .ForMember(dest => dest.PaymentHistory, source => source.MapFrom(src => src.PaymentHistory))
-                .ForMember(dest => dest.ArtisanCategory, source => source.MapFrom(src => src.ArtisanCategory));
+                //.ForMember(destination => destination.Booking, source => source.MapFrom(src => src.Booking))
+                //.ForMember(destination => destination.Projects, source => source.MapFrom(src => src.Projects))
+                //.ForMember(dest => dest.Gallary, source => source.MapFrom(src => src.Gallary))
+                //.ForMember(dest => dest.AreaLocation, source => source.MapFrom(src => src.AreaLocation))
+                //// .ForMember(dest => dest.Services, source => source.MapFrom(src => src.Services))
+                //.ForMember(dest => dest.PaymentHistory, source => source.MapFrom(src => src.PaymentHistory))
+                //.ForMember(dest => dest.ArtisanCategory, source => source.MapFrom(src => src.ArtisanCategory))
+                ;
 
             CreateMap<ArtisanRequest, Artisan>()
                 .ForMember(des => des.AreaLocation, act => act.Ignore())
@@ -73,7 +74,7 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
         public LocationProfile()
         {
             CreateMap<Location, LocationResponse>()
-                .ForMember(destination => destination.Artisan, source => source.MapFrom(src => src.Artisan))
+                //.ForMember(destination => destination.Artisan, source => source.MapFrom(src => src.Artisan))
                 .ForMember(destination => destination.Services, source => source.MapFrom(src => src.Services));
 
             CreateMap<LocationResponse, Location>();

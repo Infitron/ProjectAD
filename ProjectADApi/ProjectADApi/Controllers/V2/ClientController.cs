@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +19,7 @@ using ProjectADApi.Controllers.V2.Contract;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     public class ClientController : ControllerBase
     {
         readonly IRepository<Client> _clientRepository;

@@ -10,7 +10,7 @@ using Api.Database.Core;
 using Api.Database.Model;
 using Api.EmailService;
 using Api.EmailService.Core;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -38,9 +38,9 @@ namespace ProjectADApi.Controllers.V1
         readonly IRepository<UserRole> _userRole;
         readonly UserManager<UserLogin> _userManager;
         readonly IEmailSender _emailSender;
-        private readonly projectadContext _dbContext;
+        private readonly bluechub_ProjectADContext _dbContext;
 
-        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole, UserManager<UserLogin> userManager, IEmailSender emailSender, projectadContext dbContext)
+        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole, UserManager<UserLogin> userManager, IEmailSender emailSender, bluechub_ProjectADContext dbContext)
         {
             _jwtConf = jwtConf;
             _userRole = userRole;
@@ -167,7 +167,7 @@ namespace ProjectADApi.Controllers.V1
         /// <response code="201">Returns all Registered users</response>
         /// <response code="204">Return no content found </response>
         ///
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize]
         [ProducesResponseType(201)]
         [ProducesResponseType(204)]
         [Route("[action]")]

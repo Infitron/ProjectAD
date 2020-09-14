@@ -24,8 +24,8 @@ namespace ProjectADApi.Controllers.V2
         readonly IRepository<State> _stateRepository;
         readonly IRepository<Lga> _localGovernmentRepository;
         private readonly IMapper _mapper;
-        projectadContext _dbContext;
-        public StateLocalGovermentController(IRepository<State> stateRepository, IRepository<Lga> localGovernmentRepository, IMapper mapper, projectadContext DbContext)
+        bluechub_ProjectADContext _dbContext;
+        public StateLocalGovermentController(IRepository<State> stateRepository, IRepository<Lga> localGovernmentRepository, IMapper mapper, bluechub_ProjectADContext DbContext)
         {
             _stateRepository = stateRepository;
             _localGovernmentRepository = localGovernmentRepository;

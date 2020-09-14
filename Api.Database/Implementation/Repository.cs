@@ -13,10 +13,11 @@ namespace Api.Database.Implementation
     public  class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
 
-        readonly projectadContext _context;
-        private readonly DbSet<TEntity> dbSet;
+        //readonly projectadContext
+        readonly bluechub_ProjectADContext _context;
+        readonly DbSet<TEntity> dbSet;
 
-        public Repository(projectadContext context)
+        public Repository(bluechub_ProjectADContext context)
         {
             _context = context;
             dbSet = context.Set<TEntity>();

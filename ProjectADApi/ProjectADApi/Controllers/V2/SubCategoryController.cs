@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Internal;
@@ -19,14 +19,14 @@ using ProjectADApi.Controllers.V2.Contract.Response;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     public class SubCategoryController : ControllerBase
     {
         readonly private IRepository<ArtisanSubCategory> _artisanSubCatergoryRepository;
         private readonly IMapper _mapper;
-        readonly projectadContext dbContext;
+        readonly bluechub_ProjectADContext dbContext;
 
-        public SubCategoryController(IRepository<ArtisanSubCategory> artisanSubCatergoryRepository, IMapper mapper, projectadContext BbContext)
+        public SubCategoryController(IRepository<ArtisanSubCategory> artisanSubCatergoryRepository, IMapper mapper, bluechub_ProjectADContext BbContext)
         {
             _artisanSubCatergoryRepository = artisanSubCatergoryRepository;
             _mapper = mapper;

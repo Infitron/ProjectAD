@@ -12,6 +12,7 @@ using Api.EmailService.Core;
 using Api.EmailService.EmailConfig;
 using AutoMapper;
 using EncryptionService;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -79,15 +80,15 @@ namespace ProjectADApi
             services.AddSingleton(_ravePaymentDataEncryption);
             services.AddSingleton(_flutterRaveConf);
             services.AddSingleton(_emailConfiguration);
-            services.AddSingleton(new projectadContext());
+             services.AddSingleton(new bluechub_ProjectADContext());
 
-            //    services.AddDbContext<projectadContext>();
-            //    (options =>
-            //{
-            //    options.UseSqlServer(Configuration["ApiDbConnection:DefaultConnection"]);
-            //});
+        //    services.AddDbContext<projectadContext>();
+        //    (options =>
+        //{
+        //    options.UseSqlServer(Configuration["ApiDbConnection:DefaultConnection"]);
+        //});
             services.AddDefaultIdentity<UserLogin>()
-                .AddEntityFrameworkStores<projectadContext>();
+                .AddEntityFrameworkStores<bluechub_ProjectADContext>();
 
             services.AddAuthentication(option =>
             {

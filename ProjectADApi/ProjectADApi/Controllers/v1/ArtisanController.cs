@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +19,7 @@ using ProjectADApi.Contract.V1.Response;
 namespace ProjectADApi.Controllers
 {
     [ApiVersion("1", Deprecated = true)]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     public class ArtisanController : ControllerBase
     {
         readonly IRepository<Artisan> _artisanRepository;
@@ -30,10 +30,10 @@ namespace ProjectADApi.Controllers
         readonly IRepository<Gallary> _galleryRepository;
         readonly IRepository<PaymentHistory> _paymentHistoryRepository;
         readonly IRepository<Location> _locationRepository;
-        readonly projectadContext _dbContext;
+        readonly bluechub_ProjectADContext _dbContext;
 
 
-        public ArtisanController(IRepository<Artisan> oniswOwoRepository, IRepository<Services> serviceRepository, IRepository<Projects> projectRepository, IRepository<Quote> quoteRepository, IRepository<Booking> bookingRepository, IRepository<Gallary> galleryRepository, IRepository<PaymentHistory> paymentHistoryRepository, projectadContext dbContext, IRepository<Location> locationRepository)
+        public ArtisanController(IRepository<Artisan> oniswOwoRepository, IRepository<Services> serviceRepository, IRepository<Projects> projectRepository, IRepository<Quote> quoteRepository, IRepository<Booking> bookingRepository, IRepository<Gallary> galleryRepository, IRepository<PaymentHistory> paymentHistoryRepository, bluechub_ProjectADContext dbContext, IRepository<Location> locationRepository)
         {
             _artisanRepository = oniswOwoRepository;
             _serviceRepository = serviceRepository;

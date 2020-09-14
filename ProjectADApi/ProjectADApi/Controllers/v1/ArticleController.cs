@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +18,7 @@ using ProjectADApi.Contract.V1.Response;
 namespace ProjectADApi.Controllers.V1
 {
     [ApiVersion("1", Deprecated = false)]    
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize]
     public class ArticleController : ControllerBase
     {
         private readonly IRepository<Article> _articleRepository;        
@@ -33,7 +33,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpGet(ApiRoute.Article.GetAll)]
         public async Task<IActionResult> GetAll()
         {
-            projectadContext dbcontxt = new projectadContext();
+            bluechub_ProjectADContext dbcontxt = new bluechub_ProjectADContext();
 
             List<ArticleResponse> AllArticle = await _articleRepository.GetAllAsync().ContinueWith((resultset) =>
             {

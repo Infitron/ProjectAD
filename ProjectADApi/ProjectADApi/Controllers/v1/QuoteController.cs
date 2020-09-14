@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +18,7 @@ using ProjectADApi.Contract.V1.Request;
 namespace ProjectADApi.Controllers.V1
 {
    [ApiVersion("1", Deprecated =true)]   
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize]
     public class QuoteController : ControllerBase
     {
         readonly private IRepository<Quote> _quoteRepository;
@@ -68,7 +68,7 @@ namespace ProjectADApi.Controllers.V1
                 Discount = model.Discount,
                 OrderStatusId = (int)AppStatus.Initiated,
                 CreatedDate = DateTime.Now,
-                QuoteStatusId = (int)AppStatus.Raised,
+               // QuoteStatusId = (int)AppStatus.Raised,
                 BookingId = model.BookingId
             };
 
