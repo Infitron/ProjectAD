@@ -169,7 +169,7 @@ namespace ProjectADApi.Controllers.V2.Contract
         {
             public const string ThisState = Base + "/StateLocalGovernment/ThisState/{stateId}";
             public const string AllState = Base + "/StateLocalGovernment/State/AllState";
-            public const string AllLocalGovernment = Base + "/StateLocalGovernment/LocalGoverment/AllLocalGovernment{StateId}";
+            public const string AllLocalGovernment = Base + "/StateLocalGovernment/LocalGoverment/AllLocalGovernment/{StateId}";
 
         }
 

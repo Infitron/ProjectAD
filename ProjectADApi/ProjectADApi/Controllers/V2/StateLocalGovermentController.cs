@@ -5,6 +5,7 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Api.Database.Core;
+using Api.Database.Data;
 using Api.Database.Model;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -69,21 +70,21 @@ namespace ProjectADApi.Controllers.V2
             return NoContent();
         }
 
-        // POST: api/States
-        //   [HttpGet(ApiRoute.StateLocalGovernment.AllLocalGovernment)]
-        //   public async Task<IActionResult> AllLocalGoverments( int StateId)
-        //   {
-        //       //var thisState = _mapper.Map<StateResponse>( await _stateRepository.GetByIdAsync(stateId));
-        //       var thisState = await _dbContext.Lga.Select(s => new Lga { Lga1 = s.Lga1, StateId = s.StateId, Id = s.Id }).Where(s => s.StateId == model.StateId).ToListAsync();
-        //       var des = JsonConvert.SerializeObject(thisState, Formatting.Indented, new JsonSerializerSettings()
-        //       {
-        //           ReferenceLoopHandling
-        //= Newtonsoft.Json.ReferenceLoopHandling.Ignore
-        //       });
+        //POST: api/States
+        [HttpGet(ApiRoute.StateLocalGovernment.AllLocalGovernment)]
+        public async Task<IActionResult> AllLocalGoverments(int StateId)
+        {
+            //var thisState = _mapper.Map<StateResponse>( await _stateRepository.GetByIdAsync(stateId));
+            var thisState = await _dbContext.Lga.Select(s => new Lga { Lga1 = s.Lga1, StateId = s.StateId, Id = s.Id }).Where(s => s.StateId == StateId).ToListAsync();
+            var des = JsonConvert.SerializeObject(thisState, Formatting.Indented, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling
+     = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            });
 
 
-        //       return Ok(new { status = HttpStatusCode.Created, message = JsonConvert.DeserializeObject(des) });
-        //   }
+            return Ok(new { status = HttpStatusCode.Created, message = JsonConvert.DeserializeObject(des) });
+        }
 
         //// PUT: api/States/5
         //[HttpPut("{id}")]

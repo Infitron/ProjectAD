@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.Request;
-
 using ProjectADApi.Controllers.V1.Contracts.Response;
 using ProjectADApi.Controllers.V2.Contract;
 

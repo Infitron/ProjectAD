@@ -11,6 +11,7 @@ namespace ProjectADApi.SwaggerOptions
     using Microsoft.OpenApi.Models;
     using Swashbuckle.AspNetCore.SwaggerGen;
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Configures the Swagger generation options.
@@ -65,6 +66,76 @@ namespace ProjectADApi.SwaggerOptions
             }
 
             return info;
+        }
+    }
+
+    public class CustomSwaggerDocumentAttribute : IDocumentFilter
+    {
+        public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
+        {
+            var info = new OpenApiInfo()
+            {
+                Title = "Blue Collar Api",
+                //Version = description.ApiVersion.ToString(),
+                Description = "The is the various api endpoint developed to be consumed by the frondend team workingn on the " +
+                                  "blue colla hub project. Further clarification are provided alongside the various endpoints.",
+                Contact = new OpenApiContact
+                {
+                    Name = $"Lukman Ishola (Project Supervisor), {Environment.NewLine} Opeyemi Nurudeen (Project Admin)",
+                    Email = "info@bluecollarhub.com.ng, team.pad@outlook.com",
+                    Url = new Uri("https://bluecollarhub.com.ng")
+                },
+                License = new OpenApiLicense
+                {
+                    Name = "Blue Collar Hub API",
+                    Url = new Uri("https://bluecollarhub.com.ng"),
+                }
+            };
+
+            //if (description.IsDeprecated)
+            //{
+            //    info.Description += " This API version has been deprecated.";
+            //}
+
+            //return info;
+            //swaggerDoc.Info = new OpenApiInfo
+            //{
+            //    Title = "TheCodeBuzz Service",
+            //    Version = "v1",
+            //    Description = "Service of Open community",
+            //    TermsOfService = new Uri("http://tempuri.org/terms"),
+            //    Contact = new OpenApiContact
+            //    {
+            //        Name = "TheCodeBuzz",
+            //        Email = "info@thecodebuzz.com"
+            //    },
+            //    License = new OpenApiLicense
+            //    {
+            //        Name = "Apache 2.0",
+            //        Url = new Uri("http://www.thecodebuzz.com")
+            //    }
+            //};
+        }
+    }
+
+    public class CustomHeaderSwaggerAttribute : IOperationFilter
+    {
+
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
+        {
+            if (operation.Parameters == null)
+                operation.Parameters = new List<OpenApiParameter>();
+
+            operation.Parameters.Add(new OpenApiParameter
+            {
+                Name = "x-customHeader",
+                In = ParameterLocation.Header,
+                Required = true,
+                Schema = new OpenApiSchema
+                {
+                    Type = "String"
+                }
+            });
         }
     }
 }

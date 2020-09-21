@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Core;
+using Api.Database.Data;
 using Api.Database.Model;
 using AutoMapper;
 //using Microsoft.AspNetCore.Authentication.JwtBearer;

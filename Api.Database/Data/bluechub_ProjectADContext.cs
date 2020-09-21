@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Api.Database.Model;
 
-namespace Api.Database.Model
+namespace Api.Database.Data
 {
     public partial class bluechub_ProjectADContext : DbContext
     {
@@ -43,15 +44,14 @@ namespace Api.Database.Model
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("server=192.185.11.167;database=bluechub_ProjectAD;user id=bluechub_dbAd; password=Ux8qz1*2");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
-                .HasAnnotation("Relational:DefaultSchema", "bluechub_dbAd");
+            modelBuilder.HasAnnotation("Relational:DefaultSchema", "bluechub_dbAd");
 
             modelBuilder.Entity<Article>(entity =>
             {
@@ -267,9 +267,7 @@ namespace Api.Database.Model
 
                 entity.ToTable("BankCodeLOV", "dbo");
 
-                entity.Property(e => e.Bankcode)
-                    .HasMaxLength(10)
-                    .ValueGeneratedNever();
+                entity.Property(e => e.Bankcode).HasMaxLength(10);
 
                 entity.Property(e => e.BankName)
                     .IsRequired()
@@ -806,6 +804,10 @@ namespace Api.Database.Model
                     .HasMaxLength(60)
                     .IsUnicode(false);
             });
+
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

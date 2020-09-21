@@ -17,8 +17,9 @@ using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.Request;
 
 using ProjectADApi.Contract.V1.Request;
-using ProjectADApi.Controllers.V1.Contracts.Response;
+
 using ProjectADApi.Controllers.V2.Contract;
+using ProjectADApi.Controllers.V2.Contract.Response;
 
 namespace ProjectADApiControllers.V2
 {
@@ -52,22 +53,23 @@ namespace ProjectADApiControllers.V2
 
             if (allBooking != null)
             {
-                List<BookingResponse> allBookingResponse = allBooking.Select(x =>
-                new BookingResponse
-                {
-                    Id = x.Id,
-                    ArtisanId = x.ArtisanId,
-                    ClientId = x.ClienId,
-                    ArtisanFullName = $"{x.Artisan.FirstName ?? string.Empty} {x.Artisan.LastName ?? string.Empty}",
-                    ClientFullName = $"{x.Clien.FirstName ?? string.Empty} {x.Clien.LastName ?? string.Empty}",
-                    Messages = x.Messages,
-                    MsgTime = x.MsgTime,
-                    MsgDate = x.MsgDate,
-                    CreatedDate = x.CreatedDate,
-                    ServiceId = x.Id,
-                    QuoteId = x.QuoteId
+                //List<BookingResponse> allBookingResponse = allBooking.Select(x =>
+                //new BookingResponse
+                //{
+                //    Id = x.Id,
+                //    ArtisanId = x.ArtisanId,
+                //    ClientId = x.ClienId,
+                //     = $"{x.Artisan.FirstName ?? string.Empty} {x.Artisan.LastName ?? string.Empty}",
+                //    ClientFullName = $"{x.Clien.FirstName ?? string.Empty} {x.Clien.LastName ?? string.Empty}",
+                //    Messages = x.Messages,
+                //    MsgTime = x.MsgTime,
+                //    MsgDate = x.MsgDate,
+                //    CreatedDate = x.CreatedDate,
+                //    ServiceId = x.Id,
+                //    QuoteId = x.QuoteId
 
-                }).ToList();
+                //}).ToList();
+                List<BookingResponse> allBookingResponse = _mapper.Map<List<BookingResponse>>(allBooking);
                 return Ok( new { status = HttpStatusCode.OK, message = allBookingResponse });
             }
 
@@ -82,21 +84,22 @@ namespace ProjectADApiControllers.V2
 
             if (getBooking != null)
             {
-                BookingResponse thisBooking = new BookingResponse
-                {
-                    Id = getBooking.Id,
-                    ArtisanId = getBooking.ArtisanId,
-                    ClientId = getBooking.ClienId,
-                    ArtisanFullName = $"{getBooking.Artisan.FirstName ?? string.Empty} {getBooking.Artisan?.LastName ?? string.Empty}",
-                    ClientFullName = $"{getBooking.Clien.FirstName ?? string.Empty} {getBooking.Clien.LastName ?? string.Empty}",
-                    Messages = getBooking.Messages,
-                    MsgTime = getBooking.MsgTime,
-                    MsgDate = getBooking.MsgDate,
-                    CreatedDate = getBooking.CreatedDate,
-                    ServiceId = getBooking.Id,
-                    QuoteId = getBooking.QuoteId
-                };
-                return Ok(new { status = HttpStatusCode.OK, Message = thisBooking });
+                //BookingResponse thisBooking = new BookingResponse
+                //{
+                //    Id = getBooking.Id,
+                //    ArtisanId = getBooking.ArtisanId,
+                //    ClientId = getBooking.ClienId,
+                //    ArtisanFullName = $"{getBooking.Artisan.FirstName ?? string.Empty} {getBooking.Artisan?.LastName ?? string.Empty}",
+                //    ClientFullName = $"{getBooking.Clien.FirstName ?? string.Empty} {getBooking.Clien.LastName ?? string.Empty}",
+                //    Messages = getBooking.Messages,
+                //    MsgTime = getBooking.MsgTime,
+                //    MsgDate = getBooking.MsgDate,
+                //    CreatedDate = getBooking.CreatedDate,
+                //    ServiceId = getBooking.Id,
+                //    QuoteId = getBooking.QuoteId
+                //};
+                var thisBoodking = _mapper.Map<ProjectADApi.Controllers.V2.Contract.Response.BookingResponse>(getBooking);
+                return Ok(new { status = HttpStatusCode.OK, Message = thisBoodking });
             }
             return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "Wrond booking id supplied" });
         }
