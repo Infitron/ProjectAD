@@ -52,9 +52,24 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Include="Controllers\V1\AccountController.cs" />
+	  <Compile Include="Controllers\V1\ArticleController.cs" />
+	  <Compile Include="Controllers\V1\ArtisanCategoryController.cs" />
+	  <Compile Include="Controllers\V1\ArtisanController.cs" />
+	  <Compile Include="Controllers\V1\BankCodeController.cs" />
+	  <Compile Include="Controllers\V1\BankDetailsController.cs" />
+	  <Compile Include="Controllers\V1\BookingController.cs" />
+	  <Compile Include="Controllers\V1\ClientController.cs" />
 	  <Compile Include="Controllers\V1\Contracts\Response\BookingResponse.cs" />
 	  <Compile Include="Controllers\V1\Contracts\Response\ClientResponse.cs" />
 	  <Compile Include="Controllers\V1\Contracts\Response\ProjectResponse.cs" />
+	  <Compile Include="Controllers\V1\GalleryController.cs" />
+	  <Compile Include="Controllers\V1\LocationController.cs" />
+	  <Compile Include="Controllers\V1\PaymentController.cs" />
+	  <Compile Include="Controllers\V1\ProjectController.cs" />
+	  <Compile Include="Controllers\V1\QuoteController.cs" />
+	  <Compile Include="Controllers\V1\SearchController.cs" />
+	  <Compile Include="Controllers\V1\ServiceController.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

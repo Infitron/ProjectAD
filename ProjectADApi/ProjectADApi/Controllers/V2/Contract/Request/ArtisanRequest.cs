@@ -64,5 +64,10 @@ namespace ProjectADApi.Controllers.V2.Contract.Request
         /// </summary>
         [Required]
         public int UserId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string RefererCode { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using Api.Database.Core;
 using Api.Database.Data;
 using Api.Database.Model;
 using AutoMapper;
-//using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Internal;
@@ -20,7 +20,7 @@ using ProjectADApi.Controllers.V2.Contract.Response;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SubCategoryController : ControllerBase
     {
         readonly private IRepository<ArtisanSubCategory> _artisanSubCatergoryRepository;

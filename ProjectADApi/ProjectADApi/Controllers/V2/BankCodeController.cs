@@ -12,11 +12,12 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectADApi.Controllers.V2.Contract;
 using ProjectADApi.Contract.V1.Request;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BankCodeController : ControllerBase
     {
         readonly IRepository<BankCodeLov> _bankCodeRepository;

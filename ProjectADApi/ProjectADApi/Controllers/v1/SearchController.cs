@@ -5,7 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
-//using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,8 @@ using ProjectADApi.Contract.V1;
 
 namespace ProjectADApi.Controllers.V1
 {
-   [ApiVersion("1", Deprecated =true)]   
+   [ApiVersion("1", Deprecated =true)]
+   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class SearchController : ControllerBase
     {
         readonly private IRepository<Artisan> _artisanRepository;

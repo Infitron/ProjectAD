@@ -44,7 +44,7 @@ namespace Api.Database.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("server=192.185.11.167;database=bluechub_ProjectAD;user id=bluechub_dbAd; password=Ux8qz1*2");
             }
         }
@@ -104,6 +104,10 @@ namespace Api.Database.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.ArtisanCategoryId).HasColumnName("ArtisanCategoryID");
+
+                entity.Property(e => e.Code)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
@@ -351,6 +355,8 @@ namespace Api.Database.Data
                     .HasMaxLength(150)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Code).HasMaxLength(150);
+
                 entity.Property(e => e.CreatedDate).HasColumnType("date");
 
                 entity.Property(e => e.FirstName)
@@ -372,6 +378,8 @@ namespace Api.Database.Data
                     .IsRequired()
                     .HasMaxLength(150)
                     .IsUnicode(false);
+
+                entity.Property(e => e.RefererCode).HasMaxLength(150);
 
                 entity.Property(e => e.State)
                     .IsRequired()

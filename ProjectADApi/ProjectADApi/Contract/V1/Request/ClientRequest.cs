@@ -16,6 +16,7 @@ namespace ProjectADApi.Contract.Request
         public string PicturePath { get; set; }
         public string Address { get; set; }
         public string State { get; set; }
+        public string RefererCode { get; internal set; }
 
         //public virtual ICollection<Booking> Booking { get; set; }
         //public virtual ICollection<PaymentHistory> PaymentHistory { get; set; }

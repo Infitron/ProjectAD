@@ -5,7 +5,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Model;
-//using Microsoft.AspNetCore.Authentication.JwtBearer;
+using EncryptionService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ using ProjectADApi.Controllers.V2.Contract;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ClientController : ControllerBase
     {
         readonly IRepository<Client> _clientRepository;
@@ -112,7 +113,10 @@ namespace ProjectADApi.Controllers.V2
                 PicturePath = model.PicturePath,
                 Address = model.Address,
                 State = model.State,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.Now,
+                Code = AES.RandomPassword(),
+                RefererCode = model.RefererCode
+                
             };
 
             Client koOnibaraTuntun = await _clientRepository.CreateAsync(newClient);

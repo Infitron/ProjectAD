@@ -17,14 +17,13 @@ using ProjectADApi.Contract.V1.Response;
 using ProjectADApi.Core;
 using ProjectADApi.Implementation;
 using EncryptionService;
-//using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 
 namespace ProjectADApi.Controllers.V1
 {
    [ApiVersion("1", Deprecated =true)]
-    
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PaymentController : ControllerBase
     {
         readonly FlutterRaveConf _flutterRaveConf;

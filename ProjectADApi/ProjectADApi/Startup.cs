@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Data;
@@ -178,7 +179,10 @@ namespace ProjectADApi
             });
 
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            //services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services.AddControllers().AddJsonOptions(options => {
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            });
 
         }
 
@@ -195,17 +199,12 @@ namespace ProjectADApi
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
-
-            app.UseStaticFiles();
-            app.UseRouting();
-
+            } 
             app.ConfigureExceptionHandler();
-            app.UseAuthentication();
 
             SwaggerConf _swaggerConf = new SwaggerConf();
             Configuration.GetSection(nameof(SwaggerConf)).Bind(_swaggerConf);
-
+            
             app.UseSwagger(option =>
             {
                 option.RouteTemplate = _swaggerConf.JsonRoute;
@@ -219,7 +218,26 @@ namespace ProjectADApi
                    {
                        options.SwaggerEndpoint($"../swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
                    }
-               });
+               });           
+            
+            app.UseStaticFiles();           
+            app.UseRouting();           
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseHttpsRedirection();     
+
+            app.UseCors(x =>
+            x.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            );
+
+            
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             //app.UseSwaggerUI(option =>
             //{
@@ -234,13 +252,6 @@ namespace ProjectADApi
             //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"ArtisanGallery")),
             //    RequestPath = new PathString("/ArtisanGallery")
             //});
-
-            app.UseHttpsRedirection();
-            //app.UseMvc();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }

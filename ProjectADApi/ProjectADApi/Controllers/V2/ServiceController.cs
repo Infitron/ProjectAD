@@ -8,7 +8,7 @@ using Api.Database.Core;
 using Api.Database.Data;
 using Api.Database.Model;
 using AutoMapper;
-//using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,8 +24,8 @@ namespace ProjectADApi.Controllers.V2
 {
     //[Route("api/[controller]")]
     [ApiVersion("1.1")]
-    [SwaggerTag("The version controller version 1.1. This include all endpoint of version the update endpoint.")]       
-    [Authorize]
+    [SwaggerTag("The version controller version 1.1. This include all endpoint of version the update endpoint.")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ServiceController : ControllerBase
     {
         readonly IRepository<Services> _serviceRepository;

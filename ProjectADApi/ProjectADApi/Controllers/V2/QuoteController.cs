@@ -21,7 +21,7 @@ using AutoMapper;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-     [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class QuoteController : ControllerBase
     {
         readonly IRepository<Quote> _quoteRepository;

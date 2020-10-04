@@ -29,6 +29,7 @@ namespace Api.Database.Model
         public string State { get; set; }
         public string AboutMe { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public string Code { get; set; }
         public string RefererCode { get; set; }
 
         public virtual Location AreaLocation { get; set; }

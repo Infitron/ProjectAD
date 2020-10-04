@@ -17,7 +17,7 @@ using ProjectADApi.Controllers.V2.Contract.Response;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class CategoryController : ControllerBase
     {
         readonly private IRepository<ArtisanCategories> _artisanCatergoryRepository;

@@ -18,17 +18,21 @@ using Microsoft.AspNetCore.Authorization;
 ////using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Swashbuckle.AspNetCore.Annotations;
 using Api.Database.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using EncryptionService;
 
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes  = JwtBearerDefaults.AuthenticationScheme)]
     [SwaggerTag("New and improved version of the Artisan endpoints. This version give more detail about an artisan. You can see the order(s) an artisan has had. The project he/she has handled over time and lot more.")]
     public class ArtisanController : ControllerBase
     {
         readonly IRepository<Artisan> _artisanRepository;
         private readonly IMapper _mapper;
         readonly bluechub_ProjectADContext _dbContext;
+       
 
         public ArtisanController(IRepository<Artisan> oniswOwoRepository, IMapper mapper, bluechub_ProjectADContext dbContext)
         {
@@ -111,6 +115,8 @@ namespace ProjectADApi.Controllers.V2
             }
 
             Artisan newArtisan = _mapper.Map<Artisan>(model);
+            newArtisan.Code = AES.RandomPassword();
+
 
             Artisan kooniseOwoTuntun = await _artisanRepository.CreateAsync(newArtisan);
             return CreatedAtAction(nameof(ThisArtisan), new { id = newArtisan.Id }, new { status = HttpStatusCode.Created, message = kooniseOwoTuntun });
@@ -147,5 +153,7 @@ namespace ProjectADApi.Controllers.V2
         //public void Delete(int id)
         //{
         //}
+
+       
     }
 }

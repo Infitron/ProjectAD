@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Data;
 using Api.Database.Model;
-//using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +20,7 @@ using ProjectADApi.Contract.V1.Response;
 namespace ProjectADApi.Controllers
 {
     [ApiVersion("1", Deprecated = true)]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ArtisanController : ControllerBase
     {
         readonly IRepository<Artisan> _artisanRepository;
