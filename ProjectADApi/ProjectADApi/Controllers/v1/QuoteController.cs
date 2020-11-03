@@ -63,7 +63,7 @@ namespace ProjectADApi.Controllers.V1
 
             Quote newQuote = new Quote
             {
-                Address1 = model.Address1,
+                //Address1 = model.Address1,
                 Item = JsonConvert.SerializeObject(model.Item),
                 Discount = model.Discount,
                 OrderStatusId = (int)AppStatus.Initiated,

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Core;
+using Api.Database.Data;
 using Api.Database.Model;
 using EncryptionService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,16 +20,18 @@ using ProjectADApi.Controllers.V2.Contract;
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ClientController : ControllerBase
     {
         readonly IRepository<Client> _clientRepository;
         readonly IRepository<UserLogin> _userRepository;
+        readonly bluechub_ProjectADContext _dbContext;
 
-        public ClientController(IRepository<Client> onibaraRepository, IRepository<UserLogin> userRepository)
+        public ClientController(IRepository<Client> onibaraRepository, IRepository<UserLogin> userRepository, bluechub_ProjectADContext dbContext)
         {
             _clientRepository = onibaraRepository;
             _userRepository = userRepository;
+            _dbContext = dbContext;
         }
 
         // GET: api/Onibara
@@ -36,11 +39,12 @@ namespace ProjectADApi.Controllers.V2
         [HttpGet(ApiRoute.Client.GetAll)]
         public async Task<IActionResult> AllClient()
         {
-            IEnumerable<Client> awonOnibara = await _clientRepository.GetAllAsync();
+            // IEnumerable<Client> awonOnibara = await _clientRepository.GetAllAsync();
+         var   clients = await _dbContext.Client.ToListAsync();
 
-            if (awonOnibara != null)
+            if (clients != null)
             {
-                List<ClientResponse> allClient = awonOnibara.Select(x =>
+                List<ClientResponse> allClient = clients.Select(x =>
                 new ClientResponse
                 {
                     Id = x.Id,
@@ -61,9 +65,9 @@ namespace ProjectADApi.Controllers.V2
 
         //GET: api/Onibara/5        
         [HttpGet(ApiRoute.Client.Get)]
-        public async Task<IActionResult> ThisClient(int id)
+        public async Task<IActionResult> ThisClient(int UserId)
         {
-            Client onibariyi = await _clientRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+            Client onibariyi = await _clientRepository.GetByAsync(x => x.UserId.Equals(UserId)).FirstOrDefaultAsync();
 
             if (onibariyi != null)
             {
@@ -136,7 +140,9 @@ namespace ProjectADApi.Controllers.V2
                 thisClient.PhoneNumber = model.PhoneNumber;
                 thisClient.PicturePath = model.PicturePath;
                 thisClient.Address = model.Address;
-                thisClient.State = model.State;                
+                thisClient.State = model.State;  
+                thisClient.Code = thisClient.Code = thisClient.Code == null ? AES.RandomPassword() : thisClient.Code;
+                thisClient.RefererCode = model.RefererCode;
 
                 await _clientRepository.UpdateAsync(thisClient);
 

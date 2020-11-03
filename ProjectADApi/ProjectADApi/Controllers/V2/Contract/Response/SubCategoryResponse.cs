@@ -14,7 +14,7 @@ namespace ProjectADApi.Controllers.V2.Contract.Response
     public class SubCategoryResponse
     {
        // private bluechub_ProjectADContext _projectadContext = new bluechub_ProjectADContext();
-        private bluechub_ProjectADContext _context = new bluechub_ProjectADContext();
+        private readonly bluechub_ProjectADContext _context = new bluechub_ProjectADContext();
         IRepository<ArtisanCategories> _categoryRepository;
         public SubCategoryResponse() => _categoryRepository = new Repository<ArtisanCategories>(_context);
         public int Id { get; set; }

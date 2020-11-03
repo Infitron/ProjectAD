@@ -92,7 +92,7 @@ namespace ProjectADApi
             //    options.UseSqlServer(Configuration["ApiDbConnection:DefaultConnection"]);
             //});
             services.AddDefaultIdentity<UserLogin>().AddEntityFrameworkStores<bluechub_ProjectADContext>();
-
+            services.AddCors();
 
             services.AddAuthentication(option =>
             {
@@ -180,7 +180,8 @@ namespace ProjectADApi
 
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             //services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
-            services.AddControllers().AddJsonOptions(options => {
+            services.AddControllers().AddJsonOptions(options =>
+            {
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
 
@@ -199,12 +200,12 @@ namespace ProjectADApi
             {
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            } 
+            }
             app.ConfigureExceptionHandler();
 
             SwaggerConf _swaggerConf = new SwaggerConf();
             Configuration.GetSection(nameof(SwaggerConf)).Bind(_swaggerConf);
-            
+
             app.UseSwagger(option =>
             {
                 option.RouteTemplate = _swaggerConf.JsonRoute;
@@ -218,22 +219,23 @@ namespace ProjectADApi
                    {
                        options.SwaggerEndpoint($"../swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
                    }
-               });           
-            
-            app.UseStaticFiles();           
-            app.UseRouting();           
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.UseHttpsRedirection();     
+               });
+
+            app.UseStaticFiles();
+            app.UseRouting();
+
+
+            app.UseHttpsRedirection();
 
             app.UseCors(x =>
-            x.AllowAnyOrigin()
+            x.WithOrigins("https://test-partners.getrates.co", "http://localhost:8100")
             .AllowAnyMethod()
             .AllowAnyHeader()
+            .AllowCredentials()
             );
 
-            
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

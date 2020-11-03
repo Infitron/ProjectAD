@@ -24,7 +24,7 @@ namespace ProjectADApi.Controllers.V2.Contract
         public static class Artisan
         {
             public const string GetAll = Base + "/artisan";
-            public const string Get = Base + "/artisan/{id?}/";
+            public const string Get = Base + "/artisan/{UserId}";
             public const string Create = Base + "/artisan";
             public const string Update = Base + "/artisan/{id}";
             public const string Delete = Base + "/artisan/{id}";
@@ -87,7 +87,7 @@ namespace ProjectADApi.Controllers.V2.Contract
         public static class Client
         {
             public const string GetAll = Base + "/Client";
-            public const string Get = Base + "/Client/{id}";
+            public const string Get = Base + "/Client/{UserId}";
             public const string Create = Base + "/Client";
             public const string Update = Base + "/Client/{id}";
             public const string Delete = Base + "/Client/{id}";

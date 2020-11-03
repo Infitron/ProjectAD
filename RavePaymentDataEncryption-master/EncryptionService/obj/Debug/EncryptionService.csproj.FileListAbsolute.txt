@@ -3,3 +3,9 @@ E:\Projects\.NET Projects\Libraries\EncryptionService\EncryptionService\bin\Debu
 E:\Projects\.NET Projects\Libraries\EncryptionService\EncryptionService\obj\Debug\EncryptionService.dll
 E:\Projects\.NET Projects\Libraries\EncryptionService\EncryptionService\obj\Debug\EncryptionService.pdb
 E:\Projects\.NET Projects\Libraries\EncryptionService\EncryptionService\obj\Debug\EncryptionService.csprojResolveAssemblyReference.cache
+C:\Users\tesli\Documents\GitHub\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\bin\Debug\EncryptionService.dll
+C:\Users\tesli\Documents\GitHub\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\bin\Debug\EncryptionService.pdb
+C:\Users\tesli\Documents\GitHub\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\obj\Debug\EncryptionService.csprojAssemblyReference.cache
+C:\Users\tesli\Documents\GitHub\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\obj\Debug\EncryptionService.csproj.CoreCompileInputs.cache
+C:\Users\tesli\Documents\GitHub\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\obj\Debug\EncryptionService.dll
+C:\Users\tesli\Documents\GitHub\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\obj\Debug\EncryptionService.pdb

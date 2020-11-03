@@ -146,6 +146,11 @@
             
             </summary>
         </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Request.ArtisanRequest.RefererCode">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.UserId">
             <summary>
              This identity the artisan from the userlogin table
@@ -202,6 +207,16 @@
             </summary>
         </member>
         <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.CreatedDate">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.Code">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.RefererCode">
             <summary>
             
             </summary>

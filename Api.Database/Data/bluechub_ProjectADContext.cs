@@ -595,32 +595,21 @@ namespace Api.Database.Data
                     .HasColumnName("id")
                     .ValueGeneratedOnAdd();
 
-                entity.Property(e => e.Address1)
-                    .IsRequired()
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
+                
 
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Descr)
-                    .IsRequired()
-                    .HasMaxLength(800)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.Discount)
                     .HasColumnType("decimal(38, 2)")
                     .HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.Item)
-                    .IsRequired()
-                    .HasMaxLength(80)
-                    .IsUnicode(false);
+                entity.Property(e => e.Item).IsRequired();
 
                 entity.Property(e => e.OrderDate).HasColumnType("datetime");
 
                 entity.Property(e => e.OrderStatusId).HasColumnName("OrderStatus_Id");
 
-                entity.Property(e => e.Price).HasColumnType("decimal(38, 2)");
+                
 
                 entity.Property(e => e.Vat)
                     .HasColumnName("VAT")
@@ -633,11 +622,7 @@ namespace Api.Database.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Quote_Booking");
 
-                entity.HasOne(d => d.Client)
-                    .WithMany(p => p.Quote)
-                    .HasForeignKey(d => d.ClientId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Quote_Client");
+                
 
                 entity.HasOne(d => d.IdNavigation)
                     .WithOne(p => p.Quote)

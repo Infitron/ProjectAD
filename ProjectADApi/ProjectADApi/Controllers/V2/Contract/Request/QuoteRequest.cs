@@ -13,20 +13,11 @@ namespace ProjectADApi.Controllers.V2.Contract.Request
         
         public List<QuoteItem> Item { get; set; }        
         public decimal? Discount { get; set; }
-        public string Address1 { get; set; } 
+        public decimal WorkmanShip { get; set; }
+        public decimal Total { get; set; }
         public int BookingId { get; set; }
         public DateTime? CreatedDate { get; set; } = DateTime.Now;
         public DateTime? OrderDate { get; set; } = DateTime.Now;
 
-
-        //public int Id { get; set; }
-        //public DateTime OrderDate { get; set; } = DateTime.Now;
-        //public int OrderStatusId { get; set; } = (int)AppStatus.Initiated;
-        //public decimal? Vat { get; set; } 
-        //public virtual Booking Booking { get; set; }
-        //public virtual Client Client { get; set; }
-        //public virtual Artisan IdNavigation { get; set; }
-        //public virtual Lov OrderStatus { get; set; }
-        //public virtual ICollection<Projects> Projects { get; set; }
     }
 }
