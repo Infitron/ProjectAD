@@ -22,8 +22,6 @@ namespace Api.Database.Model
         public int QuoteId { get; set; }
         public DateTime? CreationDate { get; set; }
 
-        public virtual Artisan Artisan { get; set; }
-        public virtual Client Client { get; set; }
         public virtual Quote Quote { get; set; }
         public virtual ICollection<Gallary> Gallary { get; set; }
         public virtual ICollection<PaymentHistory> PaymentHistory { get; set; }

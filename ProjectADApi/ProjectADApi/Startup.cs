@@ -228,10 +228,10 @@ namespace ProjectADApi
             app.UseHttpsRedirection();
 
             app.UseCors(x =>
-            x.WithOrigins("https://test-partners.getrates.co", "http://localhost:8100")
+            x.AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowCredentials()
+            //.AllowCredentials()
             );
 
             app.UseAuthentication();

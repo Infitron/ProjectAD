@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Api.Database.Core;
 using Api.Database.Data;
 using Api.Database.Model;
+using AutoMapper;
 using EncryptionService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -14,24 +15,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.Request;
-using ProjectADApi.Controllers.V1.Contracts.Response;
+using ProjectADApi.Controllers.V2.Contract.Response;
 using ProjectADApi.Controllers.V2.Contract;
 
 namespace ProjectADApi.Controllers.V2
 {
     [ApiVersion("1.1")]
-   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ClientController : ControllerBase
     {
         readonly IRepository<Client> _clientRepository;
         readonly IRepository<UserLogin> _userRepository;
         readonly bluechub_ProjectADContext _dbContext;
+        readonly IMapper _mapper;
 
-        public ClientController(IRepository<Client> onibaraRepository, IRepository<UserLogin> userRepository, bluechub_ProjectADContext dbContext)
+        public ClientController(IRepository<Client> onibaraRepository, IRepository<UserLogin> userRepository, bluechub_ProjectADContext dbContext, IMapper mapper)
         {
             _clientRepository = onibaraRepository;
             _userRepository = userRepository;
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         // GET: api/Onibara
@@ -39,28 +42,13 @@ namespace ProjectADApi.Controllers.V2
         [HttpGet(ApiRoute.Client.GetAll)]
         public async Task<IActionResult> AllClient()
         {
-            // IEnumerable<Client> awonOnibara = await _clientRepository.GetAllAsync();
-         var   clients = await _dbContext.Client.ToListAsync();
+            var clients = await _dbContext.Client.ToListAsync();
 
-            if (clients != null)
-            {
-                List<ClientResponse> allClient = clients.Select(x =>
-                new ClientResponse
-                {
-                    Id = x.Id,
-                    UserId = x.UserId,
-                    FirstName = x.FirstName,
-                    LastName = x.LastName,
-                    PhoneNumber = x.PhoneNumber,
-                    PicturePath = x.PicturePath,
-                    Address = x.Address,
-                    State = x.State,
-                    CreatedDate = x.CreatedDate
-                }).ToList();
+            List<ClientResponse> clientResponse = _mapper.Map<List<ClientResponse>>(clients);
 
-                return Ok(new { status = HttpStatusCode.OK, message = allClient });
-            }
-            return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
+            return Ok(new { status = HttpStatusCode.OK, message = clientResponse });
+
+            //return NotFound(new { status = HttpStatusCode.NotFound, Message = "No records found" });
         }
 
         //GET: api/Onibara/5        
@@ -71,19 +59,8 @@ namespace ProjectADApi.Controllers.V2
 
             if (onibariyi != null)
             {
-                ClientResponse thisClient = new ClientResponse
-                {
-                    Id = onibariyi.Id,
-                    UserId = onibariyi.UserId,
-                    FirstName = onibariyi.FirstName,
-                    LastName = onibariyi.LastName,
-                    PhoneNumber = onibariyi.PhoneNumber,
-                    PicturePath = onibariyi.PicturePath,
-                    Address = onibariyi.Address,
-                    State = onibariyi.State,
-                    CreatedDate = onibariyi.CreatedDate
-                };
-                return Ok(new { status = HttpStatusCode.OK, message = thisClient });
+                ClientResponse clientResponse = _mapper.Map<ClientResponse>(onibariyi);
+                return Ok(new { status = HttpStatusCode.OK, message = clientResponse });
             }
 
             return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "No record found/Wrong user id supplied" });
@@ -93,7 +70,6 @@ namespace ProjectADApi.Controllers.V2
         [HttpPost(ApiRoute.Client.Create)]
         public async Task<IActionResult> Post([FromBody] ClientRequest model)
         {
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -120,7 +96,7 @@ namespace ProjectADApi.Controllers.V2
                 CreatedDate = DateTime.Now,
                 Code = AES.RandomPassword(),
                 RefererCode = model.RefererCode
-                
+
             };
 
             Client koOnibaraTuntun = await _clientRepository.CreateAsync(newClient);
@@ -130,7 +106,7 @@ namespace ProjectADApi.Controllers.V2
 
         // PUT: api/Onibara/5
         [HttpPut(ApiRoute.Client.Update)]
-        public async Task<IActionResult>  Put(int id, [FromBody] ClientRequest model)
+        public async Task<IActionResult> Put(int id, [FromBody] ClientRequest model)
         {
             Client thisClient = await _clientRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
             if (thisClient != null)
@@ -140,7 +116,7 @@ namespace ProjectADApi.Controllers.V2
                 thisClient.PhoneNumber = model.PhoneNumber;
                 thisClient.PicturePath = model.PicturePath;
                 thisClient.Address = model.Address;
-                thisClient.State = model.State;  
+                thisClient.State = model.State;
                 thisClient.Code = thisClient.Code = thisClient.Code == null ? AES.RandomPassword() : thisClient.Code;
                 thisClient.RefererCode = model.RefererCode;
 

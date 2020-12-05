@@ -22,7 +22,6 @@ namespace Api.Database.Model
         public decimal? Total { get; set; }
 
         public virtual Booking Booking { get; set; }
-        public virtual Artisan IdNavigation { get; set; }
         public virtual Lov OrderStatus { get; set; }
         public virtual ICollection<Projects> Projects { get; set; }
     }

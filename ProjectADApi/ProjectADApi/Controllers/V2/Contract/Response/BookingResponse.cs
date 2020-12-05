@@ -27,7 +27,7 @@ namespace ProjectADApi.Controllers.V2.Contract.Response
         public string ArtisanFullNmae
         {
             get
-            {
+            {                
                 var artisan = _artisanRepository.GetByAsync(x => x.Id.Equals(this.ArtisanId)).FirstOrDefault();
                 return $"{artisan.FirstName} {artisan.LastName}";
             }

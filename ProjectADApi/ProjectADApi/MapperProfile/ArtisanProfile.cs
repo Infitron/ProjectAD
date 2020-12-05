@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProjectADApi.Controllers.V2.MapperProfile
+namespace ProjectADApi.MapperProfile
 {
     public class ArtisanProfile : Profile
     {
@@ -27,12 +27,12 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
 
             CreateMap<ArtisanRequest, Artisan>()
                 .ForMember(des => des.AreaLocation, act => act.Ignore())
-                 .ForMember(des => des.ArtisanCategory, act => act.Ignore())
-                  .ForMember(des => des.Booking, act => act.Ignore())
-                   .ForMember(des => des.ArtisanServices, act => act.Ignore())
-                    .ForMember(des => des.Projects, act => act.Ignore())
-                     .ForMember(des => des.Gallary, act => act.Ignore())
-                      .ForMember(des => des.Services, act => act.Ignore());
+                 .ForMember(des => des.ArtisanCategory, act => act.Ignore());
+                  //.ForMember(des => des.Booking, act => act.Ignore())
+                  // .ForMember(des => des.ArtisanServices, act => act.Ignore())
+                  //  .ForMember(des => des.Projects, act => act.Ignore())
+                  //   .ForMember(des => des.Gallary, act => act.Ignore())
+                  //    .ForMember(des => des.Services, act => act.Ignore())
         }
     }
 
@@ -41,6 +41,14 @@ namespace ProjectADApi.Controllers.V2.MapperProfile
         public BookingProfile()
         {
             CreateMap<Booking, BookingResponse>(MemberList.Source);
+        }
+    }
+
+    public class ClientProfile : Profile
+    {
+        public ClientProfile()
+        {
+            CreateMap<Client, ClientResponse>(MemberList.Source);
         }
     }
 

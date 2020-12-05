@@ -18,7 +18,6 @@ namespace Api.Database.Model
         public DateTime? CreationDate { get; set; }
         public int StateId { get; set; }
 
-        public virtual Artisan Artisan { get; set; }
         public virtual ArtisanCategories Category { get; set; }
         public virtual Lga Lga { get; set; }
         public virtual Location Location { get; set; }

@@ -14,6 +14,9 @@ namespace ProjectADApi.ApiConfig
     {
         public string BaseUrlPath { get; set; }
         public string VAT { get; set; }
+
+        public string VerifyMekey  { get; set; }
+
     }
 
     public enum AppStatus

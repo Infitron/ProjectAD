@@ -11,7 +11,5 @@ namespace Api.Database.Model
         public string Description { get; set; }
         public string Status { get; set; }
         public DateTime? Createdon { get; set; }
-
-        public virtual Artisan Artisan { get; set; }
     }
 }

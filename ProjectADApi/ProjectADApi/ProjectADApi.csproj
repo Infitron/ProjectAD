@@ -36,40 +36,19 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Controllers\V1\**" />
 	  <Compile Remove="Factories\V1\**" />
-	  <Content Remove="Controllers\V1\**" />
 	  <Content Remove="Factories\V1\**" />
-	  <EmbeddedResource Remove="Controllers\V1\**" />
 	  <EmbeddedResource Remove="Factories\V1\**" />
-	  <None Remove="Controllers\V1\**" />
 	  <None Remove="Factories\V1\**" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Controllers\V1\BookingController.cs" />
+	  <Compile Remove="Controllers\V1\ClientController.cs" />
+	  <Compile Remove="Controllers\V1\RatingController.cs" />
+	  <Compile Remove="Controllers\V1\ServiceController.cs" />
 	  <Compile Remove="Controllers\V2\ArtisanServiceController.cs" />
 	  <Compile Remove="Controllers\V2\LocalGovernmentController.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Include="Controllers\V1\AccountController.cs" />
-	  <Compile Include="Controllers\V1\ArticleController.cs" />
-	  <Compile Include="Controllers\V1\ArtisanCategoryController.cs" />
-	  <Compile Include="Controllers\V1\ArtisanController.cs" />
-	  <Compile Include="Controllers\V1\BankCodeController.cs" />
-	  <Compile Include="Controllers\V1\BankDetailsController.cs" />
-	  <Compile Include="Controllers\V1\BookingController.cs" />
-	  <Compile Include="Controllers\V1\ClientController.cs" />
-	  <Compile Include="Controllers\V1\Contracts\Response\BookingResponse.cs" />
-	  <Compile Include="Controllers\V1\Contracts\Response\ClientResponse.cs" />
-	  <Compile Include="Controllers\V1\Contracts\Response\ProjectResponse.cs" />
-	  <Compile Include="Controllers\V1\GalleryController.cs" />
-	  <Compile Include="Controllers\V1\LocationController.cs" />
-	  <Compile Include="Controllers\V1\PaymentController.cs" />
-	  <Compile Include="Controllers\V1\ProjectController.cs" />
-	  <Compile Include="Controllers\V1\QuoteController.cs" />
-	  <Compile Include="Controllers\V1\SearchController.cs" />
-	  <Compile Include="Controllers\V1\ServiceController.cs" />
 	</ItemGroup>
 
 	<ItemGroup>

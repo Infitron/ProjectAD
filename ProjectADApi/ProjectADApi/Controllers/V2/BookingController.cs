@@ -24,7 +24,7 @@ using ProjectADApi.Controllers.V2.Contract.Response;
 namespace ProjectADApiControllers.V2
 {
     [ApiVersion("1.1")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+   // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BookingController : ControllerBase
     {
         readonly IRepository<Booking> _bookingRepository;
