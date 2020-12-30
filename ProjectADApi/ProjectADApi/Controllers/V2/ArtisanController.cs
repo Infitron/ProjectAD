@@ -21,6 +21,7 @@ using Api.Database.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using EncryptionService;
+using Serilog;
 
 namespace ProjectADApi.Controllers.V2
 {
@@ -46,6 +47,8 @@ namespace ProjectADApi.Controllers.V2
         [HttpGet(ApiRoute.Artisan.GetAll)]
         public async Task<IActionResult> AwonOniseOwo()
         {
+            Log.Information($"All artisan requested from ip {Request.HttpContext.Connection.RemoteIpAddress}");
+            
             var AllArtisans = await _dbContext.Artisan.ToListAsync();
             List<ArtisanResponse> response = new List<ArtisanResponse>();
 

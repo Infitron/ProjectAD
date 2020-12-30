@@ -11,22 +11,22 @@ namespace ProjectADApi.Controllers.V2.Contract.Request
         /// <summary>
         /// 
         /// </summary>
-        [Required]
+       // [Required]
         public string FirstName { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        [Required]
+        //[Required]
         public string LastName { get; set; }
         /// <summary>
         /// 
         /// </summary>
-         [Required]
+         //[Required]
         public string PhoneNumber { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        [Required]
+       // [Required]
         public int AreaLocationId { get; set; }
         /// <summary>
         /// 
@@ -36,33 +36,33 @@ namespace ProjectADApi.Controllers.V2.Contract.Request
         /// <summary>
         /// 
         /// </summary>
-        [Required]
+        //[Required]
         public string PicturePath { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        [Required]
+        //[Required]
         public string Address { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        [Required]
+        //[Required]
         public int ArtisanCategoryId { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        [Required]
+       // [Required]
         
         public string State { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        [Required]
+       // [Required]
         public string AboutMe { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        [Required]
+       // [Required]
         public int UserId { get; set; }
 
         /// <summary>

@@ -47,7 +47,7 @@ namespace ProjectADApi
     {
         public Startup(IConfiguration configuration)
         {
-            //LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+
             Configuration = configuration;
         }
 
@@ -86,8 +86,7 @@ namespace ProjectADApi
             services.AddSingleton(_emailConfiguration);
             services.AddSingleton(new bluechub_ProjectADContext());
 
-            //    services.AddDbContext<projectadContext>();
-            //    (options =>
+            //services.AddDbContext<bluechub_ProjectADContext>(options =>
             //{
             //    options.UseSqlServer(Configuration["ApiDbConnection:DefaultConnection"]);
             //});
@@ -229,9 +228,8 @@ namespace ProjectADApi
 
             app.UseCors(x =>
             x.AllowAnyOrigin()
-            .AllowAnyMethod()
             .AllowAnyHeader()
-            //.AllowCredentials()
+            .AllowAnyMethod()
             );
 
             app.UseAuthentication();

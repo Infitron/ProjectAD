@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\bluechub_ProdContext.cs" />
     <Compile Remove="Data\projectadContext.cs" />
   </ItemGroup>
 
@@ -18,6 +19,7 @@
     </PackageReference>
     <PackageReference Include="microsoft.entityframeworkcore.proxies" Version="3.1.8" />
     <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="3.1.8" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="3.1.8" />
   </ItemGroup>

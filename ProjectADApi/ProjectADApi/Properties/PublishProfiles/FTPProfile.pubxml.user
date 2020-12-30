@@ -131,22 +131,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/09/2019 07:15:12</publishTime>
     </File>
     <File Include="Api.Database.dll">
-      <publishTime>09/28/2020 20:09:25</publishTime>
+      <publishTime>12/12/2020 11:32:22</publishTime>
     </File>
     <File Include="Api.Database.pdb">
-      <publishTime>09/28/2020 20:09:25</publishTime>
+      <publishTime>12/12/2020 11:32:22</publishTime>
     </File>
     <File Include="Api.EmailService.dll">
-      <publishTime>09/28/2020 20:04:19</publishTime>
+      <publishTime>11/07/2020 13:10:10</publishTime>
     </File>
     <File Include="Api.EmailService.pdb">
-      <publishTime>09/28/2020 20:04:19</publishTime>
+      <publishTime>11/07/2020 13:10:10</publishTime>
     </File>
     <File Include="appsettings.Development.json">
-      <publishTime>01/04/2020 23:12:33</publishTime>
+      <publishTime>12/06/2020 09:14:56</publishTime>
     </File>
     <File Include="appsettings.json">
-      <publishTime>08/29/2020 22:27:47</publishTime>
+      <publishTime>12/06/2020 09:00:05</publishTime>
     </File>
     <File Include="aspnetcorev2_inprocess.dll">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -206,10 +206,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>08/03/2020 18:30:10</publishTime>
     </File>
     <File Include="EncryptionService.dll">
-      <publishTime>09/28/2020 20:04:19</publishTime>
+      <publishTime>11/07/2020 13:10:09</publishTime>
     </File>
     <File Include="EncryptionService.pdb">
-      <publishTime>09/28/2020 20:04:19</publishTime>
+      <publishTime>11/07/2020 13:10:09</publishTime>
     </File>
     <File Include="es/Microsoft.CodeAnalysis.CSharp.resources.dll">
       <publishTime>09/12/2019 17:09:00</publishTime>
@@ -875,22 +875,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/12/2019 17:08:36</publishTime>
     </File>
     <File Include="ProjectADApi.deps.json">
-      <publishTime>09/28/2020 20:10:19</publishTime>
+      <publishTime>12/12/2020 13:59:31</publishTime>
     </File>
     <File Include="ProjectADApi.dll">
-      <publishTime>09/28/2020 20:10:18</publishTime>
+      <publishTime>12/12/2020 13:59:30</publishTime>
     </File>
     <File Include="ProjectADApi.exe">
-      <publishTime>09/28/2020 20:10:18</publishTime>
+      <publishTime>12/12/2020 13:59:30</publishTime>
     </File>
     <File Include="ProjectADApi.pdb">
-      <publishTime>09/28/2020 20:10:18</publishTime>
+      <publishTime>12/12/2020 13:59:30</publishTime>
     </File>
     <File Include="ProjectADApi.runtimeconfig.json">
-      <publishTime>09/28/2020 20:05:38</publishTime>
+      <publishTime>12/12/2020 11:03:47</publishTime>
     </File>
     <File Include="ProjectADApi.xml">
-      <publishTime>09/28/2020 20:10:17</publishTime>
+      <publishTime>12/12/2020 13:59:29</publishTime>
     </File>
     <File Include="pt-BR/Microsoft.CodeAnalysis.CSharp.resources.dll">
       <publishTime>09/12/2019 17:09:00</publishTime>
@@ -918,6 +918,33 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="ru/Microsoft.CodeAnalysis.Workspaces.resources.dll">
       <publishTime>09/12/2019 17:08:36</publishTime>
+    </File>
+    <File Include="Serilog.AspNetCore.dll">
+      <publishTime>07/24/2020 01:43:08</publishTime>
+    </File>
+    <File Include="Serilog.dll">
+      <publishTime>10/13/2019 21:02:44</publishTime>
+    </File>
+    <File Include="Serilog.Extensions.Hosting.dll">
+      <publishTime>05/27/2020 00:12:08</publishTime>
+    </File>
+    <File Include="Serilog.Extensions.Logging.dll">
+      <publishTime>08/21/2019 23:09:16</publishTime>
+    </File>
+    <File Include="Serilog.Formatting.Compact.dll">
+      <publishTime>10/17/2019 05:18:46</publishTime>
+    </File>
+    <File Include="Serilog.Settings.Configuration.dll">
+      <publishTime>06/02/2019 00:57:40</publishTime>
+    </File>
+    <File Include="Serilog.Sinks.Console.dll">
+      <publishTime>10/22/2017 16:48:40</publishTime>
+    </File>
+    <File Include="Serilog.Sinks.Debug.dll">
+      <publishTime>03/21/2018 21:19:06</publishTime>
+    </File>
+    <File Include="Serilog.Sinks.File.dll">
+      <publishTime>10/17/2019 05:25:34</publishTime>
     </File>
     <File Include="sni.dll">
       <publishTime>01/25/2020 04:45:35</publishTime>
@@ -1469,7 +1496,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/09/2019 07:15:12</publishTime>
     </File>
     <File Include="web.config">
-      <publishTime>09/28/2020 20:10:19</publishTime>
+      <publishTime>12/12/2020 13:59:31</publishTime>
     </File>
     <File Include="WindowsBase.dll">
       <publishTime>10/09/2019 07:15:10</publishTime>

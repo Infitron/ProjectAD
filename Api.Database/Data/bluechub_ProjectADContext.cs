@@ -42,16 +42,20 @@ namespace Api.Database.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            AppConfig appConf = new AppConfig();
+
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("server=192.185.11.167;database=bluechub_ProjectAD;user id=bluechub_dbAd; password=Ux8qz1*2");
+                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                //optionsBuilder.UseSqlServer("server=192.185.11.167;database=bluechub_ProjectAD;user id=bluechub_dbAd; password=Ux8qz1*2");
+                optionsBuilder.UseSqlServer(appConf.ConnectionString);
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:DefaultSchema", "bluechub_dbAd");
+           // modelBuilder.HasAnnotation("Relational:DefaultSchema", "Bluechub_ProdUser");
 
             modelBuilder.Entity<Article>(entity =>
             {
