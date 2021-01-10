@@ -12,9 +12,10 @@ namespace Api.VerifyMe.Implementation
        public NINVerification (string NIN)
         {
             _Nin = NIN;
-        }
-        
-        public void Verify(string NIN)
+        }       
+       
+
+        public void Verify()
         {
             throw new NotImplementedException();
         }

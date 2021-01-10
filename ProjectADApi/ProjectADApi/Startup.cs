@@ -86,7 +86,7 @@ namespace ProjectADApi
             services.AddSingleton(_flutterRaveConf);
             services.AddSingleton(_emailConfiguration);
             services.AddSingleton(new bluechub_ProjectADContext());
-            services.AddSingleton(new DefaultVerifyMeFactory());
+            
 
             //services.AddDbContext<bluechub_ProjectADContext>(options =>
             //{
