@@ -76,6 +76,7 @@
 		<ProjectReference Include="..\..\Api.Database\Api.Database.csproj" />
 		<ProjectReference Include="..\..\Api.EmailService\Api.EmailService.csproj" />
 		<ProjectReference Include="..\..\RavePaymentDataEncryption-master\EncryptionService\EncryptionService.csproj" />
+		<ProjectReference Include="..\Api.VerifyMe\Api.VerifyMe.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -5,11 +5,15 @@ using System.Text;
 
 namespace Api.VerifyMe.Implementation
 {
-    public class VerifyBVN : IVerifyMe
+    public class AddressVerification : IVerificationManager
     {
-        public void VerifyMe(WhatToVerify WhatToVerify, string VerifyIt)
+        public string _address;
+        public AddressVerification(string Address) => _address = Address;
+        
+        public void Verify()
         {
             throw new NotImplementedException();
         }
+
     }
 }

@@ -12,6 +12,7 @@ using Api.Database.Implementation;
 using Api.Database.Model;
 using Api.EmailService.Core;
 using Api.EmailService.EmailConfig;
+using Api.VerifyMe.Implementation;
 using AutoMapper;
 using EncryptionService;
 using Microsoft.AspNetCore.Authentication;
@@ -85,6 +86,7 @@ namespace ProjectADApi
             services.AddSingleton(_flutterRaveConf);
             services.AddSingleton(_emailConfiguration);
             services.AddSingleton(new bluechub_ProjectADContext());
+            services.AddSingleton(new DefaultVerifyMeFactory());
 
             //services.AddDbContext<bluechub_ProjectADContext>(options =>
             //{

@@ -5,11 +5,16 @@ using System.Text;
 
 namespace Api.VerifyMe.Implementation
 {
-    public class VerifyNIN : IVerifyMe
+    public class NINVerification : IVerificationManager
     {
-       
+        public string _Nin;
 
-        public void VerifyMe(WhatToVerify WhatToVerify, string VerifyIt)
+       public NINVerification (string NIN)
+        {
+            _Nin = NIN;
+        }
+        
+        public void Verify(string NIN)
         {
             throw new NotImplementedException();
         }

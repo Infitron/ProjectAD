@@ -3902,6 +3902,16 @@
           "bin/placeholder/Api.EmailService.dll": {}
         }
       },
+      "Api.VerifyMe/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/Api.VerifyMe.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Api.VerifyMe.dll": {}
+        }
+      },
       "EncryptionService/1.0.0": {
         "type": "project",
         "compile": {
@@ -11515,6 +11525,11 @@
       "path": "../../Api.EmailService/Api.EmailService.csproj",
       "msbuildProject": "../../Api.EmailService/Api.EmailService.csproj"
     },
+    "Api.VerifyMe/1.0.0": {
+      "type": "project",
+      "path": "../Api.VerifyMe/Api.VerifyMe.csproj",
+      "msbuildProject": "../Api.VerifyMe/Api.VerifyMe.csproj"
+    },
     "EncryptionService/1.0.0": {
       "type": "project",
       "path": "../../RavePaymentDataEncryption-master/EncryptionService/EncryptionService.csproj",
@@ -11525,6 +11540,7 @@
     ".NETCoreApp,Version=v3.1": [
       "Api.Database >= 1.0.0",
       "Api.EmailService >= 1.0.0",
+      "Api.VerifyMe >= 1.0.0",
       "AutoMapper.Extensions.Microsoft.DependencyInjection >= 7.0.0",
       "EncryptionService >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 3.1.8",
@@ -11582,6 +11598,9 @@
             },
             "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\Api.EmailService\\Api.EmailService.csproj": {
               "projectPath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\Api.EmailService\\Api.EmailService.csproj"
+            },
+            "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\Api.VerifyMe.csproj": {
+              "projectPath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\Api.VerifyMe.csproj"
             },
             "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\RavePaymentDataEncryption-master\\EncryptionService\\EncryptionService.csproj": {
               "projectPath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\RavePaymentDataEncryption-master\\EncryptionService\\EncryptionService.csproj"
