@@ -1,8 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "FtLhxwkfEPgaegqigM1dznKOBV7OZYO//xTleIlNlvSoyGIQiLwI+TQm0rJrQ2Gh+QqKdNdbMBmWVaoI2qk7xA==",
+  "dgSpecHash": "KZvFYDoF4nG5UL7RXmATwV/QnGbd5gQvlmQ4xiFiHsOP4oaW6ZTyioFTJ8SkpuKlHpnLAZzN6oqm65i7wT+s2A==",
   "success": true,
-  "projectFilePath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\Api.VerifyMe.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\Api.VerifyMe.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\taj174\\.nuget\\packages\\microsoft.extensions.configuration\\5.0.0\\microsoft.extensions.configuration.5.0.0.nupkg.sha512",
+    "C:\\Users\\taj174\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\5.0.0\\microsoft.extensions.configuration.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\taj174\\.nuget\\packages\\microsoft.extensions.configuration.fileextensions\\5.0.0\\microsoft.extensions.configuration.fileextensions.5.0.0.nupkg.sha512",
+    "C:\\Users\\taj174\\.nuget\\packages\\microsoft.extensions.configuration.json\\5.0.0\\microsoft.extensions.configuration.json.5.0.0.nupkg.sha512",
+    "C:\\Users\\taj174\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\5.0.0\\microsoft.extensions.fileproviders.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\taj174\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\5.0.0\\microsoft.extensions.fileproviders.physical.5.0.0.nupkg.sha512",
+    "C:\\Users\\taj174\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\5.0.0\\microsoft.extensions.filesystemglobbing.5.0.0.nupkg.sha512",
+    "C:\\Users\\taj174\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
+    "C:\\Users\\taj174\\.nuget\\packages\\system.text.json\\5.0.0\\system.text.json.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
