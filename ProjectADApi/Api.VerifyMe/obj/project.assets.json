@@ -309,20 +309,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\taj174\\.nuget\\packages\\": {}
+    "C:\\Users\\tesli\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\Api.VerifyMe.csproj",
+      "projectUniqueName": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\Api.VerifyMe.csproj",
       "projectName": "Api.VerifyMe",
-      "projectPath": "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\Api.VerifyMe.csproj",
-      "packagesPath": "C:\\Users\\taj174\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\obj\\",
+      "projectPath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\Api.VerifyMe.csproj",
+      "packagesPath": "C:\\Users\\tesli\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\ProjectADApi\\NuGet.Config",
-        "C:\\Users\\taj174\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\NuGet.Config",
+        "C:\\Users\\tesli\\Documents\\NuGet.Config",
+        "C:\\Users\\tesli\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -335,7 +340,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -347,7 +351,6 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "Microsoft.Extensions.Configuration": {
             "target": "Package",
@@ -373,7 +376,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
       }
     }
   }
