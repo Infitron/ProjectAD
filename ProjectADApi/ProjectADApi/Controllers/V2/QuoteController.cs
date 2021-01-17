@@ -57,13 +57,13 @@ namespace ProjectADApi.Controllers.V2
 
         // GET: api/Quote/5
         [HttpGet(ApiRoute.Quote.Get)]
-        public async Task<IActionResult> ThisQuote(int id)
+        public async Task<IActionResult> ThisQuote(int BookingId)
         {
-            Quote thisQuote = await _quoteRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+            var getQuotes = await _quoteRepository.GetAllAsync().Result.Where(x => x.BookingId == BookingId).ToListAsync();
             
-            if (thisQuote != null)
+            if (getQuotes != null)
             {
-                QuoteResponse response = _mapper.Map<QuoteResponse>(thisQuote);
+                var response = _mapper.Map<List<QuoteResponse>>(getQuotes);
                 return Ok(new { status = HttpStatusCode.OK, message = response });
             }
                 

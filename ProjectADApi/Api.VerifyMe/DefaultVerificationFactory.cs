@@ -7,6 +7,6 @@ namespace Api.VerifyMe
 {
    public abstract class DefaultVerificationFactory
     {
-        public abstract IVerificationManager CreateInstance(string WhatToVerify);        
+        public abstract IVerificationManager CreateInstance(object WhatToVerify);        
     }
 }

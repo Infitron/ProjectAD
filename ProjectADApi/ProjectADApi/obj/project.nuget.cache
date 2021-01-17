@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "o92uCFISidEakIUxeZJ94c+YdAqmulteK8FqDOPoHGQTGQdxk8GPPQmQESUiy8KazWRUPu0miz4FlKhMxKGzKQ==",
+  "dgSpecHash": "12QhkzTQJ+e/sqjS80k5tfuof1U31fPEn0xFnPn7++LZSoE4EDlFl0G8n24nnHdfHb8/ujeUdDY5p21aEIvWjA==",
   "success": true,
   "projectFilePath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\ProjectADApi\\ProjectADApi.csproj",
   "expectedPackageFiles": [
@@ -110,7 +110,7 @@
     "C:\\Users\\tesli\\.nuget\\packages\\mimekit\\2.0.1\\mimekit.2.0.1.nupkg.sha512",
     "C:\\Users\\tesli\\.nuget\\packages\\netcore.mailkit\\2.0.2\\netcore.mailkit.2.0.2.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
-    "C:\\Users\\tesli\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\tesli\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\tesli\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\nuget.frameworks\\4.7.0\\nuget.frameworks.4.7.0.nupkg.sha512",
     "C:\\Users\\tesli\\.nuget\\packages\\portable.bouncycastle\\1.8.1.3\\portable.bouncycastle.1.8.1.3.nupkg.sha512",
