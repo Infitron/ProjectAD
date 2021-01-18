@@ -70,21 +70,6 @@ namespace ProjectADApi.Controllers.V2
             return NotFound(new { status = HttpStatusCode.NotFound, message = "Quote not found" });
         }
 
-        //// GET: api/Quote/5
-        //[HttpGet(ApiRoute.Quote.GetAll)]
-        //public async Task<IActionResult> FindMyQuote(int ArtisanId)
-        //{
-        //    Quote thisQuote = await _quoteRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
-
-        //    if (thisQuote != null)
-        //    {
-        //        QuoteResponse response = _mapper.Map<QuoteResponse>(thisQuote);
-        //        return Ok(new { status = HttpStatusCode.OK, message = response });
-        //    }
-
-        //    return NotFound(new { status = HttpStatusCode.NotFound, message = "Quote not found" });
-        //}
-
         // POST: api/Quote
         [HttpPost(ApiRoute.Quote.Create)]
         public async Task<IActionResult> Post([FromBody] QuoteRequest model)
@@ -107,9 +92,7 @@ namespace ProjectADApi.Controllers.V2
 
             var created = await _quoteRepository.CreateAsync(newQuote);
 
-            QuoteResponse response = _mapper.Map<QuoteResponse>(created);
-
-            
+            QuoteResponse response = _mapper.Map<QuoteResponse>(created);           
 
             return CreatedAtAction(nameof(ThisQuote), new { id = newQuote.Id }, new { status = HttpStatusCode.Created, message = response });
         }

@@ -24,11 +24,11 @@ namespace ProjectADApi.Controllers.V2.Contract.Response
         public decimal Total { get; set; }
         public int BookingId { get; set; }
         public DateTime OrderDate { get; set; }
-        public int OrderStatusId { get; set; }
-        public int QuoteStatusId { get; set; }
+        public int OrderStatus_Id { get; set; }
+       // public int QuoteStatusId { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public string QuoteStatus => Enum.GetName(typeof(AppStatus),  value: QuoteStatusId);
-        public string OrderStatus => Enum.GetName(typeof(AppStatus), OrderStatusId);
+       // public string QuoteStatus => Enum.GetName(typeof(AppStatus),  value: QuoteStatusId);
+        public string OrderStatus => Enum.GetName(typeof(AppStatus), OrderStatus_Id);
 
 
     }
