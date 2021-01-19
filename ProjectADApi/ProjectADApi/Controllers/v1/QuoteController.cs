@@ -9,12 +9,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
 
 namespace ProjectADApi.Controllers.V1
 {
-   [ApiVersion("1")]   
+   [ApiVersion("1", Deprecated =true)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class QuoteController : ControllerBase
     {
@@ -45,7 +48,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpGet(ApiRoute.Quote.Get)]
         public async Task<IActionResult> ThisQuote(int projectId)
         {
-            Quote thisArticle = await _quoteRepository.GetByIdAsync(projectId);
+            Quote thisArticle = await _quoteRepository.GetByAsync(x => x.Id.Equals(projectId)).FirstOrDefaultAsync();
             if (thisArticle != null)
                 return Ok(new { status = HttpStatusCode.OK, message = thisArticle });
             return NotFound(new { status = HttpStatusCode.NotFound, message = "No record found for this article" });
@@ -60,14 +63,13 @@ namespace ProjectADApi.Controllers.V1
 
             Quote newQuote = new Quote
             {
-                Price = model.Price,
-                Quantity = model.Quantity,
-                Descr = model.Descr,
-                Address1 = model.Address1,
-                Item = model.Item,
+                //Address1 = model.Address1,
+                Item = JsonConvert.SerializeObject(model.Item),
                 Discount = model.Discount,
-                Vat = model.Vat,
-                ArtisanId = model.ArtisanId
+                OrderStatusId = (int)AppStatus.Initiated,
+                CreatedDate = DateTime.Now,
+               // QuoteStatusId = (int)AppStatus.Raised,
+                BookingId = model.BookingId
             };
 
             await _quoteRepository.CreateAsync(newQuote);

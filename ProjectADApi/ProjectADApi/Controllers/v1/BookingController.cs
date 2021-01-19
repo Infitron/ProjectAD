@@ -11,15 +11,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.Request;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
 using ProjectADApi.Controllers.V1.Contracts.Response;
+//using ProjectADApi.Controllers.V2.Contract.Response;
 
 namespace ProjectADApi.Controllers
 {
-    [ApiVersion("1")]
+    [ApiVersion("1", Deprecated =true)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BookingController : ControllerBase
     {
@@ -47,13 +49,13 @@ namespace ProjectADApi.Controllers
 
             if (allBooking != null)
             {
-                List<BookingResponse> allBookingResponse = allBooking.Select(x =>
-                new BookingResponse
+                List<V1.Contracts.Response.BookingResponse> allBookingResponse = allBooking.Select(x =>
+                new V1.Contracts.Response.BookingResponse
                 {
                     Id = x.Id,
                     ArtisanId = x.ArtisanId,
                     ClientId = x.ClienId,
-                    ArtisanFullName = $"{x.Artisan.FirstName ?? string.Empty} {x.Artisan?.LastName ?? string.Empty}",
+                    ArtisanFullName = $"{x.Artisan.FirstName ?? string.Empty} {x.Artisan.LastName ?? string.Empty}",
                     ClientFullName = $"{x.Clien.FirstName ?? string.Empty} {x.Clien.LastName ?? string.Empty}",
                     Messages = x.Messages,
                     MsgTime = x.MsgTime,
@@ -73,7 +75,7 @@ namespace ProjectADApi.Controllers
         [HttpGet(ApiRoute.Order.Get)]
         public async Task<IActionResult> ThisService(int id)
         {
-            Booking getBooking = await _bookingRepository.GetByIdAsync(id);
+            Booking getBooking = await _bookingRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (getBooking != null)
             {
@@ -106,9 +108,9 @@ namespace ProjectADApi.Controllers
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            Services thisService = await _serviceRepository.GetByIdAsync(model.ServiceId);
+            Services thisService = await _serviceRepository.GetByAsync(x => x.Id.Equals(model.ServiceId)).FirstOrDefaultAsync();
 
-            UserLogin getThisClientUser = await _userLoginRepository.GetByIdAsync(model.ClientUserId);
+            UserLogin getThisClientUser = await _userLoginRepository.GetByAsync(x => x.Id.Equals(model.ClientUserId)).FirstOrDefaultAsync();
 
             var allClient = await _clientRepository.GetAllAsync();
 
@@ -116,12 +118,12 @@ namespace ProjectADApi.Controllers
 
             if (getThisClient == null) return BadRequest(new { status = HttpStatusCode.BadRequest, message = "Client do not have Client Profile yet" });
 
-            Artisan thisArtisan = await _artisanRepository.GetByIdAsync(thisService.ArtisanId);
+            Artisan thisArtisan = await _artisanRepository.GetByAsync(x => x.Id.Equals(thisService.ArtisanId)).FirstOrDefaultAsync();
             UserLogin getThisArtisanUserStatus = null;
 
             if (thisArtisan != null)
             {
-                getThisArtisanUserStatus = await _userLoginRepository.GetByIdAsync(thisArtisan.UserId);
+                getThisArtisanUserStatus = await _userLoginRepository.GetByAsync(x => x.Id.Equals(thisArtisan.UserId)).FirstOrDefaultAsync();
             }
 
             if (getThisArtisanUserStatus.StatusId != (int)AppStatus.Active) return BadRequest(new { status = HttpStatusCode.BadRequest, message = "We can not proceed with your booking, the artisan is not active on the platform" });
@@ -152,7 +154,7 @@ namespace ProjectADApi.Controllers
         {
             if (!ModelState.IsValid) BadRequest(new { status = HttpStatusCode.BadRequest, message = ModelState });
 
-            Booking getThisBooking = await _bookingRepository.GetByIdAsync(model.BookingId);
+            Booking getThisBooking = await _bookingRepository.GetByAsync(x => x.Id.Equals(model.BookingId)).FirstOrDefaultAsync();
 
             if (getThisBooking == null) return NotFound(new { status = HttpStatusCode.NotFound, message = "We could not find the booking requested" });
 

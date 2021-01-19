@@ -4,11 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Core;
+using Api.Database.Data;
 using Api.Database.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
@@ -16,8 +18,8 @@ using ProjectADApi.Contract.V1.Response;
 
 namespace ProjectADApi.Controllers.V1
 {
-    [ApiVersion("1")]    
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [ApiVersion("1", Deprecated = false)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ArticleController : ControllerBase
     {
         private readonly IRepository<Article> _articleRepository;        
@@ -32,7 +34,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpGet(ApiRoute.Article.GetAll)]
         public async Task<IActionResult> GetAll()
         {
-            projectadContext dbcontxt = new projectadContext();
+            bluechub_ProjectADContext dbcontxt = new bluechub_ProjectADContext();
 
             List<ArticleResponse> AllArticle = await _articleRepository.GetAllAsync().ContinueWith((resultset) =>
             {
@@ -58,7 +60,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpGet(ApiRoute.Article.Get)]
         public async Task<IActionResult> ThisArticle(int id)
         {
-            Article thisArticle = await _articleRepository.GetByIdAsync(id);
+            Article thisArticle = await _articleRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             ArticleResponse articleRepsonse = null;
 
@@ -106,7 +108,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpPut(ApiRoute.Article.Update)]
         public async Task<IActionResult> Put(int id, [FromBody]Article model)
         {
-            Article thisArticle = await _articleRepository.GetByIdAsync(model.Id);
+            Article thisArticle = await _articleRepository.GetByAsync(x => x.Id.Equals(model.Id)).FirstOrDefaultAsync();
             if (thisArticle == null)
                 return NotFound(new { status = HttpStatusCode.NotFound, message = "This article was not found" });
 

@@ -8,6 +8,7 @@ namespace Api.Database.Model
         public Location()
         {
             Artisan = new HashSet<Artisan>();
+            Services = new HashSet<Services>();
         }
 
         public int Id { get; set; }
@@ -19,5 +20,6 @@ namespace Api.Database.Model
 
         public virtual Lov Status { get; set; }
         public virtual ICollection<Artisan> Artisan { get; set; }
+        public virtual ICollection<Services> Services { get; set; }
     }
 }

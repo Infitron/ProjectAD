@@ -11,7 +11,7 @@ namespace ProjectADApi.Contract.V1.Request
     {
 
         [Required]
-        public int ArtisanId { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         public string ServiceName { get; set; }

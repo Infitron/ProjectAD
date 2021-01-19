@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ProjectADApi</name>
+    </assembly>
+    <members>
+        <member name="M:ProjectADApi.Controllers.V2.AccountController.Login(ProjectADApi.Contract.V1.Request.LoginRequest)">
+             <summary>
+             Use login, authenticat registered users on the plarform
+             </summary>
+             
+             <remarks>
+             Sample request:
+             
+                 POST api/Account/Login
+                 
+                 {        
+                   "Username": "info@bluecollar.com.ng",
+                   "Password": "@infoBlue1"
+                 }
+                 
+             </remarks>
+             
+             <param name="model"></param>  
+            
+        </member>
+        <member name="M:ProjectADApi.Controllers.V2.AccountController.Register(ProjectADApi.Contract.V1.Request.CreateUserRequest)">
+             <summary>
+             
+             Register a new user on the platform
+             Password must have at least one special character,
+             one upper case character and
+             a digit between 0-9
+             
+             </summary>
+             
+             <remarks>
+             Sample request:
+             
+                 POST api/Account/Register
+                 
+                 {
+                   "EmailAddress": "info@bluecollar.com.ng",
+                   "Password": "@infoBlue1",
+                   "CreationDate": 2020/2/10,
+                   "RoleId": 1,
+                   "UserName": "BlueCollarHub"
+                 }
+                 
+             </remarks>
+             
+             <param name="model"></param>  
+            
+        </member>
+        <member name="M:ProjectADApi.Controllers.V2.AccountController.AllUserLogin(System.Nullable{System.Int32})">
+             <summary>
+             
+             Display all registered user/login details on the platofrm
+             
+             </summary>
+             
+             <remarks>
+             Sample request:
+             
+                 GET api/Account/AllUserLogin
+                 
+             </remarks>
+             
+             <response code="201">Returns all Registered users</response>
+             <response code="204">Return no content found </response>
+            
+        </member>
+        <member name="M:ProjectADApi.Controllers.V2.AccountController.UpdateStatus(ProjectADApi.Controllers.V2.Contract.Request.UpdateLoginStatusRequest)">
+            <summary>
+            
+              Updates the login status of any user of the platform. please see sample request below to activate or deactivate a user
+            
+            </summary>
+            
+            <remarks>
+            Sample request:
+            
+                POST api/Account/UpdateStatus
+                
+                {
+                    "UserId" : 0
+                    "StatusId" : 0
+                }
+                
+            </remarks>
+                    
+                  
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Request.ArtisanRequest.FirstName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Request.ArtisanRequest.LastName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Request.ArtisanRequest.PhoneNumber">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Request.ArtisanRequest.AreaLocationId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Request.ArtisanRequest.IdcardNo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Request.ArtisanRequest.PicturePath">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Request.ArtisanRequest.Address">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Request.ArtisanRequest.ArtisanCategoryId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Request.ArtisanRequest.State">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Request.ArtisanRequest.AboutMe">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Request.ArtisanRequest.UserId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.UserId">
+            <summary>
+             This identity the artisan from the userlogin table
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.FirstName">
+            <summary>
+               This identity the artisan from the userlogin table
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.LastName">
+            <summary>
+               
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.PhoneNumber">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.IdcardNo">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.PicturePath">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.Address">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.ArtisanCategoryId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.AreaLocationId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.State">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.AboutMe">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:ProjectADApi.Controllers.V2.Contract.Response.ArtisanResponse.CreatedDate">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:ProjectADApi.Controllers.V2.QuoteController.ThisQuote(System.Int32)">
+            <summary>Gets all Qoutes submitted for various projects </summary>
+            
+        </member>
+        <member name="T:ProjectADApi.SwaggerOptions.ConfigureSwaggerOptions">
+            <summary>
+            Configures the Swagger generation options.
+            </summary>
+            <remarks>This allows API versioning to define a Swagger document per API version after the
+            <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider"/> service has been resolved from the service container.</remarks>
+        </member>
+        <member name="M:ProjectADApi.SwaggerOptions.ConfigureSwaggerOptions.#ctor(Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:ProjectADApi.SwaggerOptions.ConfigureSwaggerOptions"/> class.
+            </summary>
+            <param name="provider">The <see cref="T:Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider">provider</see> used to generate Swagger documents.</param>
+        </member>
+        <member name="M:ProjectADApi.SwaggerOptions.ConfigureSwaggerOptions.Configure(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:ProjectADApi.SwaggerOptions.SwaggerDefaultValues">
+            <summary>
+            Represents the Swagger/Swashbuckle operation filter used to document the implicit API version parameter.
+            </summary>
+            <remarks>This <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.IOperationFilter"/> is only required due to bugs in the <see cref="T:Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator"/>.
+            Once they are fixed and published, this class can be removed.</remarks>
+        </member>
+        <member name="M:ProjectADApi.SwaggerOptions.SwaggerDefaultValues.Apply(Microsoft.OpenApi.Models.OpenApiOperation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
+            <summary>
+            Applies the filter to the specified operation using the given context.
+            </summary>
+            <param name="operation">The operation to apply the filter to.</param>
+            <param name="context">The current operation filter context.</param>
+        </member>
+    </members>
+</doc>

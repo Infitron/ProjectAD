@@ -5,17 +5,6 @@ namespace Api.Database.Model
 {
     public partial class Artisan
     {
-        public Artisan()
-        {
-            ArtisanServices = new HashSet<ArtisanServices>();
-            Booking = new HashSet<Booking>();
-            Gallary = new HashSet<Gallary>();
-            PaymentHistory = new HashSet<PaymentHistory>();
-            Projects = new HashSet<Projects>();
-            Rating = new HashSet<Rating>();
-            Services = new HashSet<Services>();
-        }
-
         public int Id { get; set; }
         public int UserId { get; set; }
         public string FirstName { get; set; }
@@ -29,16 +18,10 @@ namespace Api.Database.Model
         public string State { get; set; }
         public string AboutMe { get; set; }
         public DateTime? CreatedDate { get; set; }
+        public string Code { get; set; }
+        public string RefererCode { get; set; }
 
         public virtual Location AreaLocation { get; set; }
         public virtual ArtisanCategories ArtisanCategory { get; set; }
-        public virtual Quote Quote { get; set; }
-        public virtual ICollection<ArtisanServices> ArtisanServices { get; set; }
-        public virtual ICollection<Booking> Booking { get; set; }
-        public virtual ICollection<Gallary> Gallary { get; set; }
-        public virtual ICollection<PaymentHistory> PaymentHistory { get; set; }
-        public virtual ICollection<Projects> Projects { get; set; }
-        public virtual ICollection<Rating> Rating { get; set; }
-        public virtual ICollection<Services> Services { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
@@ -16,7 +17,7 @@ using ProjectADApi.Contract.V1.Response;
 
 namespace ProjectADApi.Controllers.V1
 {
-    [ApiVersion("1")]   
+    [ApiVersion("1", Deprecated =true)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class LocationController : ControllerBase
     {
@@ -55,7 +56,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpGet(ApiRoute.Location.Get)]
         public async Task<IActionResult> ThisLocation(int id)
         {
-            Location thisLocation = await _locationRepository.GetByIdAsync(id);
+            Location thisLocation = await _locationRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             LocationResponse locationsResponse = new LocationResponse
             {

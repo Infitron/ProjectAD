@@ -27,7 +27,7 @@ namespace ProjectADApi.Extensions
                         await context.Response.WriteAsync(new ErrorDetails()
                         {
                             status = context.Response.StatusCode,
-                            message = contextFeature.Error.InnerException.Message
+                            message = contextFeature
                         }.ToString());
                     }
                 });

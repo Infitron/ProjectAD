@@ -1,4 +1,5 @@
 ﻿using Api.Database.Core;
+using Api.Database.Data;
 using Api.Database.Model;
 using ProjectADApi.Contract.Request;
 using ProjectADApi.Contract.V1.Request;
@@ -15,13 +16,13 @@ namespace ProjectADApi.Factories.V1.UserFactory.Implementation
     {
         //IRepository<Client> _artisanRepository;
         //public ClientCreator(IRepository<Client> artisanRepository) => _artisanRepository = artisanRepository;
-        readonly projectadContext _projectadContext;
-        public ClientCreator() => _projectadContext = new projectadContext();
+        readonly bluechub_ProjectADContext _projectadContext;
+        public ClientCreator() => _projectadContext = new bluechub_ProjectADContext();
 
 
         async Task<CreateUserResponse> IUserCreator.CreateUser(CreateUserRequest model)
         {
-            var userExist = _projectadContext.UserLogin.SingleOrDefault(x => x.EmailAddress.Equals(model.EmailAddress));
+            var userExist = _projectadContext.UserLogin.SingleOrDefault(x => x.Email.Equals(model.EmailAddress));
 
             if (userExist != null)
                 return new CreateUserResponse
@@ -34,8 +35,7 @@ namespace ProjectADApi.Factories.V1.UserFactory.Implementation
 
             UserLogin newLogin = new UserLogin
             {
-                EmailAddress = model.EmailAddress,
-               
+                Email = model.EmailAddress,               
                 UserName = model.UserName = model.UserName,
                 RoleId = model.RoleId,
                 CreationDate = DateTime.Now

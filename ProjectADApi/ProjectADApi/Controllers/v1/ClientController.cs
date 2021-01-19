@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.Request;
 using ProjectADApi.Contract.V1;
@@ -16,7 +17,7 @@ using ProjectADApi.Controllers.V1.Contracts.Response;
 
 namespace ProjectADApi.Controllers
 {
-    [ApiVersion("1")]
+    [ApiVersion("1", Deprecated = true)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ClientController : ControllerBase
     {
@@ -61,7 +62,7 @@ namespace ProjectADApi.Controllers
         [HttpGet(ApiRoute.Client.Get)]
         public async Task<IActionResult> ThisClient(int id)
         {
-            Client onibariyi = await _clientRepository.GetByIdAsync(id);
+            Client onibariyi = await _clientRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (onibariyi != null)
             {
@@ -88,15 +89,14 @@ namespace ProjectADApi.Controllers
         public async Task<IActionResult> Post([FromBody] ClientRequest model)
         {
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-
-            UserLogin thisUser = await _userRepository.GetByIdAsync(model.UserId);
+            UserLogin thisUser = await _userRepository.GetByAsync(x => x.Id.Equals(model.UserId)).FirstOrDefaultAsync();
 
             if (thisUser == null)
+            {
                 return BadRequest(new { status = HttpStatusCode.BadRequest, message = "This could determine the user credential, you profile creation stopped" });
-
+            }
 
             if (thisUser.StatusId != (int)AppStatus.Active)
                 return BadRequest(new { status = HttpStatusCode.BadRequest, message = "This Client is not longer active on this platform" });
@@ -121,9 +121,9 @@ namespace ProjectADApi.Controllers
 
         // PUT: api/Onibara/5
         [HttpPut(ApiRoute.Client.Update)]
-        public async Task<IActionResult>  Put(int id, [FromBody] ClientRequest model)
+        public async Task<IActionResult> Put(int id, [FromBody] ClientRequest model)
         {
-            Client thisClient = await _clientRepository.GetByIdAsync(id);
+            Client thisClient = await _clientRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
             if (thisClient != null)
             {
                 thisClient.FirstName = model.FirstName;
@@ -131,7 +131,7 @@ namespace ProjectADApi.Controllers
                 thisClient.PhoneNumber = model.PhoneNumber;
                 thisClient.PicturePath = model.PicturePath;
                 thisClient.Address = model.Address;
-                thisClient.State = model.State;                
+                thisClient.State = model.State;
 
                 await _clientRepository.UpdateAsync(thisClient);
 

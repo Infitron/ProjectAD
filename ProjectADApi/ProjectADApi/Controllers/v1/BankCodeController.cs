@@ -9,12 +9,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
 
 namespace ProjectADApi.Controllers.V1
 {
-    [ApiVersion("1")]
+    [ApiVersion("1", Deprecated =true)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BankCodeController : ControllerBase
     {
@@ -46,7 +47,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpGet(ApiRoute.BankCode.Get)]
         public async Task<IActionResult> ThisBankCode(int id)
         {
-            BankCodeLov thisBankCode = await _bankCodeRepository.GetByIdAsync(id);
+            BankCodeLov thisBankCode = await _bankCodeRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (thisBankCode == null)
                 return NotFound(new { status = HttpStatusCode.NotFound, Message = "The requested BankCode may have been discontinued by the Artisan" });
@@ -77,7 +78,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpPut(ApiRoute.BankCode.Update)]
         public async Task<IActionResult> Put(int id, [FromBody]BankodeRequest model)
         {
-            BankCodeLov getBankCode = await _bankCodeRepository.GetByIdAsync(id);
+            BankCodeLov getBankCode = await _bankCodeRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if(getBankCode != null)
             {

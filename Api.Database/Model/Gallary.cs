@@ -14,7 +14,6 @@ namespace Api.Database.Model
         public int? ProjectId { get; set; }
         public DateTime? CreatedDate { get; set; }
 
-        public virtual Artisan Artisan { get; set; }
         public virtual Projects Project { get; set; }
     }
 }
