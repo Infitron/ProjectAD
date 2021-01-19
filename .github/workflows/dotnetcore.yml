@@ -1,0 +1,50 @@
+name: .NET Core
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+    
+env:
+     BLUE_APP_NAME: ProjectAdApi
+     BLUE_API_PACKAGE_PATH: './BlueDeploy'      # set this to the path to your web app project, defaults to the repository root
+     
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 2.2.104
+    
+  
+    - name: Install dependencies
+      working-directory: ./ProjectADApi/ProjectADApi
+      run: dotnet restore
+    
+    - name: Build Blue
+      working-directory: ./ProjectADApi/ProjectADApi
+      run: dotnet build --configuration Release --no-restore
+    
+    - name: Publish Blue      
+      working-directory: ./ProjectADApi/ProjectADApi/
+      run: dotnet publish  --configuration Release --no-build --output ${{env.BLUE_API_PACKAGE_PATH}}
+            
+    - name: Deploy to Blue vis ssh
+      uses: garygrossgarten/github-action-scp@v0.5.3
+      with:
+        local: ${{secrets.LOCAL_DIRECTORY}}
+        remote: ${{secrets.BLUE_REMOTE_TARGET}}
+        host: ${{ secrets.BLUE_HOST }}
+        port: ${{secrets.HOSH_PORT}} 
+        username: ${{ secrets.HOST_USERNAME }}
+        password: ${{ secrets.HOST_PASSWORD }}
+        privatekey: ${{secrets.HOST_PUBLUC_KEY}} 
+      
+    
