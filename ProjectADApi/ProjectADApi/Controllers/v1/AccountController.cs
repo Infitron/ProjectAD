@@ -7,14 +7,16 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Api.Database.Core;
+using Api.Database.Data;
 using Api.Database.Model;
 using Api.EmailService;
 using Api.EmailService.Core;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Contract.V1.Request;
@@ -37,9 +39,9 @@ namespace ProjectADApi.Controllers.V1
         readonly IRepository<UserRole> _userRole;
         readonly UserManager<UserLogin> _userManager;
         readonly IEmailSender _emailSender;
-        private readonly projectadContext _dbContext;
+        private readonly bluechub_ProjectADContext _dbContext;
 
-        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole, UserManager<UserLogin> userManager, IEmailSender emailSender, projectadContext dbContext)
+        public AccountController(JwtConf jwtConf, IRepository<UserLogin> userRepository, IRepository<UserRole> userRole, UserManager<UserLogin> userManager, IEmailSender emailSender, bluechub_ProjectADContext dbContext)
         {
             _jwtConf = jwtConf;
             _userRole = userRole;
@@ -92,7 +94,7 @@ namespace ProjectADApi.Controllers.V1
             }
 
 
-            UserRole role = await _userRole.GetByIdAsync(userExist.RoleId);
+            UserRole role = await _userRole.GetByAsync(x => x.RoleId.Equals(userExist.RoleId)).FirstOrDefaultAsync();
             CreateUserRequest userDetails = new CreateUserRequest { EmailAddress = userExist.Email };
             CreateUserResponse2 userResponse = new CreateUserResponse2 { Success = true, UserId = userExist.Id, UserRole = role.RoleName };
 
@@ -130,7 +132,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] CreateUserRequest model)
         {
-            var getRoleName = await _userRole.GetByIdAsync(model.RoleId);
+            var getRoleName = await _userRole.GetByAsync(x => x.RoleId.Equals(model.RoleId)).FirstOrDefaultAsync();
 
             if (getRoleName == null)
             {
@@ -166,7 +168,7 @@ namespace ProjectADApi.Controllers.V1
         /// <response code="201">Returns all Registered users</response>
         /// <response code="204">Return no content found </response>
         ///
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize]
         [ProducesResponseType(201)]
         [ProducesResponseType(204)]
         [Route("[action]")]

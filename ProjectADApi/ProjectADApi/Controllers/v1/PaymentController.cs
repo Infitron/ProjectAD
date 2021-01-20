@@ -22,8 +22,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ProjectADApi.Controllers.V1
 {
-   [ApiVersion("1")]
-    
+   [ApiVersion("1", Deprecated =true)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class PaymentController : ControllerBase
     {

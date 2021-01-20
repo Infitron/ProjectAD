@@ -19,7 +19,7 @@ namespace ProjectADApi.Implementation
         {
             _flutterRaveConf = flutterRaveConf;
             raveClient = httpClient;
-            raveClient.BaseAddress = new Uri(_flutterRaveConf.InitiatPaymentUrl);
+            //raveClient.BaseAddress = new Uri(_flutterRaveConf.InitiatPaymentUrl);
            
         }       
 

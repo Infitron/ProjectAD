@@ -4,14 +4,18 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Api.Database.Core;
+using Api.Database.Data;
 using Api.Database.Implementation;
 using Api.Database.Model;
 using Api.EmailService.Core;
 using Api.EmailService.EmailConfig;
+using Api.VerifyMe.Implementation;
 using AutoMapper;
 using EncryptionService;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,11 +27,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 using ProjectADApi.ApiConfig;
 using ProjectADApi.Core;
 using ProjectADApi.Extensions;
@@ -42,7 +48,7 @@ namespace ProjectADApi
     {
         public Startup(IConfiguration configuration)
         {
-            //LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+
             Configuration = configuration;
         }
 
@@ -79,15 +85,15 @@ namespace ProjectADApi
             services.AddSingleton(_ravePaymentDataEncryption);
             services.AddSingleton(_flutterRaveConf);
             services.AddSingleton(_emailConfiguration);
-            services.AddSingleton(new projectadContext());
+            services.AddSingleton(new bluechub_ProjectADContext());
+            
 
-            services.AddDbContext<projectadContext>();
-            //    (options =>
+            //services.AddDbContext<bluechub_ProjectADContext>(options =>
             //{
             //    options.UseSqlServer(Configuration["ApiDbConnection:DefaultConnection"]);
             //});
-            services.AddDefaultIdentity<UserLogin>()
-                .AddEntityFrameworkStores<projectadContext>();
+            services.AddDefaultIdentity<UserLogin>().AddEntityFrameworkStores<bluechub_ProjectADContext>();
+            services.AddCors();
 
             services.AddAuthentication(option =>
             {
@@ -115,7 +121,7 @@ namespace ProjectADApi
                     options.ReportApiVersions = true;
                 });
 
-            services.AddMvcCore().AddJsonFormatters().AddVersionedApiExplorer(
+            services.AddMvcCore().AddNewtonsoftJson().AddVersionedApiExplorer(
                 options =>
                 {
                     // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
@@ -128,9 +134,13 @@ namespace ProjectADApi
                 });
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 
+
             services.AddSwaggerGen(x =>
             {
+                x.DocumentFilter<CustomSwaggerDocumentAttribute>();
                 x.OperationFilter<SwaggerDefaultValues>();
+                // x.OperationFilter<CustomHeaderSwaggerAttribute>();
+
                 x.ResolveConflictingActions(apiDescriptions => apiDescriptions.Last());
 
                 x.EnableAnnotations();
@@ -169,14 +179,21 @@ namespace ProjectADApi
                 });
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            });
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApiVersionDescriptionProvider provider)
+        //public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApiVersionDescriptionProvider provider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
-            if (env.IsDevelopment())
+            // if (env.IsDevelopment())
+            if (env.ApplicationName == Environments.Development)
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -185,9 +202,7 @@ namespace ProjectADApi
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.ConfigureExceptionHandler();
-            app.UseAuthentication();
 
             SwaggerConf _swaggerConf = new SwaggerConf();
             Configuration.GetSection(nameof(SwaggerConf)).Bind(_swaggerConf);
@@ -203,9 +218,28 @@ namespace ProjectADApi
                    // build a swagger endpoint for each discovered API version
                    foreach (var description in provider.ApiVersionDescriptions)
                    {
-                       options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+                       options.SwaggerEndpoint($"../swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
                    }
                });
+
+            app.UseStaticFiles();
+            app.UseRouting();
+
+
+            app.UseHttpsRedirection();
+
+            app.UseCors(x =>
+            x.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            );
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             //app.UseSwaggerUI(option =>
             //{
@@ -220,9 +254,6 @@ namespace ProjectADApi
             //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"ArtisanGallery")),
             //    RequestPath = new PathString("/ArtisanGallery")
             //});
-
-            app.UseHttpsRedirection();
-            app.UseMvc();
         }
     }
 }

@@ -4,12 +4,14 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Core;
+using Api.Database.Data;
 using Api.Database.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.Contract.Request;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
@@ -17,7 +19,7 @@ using ProjectADApi.Contract.V1.Response;
 
 namespace ProjectADApi.Controllers
 {
-    [ApiVersion("1")]
+    [ApiVersion("1", Deprecated = true)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ArtisanController : ControllerBase
     {
@@ -29,10 +31,10 @@ namespace ProjectADApi.Controllers
         readonly IRepository<Gallary> _galleryRepository;
         readonly IRepository<PaymentHistory> _paymentHistoryRepository;
         readonly IRepository<Location> _locationRepository;
-        readonly projectadContext _dbContext;
+        readonly bluechub_ProjectADContext _dbContext;
 
 
-        public ArtisanController(IRepository<Artisan> oniswOwoRepository, IRepository<Services> serviceRepository, IRepository<Projects> projectRepository, IRepository<Quote> quoteRepository, IRepository<Booking> bookingRepository, IRepository<Gallary> galleryRepository, IRepository<PaymentHistory> paymentHistoryRepository, projectadContext dbContext, IRepository<Location> locationRepository)
+        public ArtisanController(IRepository<Artisan> oniswOwoRepository, IRepository<Services> serviceRepository, IRepository<Projects> projectRepository, IRepository<Quote> quoteRepository, IRepository<Booking> bookingRepository, IRepository<Gallary> galleryRepository, IRepository<PaymentHistory> paymentHistoryRepository, bluechub_ProjectADContext dbContext, IRepository<Location> locationRepository)
         {
             _artisanRepository = oniswOwoRepository;
             _serviceRepository = serviceRepository;
@@ -90,7 +92,7 @@ namespace ProjectADApi.Controllers
             if (id == 0)
                 return BadRequest(new { status = HttpStatusCode.BadRequest, Message = "Artisan ID was not supplied" });
 
-            Artisan thisArtsan = await _artisanRepository.GetByIdAsync(id);
+            Artisan thisArtsan = await _artisanRepository.GetByAsync(x=> x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (thisArtsan == null)
                 return BadRequest(new { status = HttpStatusCode.BadRequest, message = "We could not find the artisan you requested" });
@@ -147,7 +149,7 @@ namespace ProjectADApi.Controllers
         [HttpPut(ApiRoute.Artisan.Update)]
         public async Task<IActionResult> Put(int id, [FromBody] UserProfileRequest model)
         {
-            Artisan thisArtisan = await _artisanRepository.GetByIdAsync(id);
+            Artisan thisArtisan = await _artisanRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
 
             if (thisArtisan == null)
                 return NotFound(new { status = HttpStatusCode.NotFound, message = "This Artisan was not found" });

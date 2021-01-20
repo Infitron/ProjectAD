@@ -9,10 +9,10 @@ namespace ProjectADApi.Contract.V1.Response
     {
         public int Id { get; set; }
         public string CategoryName { get; set; }
-        public string SubCategories { get; set; }
+        public string Description { get; set; }
         public DateTime? CreatedDate { get; set; }
 
-        
-        //public virtual ICollection<Artisan> Artisan { get; set; }
-    }
+
+            //public virtual ICollection<Artisan> Artisan { get; set; }
+        }
 }

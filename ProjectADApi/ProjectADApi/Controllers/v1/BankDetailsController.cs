@@ -9,12 +9,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProjectADApi.Contract.V1;
 using ProjectADApi.Contract.V1.Request;
 
 namespace ProjectADApi.Controllers.V1
 {
-    [ApiVersion("1")]   
+    [ApiVersion("1", Deprecated = true)]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class BankDetailsController : ControllerBase
     {
@@ -44,7 +45,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpGet(ApiRoute.BankDetail.Get)]
         public async Task<IActionResult> ThisBankDetail(int id)
         {
-            BankDetails thisBankDetail = await _artisanBankDetialsRepository.GetByIdAsync(id);
+            BankDetails thisBankDetail = await _artisanBankDetialsRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
             if (thisBankDetail != null)
                 return Ok(new { status = HttpStatusCode.OK, message = thisBankDetail });
             return BadRequest(new { status = HttpStatusCode.BadRequest, message = "No record found for this article" });
@@ -54,7 +55,7 @@ namespace ProjectADApi.Controllers.V1
         [HttpPost(ApiRoute.BankDetail.Create)]
         public async Task<IActionResult> Post([FromBody] BankDetaildRequest model)
         {
-            UserLogin thisUser = await _userLoginRepository.GetByIdAsync(model.UserId);
+            UserLogin thisUser = await _userLoginRepository.GetByAsync(x => x.Id.Equals(model.UserId)).FirstOrDefaultAsync();
             Artisan thisArtisan = null;
 
             BankDetails thisBankDetail = null;

@@ -41,14 +41,14 @@ namespace ProjectADApi.Controllers
         [HttpGet(ApiRoute.Rating.Get)]
         public async Task<IActionResult> IwontunWonsimi(int id)
         {
-            Artisan waOniseOwo = await _artisanRepository.GetByIdAsync(id);
+            Artisan waOniseOwo =  _artisanRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefault();
 
             if (waOniseOwo == null)
                 return NotFound(new { status = HttpStatusCode.NotFound, Message = "We could not fine this user" });
 
             IEnumerable<Rating> rating = await _ratingRepository.GetAllAsync().ContinueWith((result) =>
             {
-                return result.Result.Where(x => x.ArtisanEmail.Equals(waOniseOwo.Id)).ToList();
+                return result.Where(x => x.ArtisanEmail.Equals(waOniseOwo.Id)).ToList();
             });
 
             if (rating == null)
