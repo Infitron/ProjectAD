@@ -22,3 +22,15 @@ C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp3.1\A
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp3.1\Api.Database.dll
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp3.1\Api.Database.pdb
 C:\Users\tesli\Documents\GitHub\ProjectAD\Api.Database\obj\Debug\netcoreapp3.1\Api.Database.genruntimeconfig.cache
+C:\Users\taj174\Source\Repos\ProjectAD\Api.Database\bin\Debug\netcoreapp3.1\Api.Database.deps.json
+C:\Users\taj174\Source\Repos\ProjectAD\Api.Database\bin\Debug\netcoreapp3.1\Api.Database.runtimeconfig.json
+C:\Users\taj174\Source\Repos\ProjectAD\Api.Database\bin\Debug\netcoreapp3.1\Api.Database.runtimeconfig.dev.json
+C:\Users\taj174\Source\Repos\ProjectAD\Api.Database\bin\Debug\netcoreapp3.1\Api.Database.dll
+C:\Users\taj174\Source\Repos\ProjectAD\Api.Database\bin\Debug\netcoreapp3.1\Api.Database.pdb
+C:\Users\taj174\Source\Repos\ProjectAD\Api.Database\obj\Debug\netcoreapp3.1\Api.Database.csprojAssemblyReference.cache
+C:\Users\taj174\Source\Repos\ProjectAD\Api.Database\obj\Debug\netcoreapp3.1\Api.Database.AssemblyInfoInputs.cache
+C:\Users\taj174\Source\Repos\ProjectAD\Api.Database\obj\Debug\netcoreapp3.1\Api.Database.AssemblyInfo.cs
+C:\Users\taj174\Source\Repos\ProjectAD\Api.Database\obj\Debug\netcoreapp3.1\Api.Database.csproj.CoreCompileInputs.cache
+C:\Users\taj174\Source\Repos\ProjectAD\Api.Database\obj\Debug\netcoreapp3.1\Api.Database.dll
+C:\Users\taj174\Source\Repos\ProjectAD\Api.Database\obj\Debug\netcoreapp3.1\Api.Database.pdb
+C:\Users\taj174\Source\Repos\ProjectAD\Api.Database\obj\Debug\netcoreapp3.1\Api.Database.genruntimeconfig.cache

@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Api.Database.Data;
+using Api.VerifyMe;
+using Api.VerifyMe.Core;
+using Api.VerifyMe.Request;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ProjectADApi.ApiConfig;
@@ -12,8 +16,9 @@ using ProjectADApi.Controllers.V2.Contract;
 
 namespace ProjectADApi.Controllers.V2
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [ApiVersion("1.1")]
+    // [Route("api/[controller]")]
+    //[ApiController]
     public class UpgradeController : ControllerBase
     {
 
@@ -44,10 +49,26 @@ namespace ProjectADApi.Controllers.V2
         }
 
         // POST api/<UpgradeController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost(ApiRoute.Upgrade.verify)]
+        public async Task<IActionResult> Post([FromBody] GenericVerifyMeRequest model, string VerificationType)
         {
+            WantToVerity wantToVerify = (WantToVerity)Enum.Parse(typeof(WantToVerity), VerificationType);
+            var response = await new VerifyMe().StartVerification(wantToVerify, model).Verify();
+
+            if (response != null) return Ok(new { status = HttpStatusCode.OK, message = response });
+            return BadRequest(new { status = HttpStatusCode.BadRequest, Message = response });
         }
+
+        [HttpPost(ApiRoute.Upgrade.Create)]
+        public async Task<IActionResult> SubmitNew([FromBody] GenericVerifyMeRequest model, string VerificationType)
+        {
+            WantToVerity wantToVerify = (WantToVerity)Enum.Parse(typeof(WantToVerity), VerificationType);
+            var response = await new VerifyMe().StartVerification(wantToVerify, model).Verify();
+
+            if (response != null) return Ok(new { status = HttpStatusCode.OK, message = response });
+            return BadRequest(new { status = HttpStatusCode.BadRequest, Message = response });
+        }
+
 
         // PUT api/<UpgradeController>/5
         [HttpPut("{id}")]

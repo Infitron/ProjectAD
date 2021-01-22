@@ -8,6 +8,7 @@ namespace Api.VerifyMe.Factory
 {
     public class AddressVerificationFactory : DefaultVerificationFactory
     {
+        
         public override IVerificationManager CreateInstance(string WhatToVerify) => new AddressVerification(WhatToVerify);        
     }
 }

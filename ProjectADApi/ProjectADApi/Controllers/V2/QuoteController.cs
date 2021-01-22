@@ -57,33 +57,18 @@ namespace ProjectADApi.Controllers.V2
 
         // GET: api/Quote/5
         [HttpGet(ApiRoute.Quote.Get)]
-        public async Task<IActionResult> ThisQuote(int id)
+        public async Task<IActionResult> ThisQuote(int BookingId)
         {
-            Quote thisQuote = await _quoteRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+            var getQuotes = await _quoteRepository.GetAllAsync().Result.Where(x => x.BookingId == BookingId).ToListAsync();
             
-            if (thisQuote != null)
+            if (getQuotes != null)
             {
-                QuoteResponse response = _mapper.Map<QuoteResponse>(thisQuote);
+                var response = _mapper.Map<List<QuoteResponse>>(getQuotes);
                 return Ok(new { status = HttpStatusCode.OK, message = response });
             }
                 
             return NotFound(new { status = HttpStatusCode.NotFound, message = "Quote not found" });
         }
-
-        //// GET: api/Quote/5
-        //[HttpGet(ApiRoute.Quote.GetAll)]
-        //public async Task<IActionResult> FindMyQuote(int ArtisanId)
-        //{
-        //    Quote thisQuote = await _quoteRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
-
-        //    if (thisQuote != null)
-        //    {
-        //        QuoteResponse response = _mapper.Map<QuoteResponse>(thisQuote);
-        //        return Ok(new { status = HttpStatusCode.OK, message = response });
-        //    }
-
-        //    return NotFound(new { status = HttpStatusCode.NotFound, message = "Quote not found" });
-        //}
 
         // POST: api/Quote
         [HttpPost(ApiRoute.Quote.Create)]
@@ -102,14 +87,14 @@ namespace ProjectADApi.Controllers.V2
 
             Services getServiceBooking = await _serviceRepository.GetByAsync(x => x.Id.Equals(serviceId.Value)).FirstOrDefaultAsync();
             Quote newQuote = _mapper.Map<Quote>(model);           
-            newQuote.OrderStatusId = (int)AppStatus.Initiated;
-           
+            newQuote.OrderStatusId = (int)AppStatus.Initiated;          
 
             var created = await _quoteRepository.CreateAsync(newQuote);
 
             QuoteResponse response = _mapper.Map<QuoteResponse>(created);
-
             
+            getQuoteBooking.QuoteId = response.Id;
+            await _bookingRepository.UpdateAsync(getQuoteBooking);           
 
             return CreatedAtAction(nameof(ThisQuote), new { id = newQuote.Id }, new { status = HttpStatusCode.Created, message = response });
         }
@@ -119,6 +104,7 @@ namespace ProjectADApi.Controllers.V2
         public async Task<IActionResult> Put(int id, [FromBody] QuoteRequestUpdate model)
         {
             Quote getQuote = await _quoteRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
+            var getQuoteBooking = await _bookingRepository.GetByAsync(x => x.Id.Equals(getQuote.BookingId)).FirstOrDefaultAsync();
 
             if (getQuote == null)
             {
@@ -142,6 +128,12 @@ namespace ProjectADApi.Controllers.V2
                     Vat = getQuote.Vat
 
                 };
+
+                if(getQuoteBooking.QuoteId == null)
+                {
+                    getQuoteBooking.QuoteId = getQuote.Id;
+                    await _bookingRepository.UpdateAsync(getQuoteBooking);
+                }
 
                 return Ok(new { status = HttpStatusCode.Created, message = response });
 

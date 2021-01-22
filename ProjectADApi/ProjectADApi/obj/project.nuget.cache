@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "u4yyqWIYo+2pFEMNuowxZYu8rJHVliu8ZCh0q5SjiyO7g2jimArOfjWbfDr8jVSNDyQzgS6fRHTjwD9uT2jFbw==",
+  "dgSpecHash": "wFHp4uKx0wXIX/CGYc/JKVcTElizH8tCMnzdUPkdV2ztKK5vMATMimc+Zj07eaATpLTd8MjMKCe2HLmuTtRCJw==",
   "success": true,
   "projectFilePath": "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\ProjectADApi\\ProjectADApi\\ProjectADApi.csproj",
   "expectedPackageFiles": [
@@ -110,7 +110,7 @@
     "C:\\Users\\taj174\\.nuget\\packages\\mimekit\\2.0.1\\mimekit.2.0.1.nupkg.sha512",
     "C:\\Users\\taj174\\.nuget\\packages\\netcore.mailkit\\2.0.2\\netcore.mailkit.2.0.2.nupkg.sha512",
     "C:\\Users\\taj174\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
-    "C:\\Users\\taj174\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\taj174\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\taj174\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\taj174\\.nuget\\packages\\nuget.frameworks\\4.7.0\\nuget.frameworks.4.7.0.nupkg.sha512",
     "C:\\Users\\taj174\\.nuget\\packages\\portable.bouncycastle\\1.8.1.3\\portable.bouncycastle.1.8.1.3.nupkg.sha512",

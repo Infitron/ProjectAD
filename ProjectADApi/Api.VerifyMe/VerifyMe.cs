@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Api.VerifyMe
 {
@@ -15,12 +16,12 @@ namespace Api.VerifyMe
 
             foreach (WantToVerity wantToVerify in Enum.GetValues(typeof(WantToVerity)))
             {
-                var factory = (DefaultVerificationFactory)Activator.CreateInstance(Type.GetType("Api.VerifyMe" + Enum.GetName(typeof(WantToVerity), wantToVerify) + "VerificationFactory"));
+                var factory = (DefaultVerificationFactory)Activator.CreateInstance(Type.GetType("Api.VerifyMe.Factory." + Enum.GetName(typeof(WantToVerity), wantToVerify) + "VerificationFactory"));
                 _verifyMeFactoryDictionary.Add(wantToVerify, factory);
             }
         }
 
-        public IVerificationManager StartVerification(WantToVerity WantToVefify, string WhatToVerify)
-            => _verifyMeFactoryDictionary[WantToVefify].CreateInstance(WhatToVerify);
+        public IVerificationManager StartVerification(WantToVerity WantToVefify, object WhatToVerify)
+            =>  _verifyMeFactoryDictionary[WantToVefify].CreateInstance(WhatToVerify);
     }
 }

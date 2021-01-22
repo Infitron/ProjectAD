@@ -105,7 +105,7 @@ namespace ProjectADApi.Controllers.V2.Contract
         public static class Quote
         {
             public const string GetAll = Base + "/Quote/ArtisanId";
-            public const string Get = Base + "/Quote/id";
+            public const string Get = Base + "/Quote/BookingId";
             public const string Create = Base + "/Quote";
             public const string Update = Base + "/Quote/{id}";
             public const string Delete = Base + "/Quote/{id}";
@@ -190,9 +190,9 @@ namespace ProjectADApi.Controllers.V2.Contract
             public const string CallBack = Base + "/Updgrade/Callback";
             public const string GetPending = Base + "/Updgrade/Pending";
             public const string GetByStatus = Base + "/Updgrade/Status/{StatusId}";
-            public const string Create = Base + "/Updgrade";
-            //public const string Update = Base + "/Complaint/{ComplaintId}";
-            //public const string Delete = Base + "/Complaint/{id}";
+            public const string verify = Base + "/Updgrade/Request/VerificationType";
+            public const string Create = Base + "/Updgrade/Request";
+          
         }
 
     }
