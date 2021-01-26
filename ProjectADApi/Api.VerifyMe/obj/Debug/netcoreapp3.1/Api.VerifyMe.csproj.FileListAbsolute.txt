@@ -7,3 +7,12 @@ C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Debug\ne
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Debug\netcoreapp3.1\Api.VerifyMe.dll
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Debug\netcoreapp3.1\Api.VerifyMe.pdb
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Debug\netcoreapp3.1\Api.VerifyMe.csproj.CoreCompileInputs.cache
+C:\Users\taj174\Source\Repos\ProjectAD\ProjectADApi\Api.VerifyMe\bin\Debug\netcoreapp3.1\Api.VerifyMe.deps.json
+C:\Users\taj174\Source\Repos\ProjectAD\ProjectADApi\Api.VerifyMe\bin\Debug\netcoreapp3.1\Api.VerifyMe.dll
+C:\Users\taj174\Source\Repos\ProjectAD\ProjectADApi\Api.VerifyMe\bin\Debug\netcoreapp3.1\Api.VerifyMe.pdb
+C:\Users\taj174\Source\Repos\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Debug\netcoreapp3.1\Api.VerifyMe.csprojAssemblyReference.cache
+C:\Users\taj174\Source\Repos\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Debug\netcoreapp3.1\Api.VerifyMe.AssemblyInfoInputs.cache
+C:\Users\taj174\Source\Repos\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Debug\netcoreapp3.1\Api.VerifyMe.AssemblyInfo.cs
+C:\Users\taj174\Source\Repos\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Debug\netcoreapp3.1\Api.VerifyMe.csproj.CoreCompileInputs.cache
+C:\Users\taj174\Source\Repos\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Debug\netcoreapp3.1\Api.VerifyMe.dll
+C:\Users\taj174\Source\Repos\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Debug\netcoreapp3.1\Api.VerifyMe.pdb

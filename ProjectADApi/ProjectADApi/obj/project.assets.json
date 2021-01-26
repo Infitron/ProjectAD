@@ -11568,25 +11568,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tesli\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\taj174\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\ProjectADApi\\ProjectADApi.csproj",
+      "projectUniqueName": "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\ProjectADApi\\ProjectADApi\\ProjectADApi.csproj",
       "projectName": "ProjectADApi",
-      "projectPath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\ProjectADApi\\ProjectADApi.csproj",
-      "packagesPath": "C:\\Users\\tesli\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\ProjectADApi\\obj\\",
+      "projectPath": "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\ProjectADApi\\ProjectADApi\\ProjectADApi.csproj",
+      "packagesPath": "C:\\Users\\taj174\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\ProjectADApi\\ProjectADApi\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\NuGet.Config",
-        "C:\\Users\\tesli\\Documents\\NuGet.Config",
-        "C:\\Users\\tesli\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\ProjectADApi\\NuGet.Config",
+        "C:\\Users\\taj174\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11599,18 +11594,19 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\Api.Database\\Api.Database.csproj": {
-              "projectPath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\Api.Database\\Api.Database.csproj"
+            "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\Api.Database\\Api.Database.csproj": {
+              "projectPath": "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\Api.Database\\Api.Database.csproj"
             },
-            "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\Api.EmailService\\Api.EmailService.csproj": {
-              "projectPath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\Api.EmailService\\Api.EmailService.csproj"
+            "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\Api.EmailService\\Api.EmailService.csproj": {
+              "projectPath": "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\Api.EmailService\\Api.EmailService.csproj"
             },
-            "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\Api.VerifyMe.csproj": {
-              "projectPath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\Api.VerifyMe.csproj"
+            "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\Api.VerifyMe.csproj": {
+              "projectPath": "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\ProjectADApi\\Api.VerifyMe\\Api.VerifyMe.csproj"
             },
-            "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\RavePaymentDataEncryption-master\\EncryptionService\\EncryptionService.csproj": {
-              "projectPath": "C:\\Users\\tesli\\Documents\\GitHub\\ProjectAD\\RavePaymentDataEncryption-master\\EncryptionService\\EncryptionService.csproj"
+            "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\RavePaymentDataEncryption-master\\EncryptionService\\EncryptionService.csproj": {
+              "projectPath": "C:\\Users\\taj174\\Source\\Repos\\ProjectAD\\RavePaymentDataEncryption-master\\EncryptionService\\EncryptionService.csproj"
             }
           }
         }
@@ -11623,6 +11619,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "AutoMapper.Extensions.Microsoft.DependencyInjection": {
             "target": "Package",
@@ -11708,7 +11705,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.405\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

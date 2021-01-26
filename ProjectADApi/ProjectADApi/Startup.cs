@@ -93,7 +93,18 @@ namespace ProjectADApi
             //    options.UseSqlServer(Configuration["ApiDbConnection:DefaultConnection"]);
             //});
             services.AddDefaultIdentity<UserLogin>().AddEntityFrameworkStores<bluechub_ProjectADContext>();
-            services.AddCors();
+            // services.AddCors();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowLocalhost",
+                builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .SetPreflightMaxAge(TimeSpan.FromDays(5)));
+            });
 
             services.AddAuthentication(option =>
             {
@@ -224,15 +235,14 @@ namespace ProjectADApi
 
             app.UseStaticFiles();
             app.UseRouting();
-
-
             app.UseHttpsRedirection();
 
-            app.UseCors(x =>
-            x.AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            );
+            //app.UseCors(x =>
+            //x.AllowAnyOrigin()
+            //.AllowAnyHeader()
+            //.AllowAnyMethod()
+            //);
+            app.UseCors("AllowLocalhost");
 
             app.UseAuthentication();
             app.UseAuthorization();
