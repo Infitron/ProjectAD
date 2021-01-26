@@ -102,7 +102,7 @@ namespace ProjectADApi
                 .AllowAnyOrigin()
                 .AllowAnyHeader()
                 .AllowAnyMethod()
-                .AllowCredentials()
+                //.AllowCredentials()
                 .SetPreflightMaxAge(TimeSpan.FromDays(5)));
             });
 

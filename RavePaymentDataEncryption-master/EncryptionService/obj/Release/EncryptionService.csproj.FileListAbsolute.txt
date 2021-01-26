@@ -4,3 +4,9 @@ C:\Users\tesli\Documents\GitHub\ProjectAD\RavePaymentDataEncryption-master\Encry
 C:\Users\tesli\Documents\GitHub\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\obj\Release\EncryptionService.csproj.CoreCompileInputs.cache
 C:\Users\tesli\Documents\GitHub\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\obj\Release\EncryptionService.dll
 C:\Users\tesli\Documents\GitHub\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\obj\Release\EncryptionService.pdb
+C:\Users\taj174\Source\Repos\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\bin\Release\EncryptionService.dll
+C:\Users\taj174\Source\Repos\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\bin\Release\EncryptionService.pdb
+C:\Users\taj174\Source\Repos\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\obj\Release\EncryptionService.csprojAssemblyReference.cache
+C:\Users\taj174\Source\Repos\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\obj\Release\EncryptionService.csproj.CoreCompileInputs.cache
+C:\Users\taj174\Source\Repos\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\obj\Release\EncryptionService.dll
+C:\Users\taj174\Source\Repos\ProjectAD\RavePaymentDataEncryption-master\EncryptionService\obj\Release\EncryptionService.pdb
