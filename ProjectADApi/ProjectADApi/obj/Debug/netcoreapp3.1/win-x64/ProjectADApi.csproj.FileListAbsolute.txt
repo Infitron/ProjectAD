@@ -176,3 +176,5 @@ C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\ne
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp3.1\win-x64\Microsoft.Extensions.FileProviders.Physical.dll
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp3.1\win-x64\Microsoft.Extensions.FileSystemGlobbing.dll
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp3.1\win-x64\System.Text.Json.dll
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp3.1\win-x64\Api.VerifyMe.dll
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp3.1\win-x64\Api.VerifyMe.pdb

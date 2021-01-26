@@ -1,0 +1,9 @@
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\Api.VerifyMe\bin\Release\netcoreapp3.1\Api.VerifyMe.deps.json
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\Api.VerifyMe\bin\Release\netcoreapp3.1\Api.VerifyMe.dll
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\Api.VerifyMe\bin\Release\netcoreapp3.1\Api.VerifyMe.pdb
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Release\netcoreapp3.1\Api.VerifyMe.csprojAssemblyReference.cache
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Release\netcoreapp3.1\Api.VerifyMe.AssemblyInfoInputs.cache
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Release\netcoreapp3.1\Api.VerifyMe.AssemblyInfo.cs
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Release\netcoreapp3.1\Api.VerifyMe.csproj.CoreCompileInputs.cache
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Release\netcoreapp3.1\Api.VerifyMe.dll
+C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\Api.VerifyMe\obj\Release\netcoreapp3.1\Api.VerifyMe.pdb
