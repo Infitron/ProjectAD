@@ -23,10 +23,6 @@ namespace ProjectADApi.Contract.V1.Request
         public int OrderStatusId { get; set; }
         public DateTime? CreatedDate { get; set; }
 
-        //public virtual Booking Booking { get; set; }
-        //public virtual Client Client { get; set; }
-        //public virtual Artisan IdNavigation { get; set; }
-        //public virtual Lov OrderStatus { get; set; }
-        //public virtual ICollection<Projects> Projects { get; set; }
+        
     }
 }

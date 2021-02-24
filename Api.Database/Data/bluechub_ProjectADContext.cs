@@ -34,15 +34,19 @@ namespace Api.Database.Data
         public virtual DbSet<PaymentHistory> PaymentHistory { get; set; }
         public virtual DbSet<Projects> Projects { get; set; }
         public virtual DbSet<Quote> Quote { get; set; }
+        public virtual DbSet<QuotedItems> QuotedItems { get; set; }
         public virtual DbSet<Rating> Rating { get; set; }
         public virtual DbSet<Services> Services { get; set; }
         public virtual DbSet<State> State { get; set; }
+        public virtual DbSet<UpgradeResponse> UpgradeResponse { get; set; }
         public virtual DbSet<UserLogin> UserLogin { get; set; }
         public virtual DbSet<UserRole> UserRole { get; set; }
+        public virtual DbSet<VerificationRequest> VerificationRequest { get; set; }
+        public virtual DbSet<VerificationType> VerificationType { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            AppConfig appConf = new AppConfig();
+           AppConfig appConf = new AppConfig();
 
             if (!optionsBuilder.IsConfigured)
             {
@@ -55,7 +59,6 @@ namespace Api.Database.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:DefaultSchema", "bluechub_dbAd");
-           // modelBuilder.HasAnnotation("Relational:DefaultSchema", "Bluechub_ProdUser");
 
             modelBuilder.Entity<Article>(entity =>
             {
@@ -558,9 +561,7 @@ namespace Api.Database.Data
 
                 entity.Property(e => e.Item).IsRequired();
 
-                entity.Property(e => e.OrderDate).HasColumnType("datetime");
-
-                entity.Property(e => e.OrderStatusId).HasColumnName("OrderStatus_Id");
+                entity.Property(e => e.QuoteStatusId).HasColumnName("QuoteStatus_Id");
 
                 entity.Property(e => e.Total).HasColumnType("decimal(18, 2)");
 
@@ -570,18 +571,21 @@ namespace Api.Database.Data
                     .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.WorkmanShip).HasColumnType("decimal(18, 2)");
+            });
 
-                entity.HasOne(d => d.Booking)
-                    .WithMany(p => p.Quote)
-                    .HasForeignKey(d => d.BookingId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Quote_Booking");
+            modelBuilder.Entity<QuotedItems>(entity =>
+            {
+                entity.HasNoKey();
 
-                entity.HasOne(d => d.OrderStatus)
-                    .WithMany(p => p.Quote)
-                    .HasForeignKey(d => d.OrderStatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__LOV_Quote");
+                entity.Property(e => e.Amount).HasColumnType("decimal(32, 2)");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.UnityPrice).HasColumnType("decimal(32, 2)");
             });
 
             modelBuilder.Entity<Rating>(entity =>
@@ -680,6 +684,15 @@ namespace Api.Database.Data
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<UpgradeResponse>(entity =>
+            {
+                entity.Property(e => e.DateCreated).HasColumnType("datetime");
+
+                entity.Property(e => e.UpgradeDecision)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
             modelBuilder.Entity<UserLogin>(entity =>
             {
                 entity.ToTable("UserLogin", "dbo");
@@ -727,7 +740,65 @@ namespace Api.Database.Data
                     .IsUnicode(false);
             });
 
-            OnModelCreatingPartial(modelBuilder);
+            modelBuilder.Entity<VerificationRequest>(entity =>
+            {
+                entity.Property(e => e.ApplicantDob)
+                    .HasColumnName("Applicant.DOB")
+                    .HasMaxLength(10);
+
+                entity.Property(e => e.ApplicantFirstname)
+                    .HasColumnName("Applicant.Firstname")
+                    .HasMaxLength(15);
+
+                entity.Property(e => e.ApplicantIdnumber)
+                    .HasColumnName("Applicant.IDNumber")
+                    .HasMaxLength(15);
+
+                entity.Property(e => e.ApplicantIdtype)
+                    .HasColumnName("Applicant.IDtype")
+                    .HasMaxLength(15);
+
+                entity.Property(e => e.ApplicantLastname)
+                    .HasColumnName("Applicant.Lastname")
+                    .HasMaxLength(15);
+
+                entity.Property(e => e.ApplicantPhone)
+                    .HasColumnName("Applicant.Phone")
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.BankAccount).HasMaxLength(15);
+
+                entity.Property(e => e.BankVerificationNumber).HasMaxLength(15);
+
+                entity.Property(e => e.City)
+                    .IsRequired()
+                    .HasMaxLength(15);
+
+                entity.Property(e => e.DriverLicense).HasMaxLength(15);
+
+                entity.Property(e => e.Landmark).HasMaxLength(15);
+
+                entity.Property(e => e.Lga).HasMaxLength(15);
+
+                entity.Property(e => e.Nin)
+                    .HasColumnName("NIN")
+                    .HasMaxLength(15);
+
+                entity.Property(e => e.PassportNumber).HasMaxLength(15);
+
+                entity.Property(e => e.State).HasMaxLength(15);
+
+                entity.Property(e => e.Street).HasMaxLength(15);
+            });
+
+            modelBuilder.Entity<VerificationType>(entity =>
+            {
+                entity.Property(e => e.IdentityType)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+          OnModelCreatingPartial(modelBuilder);
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

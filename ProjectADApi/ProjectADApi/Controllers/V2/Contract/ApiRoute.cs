@@ -107,7 +107,7 @@ namespace ProjectADApi.Controllers.V2.Contract
             public const string GetAll = Base + "/Quote/ArtisanId";
             public const string Get = Base + "/Quote/BookingId";
             public const string Create = Base + "/Quote";
-            public const string Update = Base + "/Quote/{id}";
+            public const string Update = Base + "/Quote/{BookingId}";
             public const string Delete = Base + "/Quote/{id}";
         }
 

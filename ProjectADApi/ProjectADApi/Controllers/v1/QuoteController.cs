@@ -66,7 +66,7 @@ namespace ProjectADApi.Controllers.V1
                 //Address1 = model.Address1,
                 Item = JsonConvert.SerializeObject(model.Item),
                 Discount = model.Discount,
-                OrderStatusId = (int)AppStatus.Initiated,
+                QuoteStatusId = (int)AppStatus.Initiated,
                 CreatedDate = DateTime.Now,
                // QuoteStatusId = (int)AppStatus.Raised,
                 BookingId = model.BookingId

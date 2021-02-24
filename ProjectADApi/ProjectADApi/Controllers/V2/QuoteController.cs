@@ -60,13 +60,15 @@ namespace ProjectADApi.Controllers.V2
         public async Task<IActionResult> ThisQuote(int BookingId)
         {
             var getQuotes = await _quoteRepository.GetAllAsync().Result.Where(x => x.BookingId == BookingId).ToListAsync();
-            
-            if (getQuotes != null)
+
+            Quote lastQuoteGenerated = getQuotes.LastOrDefault();
+
+            if (lastQuoteGenerated != null)
             {
-                var response = _mapper.Map<List<QuoteResponse>>(getQuotes);
+                var response = _mapper.Map<QuoteResponse>(lastQuoteGenerated);
                 return Ok(new { status = HttpStatusCode.OK, message = response });
             }
-                
+
             return NotFound(new { status = HttpStatusCode.NotFound, message = "Quote not found" });
         }
 
@@ -86,57 +88,42 @@ namespace ProjectADApi.Controllers.V2
             }
 
             Services getServiceBooking = await _serviceRepository.GetByAsync(x => x.Id.Equals(serviceId.Value)).FirstOrDefaultAsync();
-            Quote newQuote = _mapper.Map<Quote>(model);           
-            newQuote.OrderStatusId = (int)AppStatus.Initiated;          
+            Quote newQuote = _mapper.Map<Quote>(model);
+            newQuote.QuoteStatusId = (int)AppStatus.Initiated;
 
             var created = await _quoteRepository.CreateAsync(newQuote);
 
             QuoteResponse response = _mapper.Map<QuoteResponse>(created);
-            
+
             getQuoteBooking.QuoteId = response.Id;
-            await _bookingRepository.UpdateAsync(getQuoteBooking);           
+            await _bookingRepository.UpdateAsync(getQuoteBooking);
 
             return CreatedAtAction(nameof(ThisQuote), new { id = newQuote.Id }, new { status = HttpStatusCode.Created, message = response });
         }
 
         // PUT: api/Quote/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] QuoteRequestUpdate model)
+        [HttpPut(ApiRoute.Quote.Update)]
+        public async Task<IActionResult> Put(int BookingId, [FromBody] QuoteRequestUpdate model)
         {
-            Quote getQuote = await _quoteRepository.GetByAsync(x => x.Id.Equals(id)).FirstOrDefaultAsync();
-            var getQuoteBooking = await _bookingRepository.GetByAsync(x => x.Id.Equals(getQuote.BookingId)).FirstOrDefaultAsync();
+            //Quote getQuote = await _quoteRepository.GetByAsync(x => x.BookingId.Equals(BookingId)).LastOrDefaultAsync();
+            //var getQuoteBooking = await _bookingRepository.GetByAsync(x => x.Id.Equals(getQuote.BookingId)).FirstOrDefaultAsync();
 
-            if (getQuote == null)
+            var getQuote = await _quoteRepository.GetAllAsync().Result.Where(x => x.BookingId == BookingId).ToListAsync();
+
+            Quote getQuoteBooking = getQuote.LastOrDefault();
+
+            if (getQuoteBooking != null)
             {
-                getQuote.BookingId = model.BookingId;
-                getQuote.Item = JsonConvert.SerializeObject(model.Item);
-                getQuote.OrderStatusId = model.OrderStatusId;
-                //getQuote.QuoteStatusId = model.QuoteStatusId;
 
-                await _quoteRepository.UpdateAsync(getQuote);
-                QuoteResponse response = new QuoteResponse
-                {
-                    Id = getQuote.Id,
-                    //Client = $"{getQuoteBooking.Clien.FirstName} {getQuoteBooking.Clien.FirstName}",
-                    //Artisan = $"{getQuoteBooking.Artisan.FirstName} {getQuoteBooking.Artisan.LastName}",
-                    Item = JsonConvert.DeserializeObject<List<QuoteItem>>(getQuote.Item),
-                    //Address1 = getQuote.Address1,
-                    BookingId = getQuote.BookingId,
-                    OrderDate = getQuote.OrderDate,
-                    //OrderStatus = Enum.GetName(typeof(AppStatus), getQuote.OrderStatusId),
-                    //QuoteStatus = Enum.GetName(typeof(AppStatus), getQuote.QuoteStatusId),
-                    Vat = getQuote.Vat
+                getQuoteBooking.Item = JsonConvert.SerializeObject(model.Item);
+                getQuoteBooking = _mapper.Map<Quote>(model);
+                getQuoteBooking.CreatedDate = DateTime.Now;
+                
+                var created = await _quoteRepository.CreateAsync(getQuoteBooking);
 
-                };
-
-                if(getQuoteBooking.QuoteId == null)
-                {
-                    getQuoteBooking.QuoteId = getQuote.Id;
-                    await _bookingRepository.UpdateAsync(getQuoteBooking);
-                }
+                QuoteResponse response = _mapper.Map<QuoteResponse>(created);
 
                 return Ok(new { status = HttpStatusCode.Created, message = response });
-
             }
             return NotFound(new { status = HttpStatusCode.Created, message = "Quote not found" });
 

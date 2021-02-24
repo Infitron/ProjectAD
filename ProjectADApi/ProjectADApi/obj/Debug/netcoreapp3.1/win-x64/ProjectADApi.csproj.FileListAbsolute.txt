@@ -1,7 +1,6 @@
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp3.1\win-x64\nlog.config
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp3.1\win-x64\appsettings.Development.json
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp3.1\win-x64\appsettings.json
-C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp3.1\win-x64\Properties\launchSettings.json
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp3.1\win-x64\ProjectADApi.exe
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp3.1\win-x64\ProjectADApi.deps.json
 C:\Users\tesli\Documents\GitHub\ProjectAD\ProjectADApi\ProjectADApi\bin\Debug\netcoreapp3.1\win-x64\ProjectADApi.runtimeconfig.json

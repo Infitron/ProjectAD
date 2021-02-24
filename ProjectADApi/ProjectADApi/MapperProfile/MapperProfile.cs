@@ -168,10 +168,13 @@ namespace ProjectADApi.MapperProfile
         {
             CreateMap<Quote, QuoteResponse>()
                 .ForMember(destination => destination.Item, source => source.MapFrom(src => JsonConvert.DeserializeObject<List<QuoteItem>>(src.Item)))
-                .ForMember(destination => destination.OrderStatus_Id, source => source.MapFrom(src => src.OrderStatusId));
+                .ForMember(destination => destination.QuoteStatusId, source => source.MapFrom(src => src.QuoteStatusId));
 
             CreateMap<QuoteRequest, Quote>()
                 .ForMember(destination => destination.Item, source => source.MapFrom(src => JsonConvert.SerializeObject(src.Item)));
+
+            CreateMap<QuoteRequestUpdate, Quote>()
+               .ForMember(destination => destination.Item, source => source.MapFrom(src => JsonConvert.SerializeObject(src.Item)));
         }
     }
 }
