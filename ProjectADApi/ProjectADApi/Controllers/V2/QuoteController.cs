@@ -102,13 +102,11 @@ namespace ProjectADApi.Controllers.V2
         }
 
         // PUT: api/Quote/5
-        [HttpPut(ApiRoute.Quote.Update)]
-        public async Task<IActionResult> Put(int BookingId, [FromBody] QuoteRequestUpdate model)
-        {
-            //Quote getQuote = await _quoteRepository.GetByAsync(x => x.BookingId.Equals(BookingId)).LastOrDefaultAsync();
-            //var getQuoteBooking = await _bookingRepository.GetByAsync(x => x.Id.Equals(getQuote.BookingId)).FirstOrDefaultAsync();
+        [HttpPost(ApiRoute.Quote.Update)]
+        public async Task<IActionResult> Put([FromBody] QuoteRequestUpdate model)
+        {           
 
-            var getQuote = await _quoteRepository.GetAllAsync().Result.Where(x => x.BookingId == BookingId).ToListAsync();
+            var getQuote = await _quoteRepository.GetAllAsync().Result.Where(x => x.BookingId == model.BookingId).ToListAsync();
 
             Quote getQuoteBooking = getQuote.LastOrDefault();
 
